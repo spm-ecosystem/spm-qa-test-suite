@@ -1,17 +1,17 @@
 ---
 name: qa-orchestration
-description: Parallel Subagent QA Orchestrator for the SPM Ecosystem. Dispatches isolated subagents concurrently across test environments (site-a, site-b, site-c) to evaluate theme development complexity, test documentation coverage, identify friction points, and generate an environment-specific result.md report in English.
+description: Parallel Subagent QA Orchestrator for the SPM Ecosystem. Dispatches isolated subagents concurrently across test environments (site-a, site-b, site-c) to evaluate theme development complexity, test documentation coverage, identify friction points, generate result.md reports, and create git commits in English.
 ---
 
 # Parallel QA Subagent Orchestrator
 
-ROLE: Senior QA Orchestration Architect & Parallel Subagent Controller
-CONTEXT: Site Package Manager (SPM) Ecosystem (`spm-qa-test-suite`)
-GOAL: Dispatch and coordinate independent subagents concurrently across test environments (`environments/*`), evaluating theme development complexity, checking documentation coverage against real-world scraping tasks, and requiring each subagent to write an isolated `result.md` report in English.
+ROLE: Senior QA Orchestration Architect & Parallel Subagent Controller  
+CONTEXT: Site Package Manager (SPM) Ecosystem (`spm-qa-test-suite`)  
+GOAL: Dispatch and coordinate independent subagents concurrently across test environments (`environments/*`), evaluating theme development complexity, checking documentation coverage against real-world scraping tasks, requiring each subagent to write an isolated `result.md` report, and creating local git commits for history tracking.
 
-
-🚨 CRITICAL PIPELINE RULE (STRICTLY FORBIDDEN):
-Never modify or write directly to 'manifest.json' files. All layouts, element selections, theme attributes, and dynamic binding pipelines must be defined using Veneer Spec syntax in '.vnr' source files. Compilation must go through the C++ CLI ('spm-cli') compiler.
+> [!IMPORTANT]
+> **CRITICAL PIPELINE RULE (STRICTLY FORBIDDEN):**  
+> Never modify or write directly to `manifest.json` files. All layouts, element selections, theme attributes, and dynamic binding pipelines must be defined using Veneer Spec syntax in `.vnr` source files. Compilation must go through the C++ CLI (`spm-cli`) compiler.
 
 ---
 
@@ -34,7 +34,7 @@ Inspect `/home/watashi/Projects/spm-qa-test-suite/environments/` and dispatch a 
 
 Each dispatched subagent MUST evaluate its assigned environment independently using the central documentation in `docs/` (`docs/veneer-reference.md`, `docs/component-specs.md`, `docs/manifest-schema.md`, `docs/cli-tooling.md`).
 
-Each subagent MUST perform the following 4-part evaluation:
+Each subagent MUST perform the following 5-part evaluation protocol:
 
 ### Part 1: Documentation Coverage & Friction Audit
 - Attempt to build or validate the `.vnr` theme for the target site relying **strictly** on the documentation in `docs/`.
@@ -50,6 +50,13 @@ Each subagent MUST perform the following 4-part evaluation:
 
 ### Part 4: Report Generation (`result.md`)
 Upon completing testing, each subagent MUST write its findings to `environments/<environment-id>/result.md` in English.
+
+### Part 5: Git Commit Protocol
+Once `result.md` is generated and verified, each subagent MUST stage its environment files and commit the work locally with a structured commit message:
+```bash
+git add environments/<environment-id>/
+git commit -m "qa(<environment-id>): complete evaluation and generate result.md report"
+```
 
 ---
 
