@@ -1,0 +1,9 @@
+/* QA Test Environment - Site C: Admin Panel */
+body {
+  background-color: #09090b !important;
+  color: #f4f4f5 !important;
+}
+
+#admin-dashboard-container {
+  padding: 20px !important;
+}

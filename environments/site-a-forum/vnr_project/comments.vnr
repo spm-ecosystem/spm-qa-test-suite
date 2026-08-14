@@ -1,0 +1,23 @@
+class ForumCommentItem {
+  bind author: ".user-info .author-name | text";
+  bind avatarUrl: ".user-avatar img | attr:src";
+  bind postDate: ".post-date | text";
+  bind commentBody: ".post-content | html";
+}
+
+reconstruct "#legacy-comments-wrapper" -> UiCommentListPage {
+  pageTitle: "Community Discussion Thread";
+  height: "calc(100vh - 80px)";
+
+  child threads extends ForumCommentItem {
+    selector: "div.comment-row";
+  }
+
+  preserve {
+    replyForm: "#reply-form";
+  }
+}
+
+selector ".obsolete-forum-footer" {
+  action: hide;
+}

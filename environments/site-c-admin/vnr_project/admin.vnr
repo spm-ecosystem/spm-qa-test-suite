@@ -1,0 +1,22 @@
+class MetricRowItem {
+  bind metricName: "td:nth-child(1) | text";
+  bind metricValue: "td:nth-child(2) | text";
+  bind status: "td:nth-child(3) span | text";
+}
+
+reconstruct "#admin-dashboard-container" -> UiStatsDashboard {
+  title: "System Performance Metrics";
+  
+  preserve {
+    chartCanvas: "#metrics-chart";
+  }
+}
+
+reconstruct "#legacy-metrics-table" -> UiTableListPage {
+  pageTitle: "Metrics Audit Table";
+  height: "calc(100vh - 100px)";
+
+  child tableRows extends MetricRowItem {
+    selector: "tbody tr";
+  }
+}

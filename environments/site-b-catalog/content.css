@@ -1,0 +1,10 @@
+/* QA Test Environment - Site B: Retro Catalog */
+body {
+  background-color: #09090b !important;
+  color: #f4f4f5 !important;
+}
+
+#catalog-wrapper {
+  display: flex !important;
+  gap: 20px !important;
+}
