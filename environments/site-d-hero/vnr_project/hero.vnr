@@ -1,0 +1,32 @@
+theme "Dark Hero Portal" {
+  variables {
+    --spm-bg-primary: "#09090b";
+    --spm-bg-surface: "#121215";
+    --spm-text-primary: "#f4f4f5";
+    --spm-accent: "#ff6600";
+  }
+
+  customStyles {
+    "body { background-color: #09090b !important; color: #f4f4f5 !important; }"
+  }
+}
+
+reconstruct "#legacy-portal-header" -> UiHeroLanding {
+  siteName: "Legacy Developer Portal";
+  tagline: "Modernizing Enterprise Web Interfaces";
+  subtext: "High-performance Shadow DOM component injection engine for legacy site packages.";
+  ctaLabel: "Explore Documentation";
+  ctaUrl: "https://legacy-portal-landing.org/docs";
+  searchSubmitUrl: "https://legacy-portal-landing.org/search";
+  searchParamName: "q";
+  
+  primaryLinks: R"([
+    { "label": "Getting Started", "url": "https://legacy-portal-landing.org/start" },
+    { "label": "Component Catalog", "url": "https://legacy-portal-landing.org/components" },
+    { "label": "API Reference", "url": "https://legacy-portal-landing.org/api" }
+  ])";
+
+  preserve {
+    loginWidget: "#login-form";
+  }
+}

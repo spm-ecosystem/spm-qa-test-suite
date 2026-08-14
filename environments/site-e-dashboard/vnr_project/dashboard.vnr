@@ -1,0 +1,44 @@
+theme "Dark User Account Portal" {
+  variables {
+    --spm-bg-primary: "#09090b";
+    --spm-bg-surface: "#121215";
+    --spm-text-primary: "#f4f4f5";
+    --spm-accent: "#ff6600";
+  }
+
+  customStyles {
+    "body { background-color: #09090b !important; color: #f4f4f5 !important; }"
+  }
+}
+
+reconstruct "#user-account-wrapper" -> UiDashboardPage {
+  pageTitle: "User Account & Security Control Panel";
+  subTitle: "Manage your profile options, active sessions, security keys, and account preferences.";
+  height: "calc(100vh - 90px)";
+
+  cards: R"([
+    {
+      "title": "Security & Credentials",
+      "description": "Update password, configure multi-factor authentication (MFA), and view active tokens.",
+      "url": "https://user-account-portal.internal/security",
+      "urlLabel": "Manage Security"
+    },
+    {
+      "title": "API Keys & Webhooks",
+      "description": "Generate developer access tokens and configure webhook payload endpoints.",
+      "url": "https://user-account-portal.internal/api-keys",
+      "urlLabel": "Manage Keys"
+    },
+    {
+      "title": "Billing & Subscriptions",
+      "description": "View monthly invoices, update payment methods, and manage subscription tier.",
+      "url": "https://user-account-portal.internal/billing",
+      "urlLabel": "View Billing"
+    }
+  ])";
+
+  preserve {
+    csrfInputs: "form#account-form | hiddenInputs";
+    sidebarMenu: "#account-sidebar";
+  }
+}
