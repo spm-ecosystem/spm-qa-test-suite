@@ -1,0 +1,32 @@
+{
+    "components": [
+        {
+            "action": "hide",
+            "selector": ".obsolete-forum-footer"
+        }
+    ],
+    "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "threads",
+                    "propsMap": {
+                        "commentBody": "div.commtext | html",
+                        "postDate": "span.age | text",
+                        "postUser": "a.hnuser | text"
+                    },
+                    "selector": "tr.athing.comtr"
+                }
+            ],
+            "containerSelector": "table.comment-tree",
+            "layoutComponent": "UiCommentListPage",
+            "preserve": {
+                "replyForm": "form"
+            },
+            "props": {
+                "height": "calc(100vh - 80px)",
+                "pageTitle": "Hacker News Discussion Thread"
+            }
+        }
+    ]
+}

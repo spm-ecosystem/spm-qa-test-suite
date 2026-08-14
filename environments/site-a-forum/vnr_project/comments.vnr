@@ -1,20 +1,22 @@
-class ForumCommentItem {
-  bind author: ".user-info .author-name | text";
-  bind avatarUrl: ".user-avatar img | attr:src";
-  bind postDate: ".post-date | text";
-  bind commentBody: ".post-content | html";
+class BaseCommentItem {
+  bind postUser: "a.hnuser | text";
+  bind postDate: "span.age | text";
 }
 
-reconstruct "#legacy-comments-wrapper" -> UiCommentListPage {
-  pageTitle: "Community Discussion Thread";
+class HNCommentItem extends BaseCommentItem {
+  bind commentBody: "div.commtext | html";
+}
+
+reconstruct "table.comment-tree" -> UiCommentListPage {
+  pageTitle: "Hacker News Discussion Thread";
   height: "calc(100vh - 80px)";
 
-  child threads extends ForumCommentItem {
-    selector: "div.comment-row";
+  child threads extends HNCommentItem {
+    selector: "tr.athing.comtr";
   }
 
   preserve {
-    replyForm: "#reply-form";
+    replyForm: "form";
   }
 }
 
