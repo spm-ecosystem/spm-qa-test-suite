@@ -1,0 +1,43 @@
+:host {
+  --gallery-card-gap: 8px;
+  --gallery-columns: 4;
+}
+
+/* Responsive grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--gallery-columns), 1fr);
+  gap: var(--gallery-card-gap);
+}
+
+@media (max-width: 1024px) {
+  :host { --gallery-columns: 3; }
+}
+@media (max-width: 768px) {
+  :host { --gallery-columns: 2; }
+}
+@media (max-width: 480px) {
+  :host { --gallery-columns: 1; }
+}
+
+/* Card hover effect */
+.image-card {
+  border-radius: var(--spm-radius, 6px);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.image-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* Title truncation */
+.image-card .caption {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: var(--spm-text-muted);
+}

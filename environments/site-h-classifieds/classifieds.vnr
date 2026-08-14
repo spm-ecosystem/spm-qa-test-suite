@@ -1,0 +1,86 @@
+theme "Classifieds Clean" {
+  variables {
+    --spm-bg-primary: "#fafafa";
+    --spm-bg-surface: "#ffffff";
+    --spm-bg-element: "#f5f5f5";
+    --spm-text-primary: "#1a1a1a";
+    --spm-text-muted: "#6b7280";
+    --spm-accent: "#6d28d9";
+    --spm-border-contrast: "rgba(0, 0, 0, 0.08)";
+    --spm-radius: "8px";
+  }
+
+  customStyles {
+    "body { background-color: #fafafa !important; font-family: 'Inter', sans-serif !important; }"
+  }
+}
+
+// ── Scoped Scraping Class ──
+
+class ClassifiedAdItem {
+  scope: ".result-row";
+
+  bind title: "a.result-title | text";
+  bind price: "span.result-price | text";
+  bind location: "span.result-hood | text";
+  bind datePosted: "time.result-date | attr:datetime";
+  bind thumbnailUrl: "a.result-image img | attr:src";
+  bind detailUrl: "a.result-title | attr:href";
+}
+
+// ── Main Listing Reconstruction ──
+
+reconstruct "#sortable-results" -> UiTableListPage {
+  urlPattern: "search/*";
+  pageTitle: "Classifieds Listings";
+  height: "calc(100vh - 64px)";
+
+  columns: R"([
+    { "key": "title", "header": "Title", "type": "link", "urlKey": "detailUrl" },
+    { "key": "price", "header": "Price", "type": "badge" },
+    { "key": "location", "header": "Location" },
+    { "key": "datePosted", "header": "Posted" }
+  ])";
+
+  child tableRows extends ClassifiedAdItem {
+    selector: ".result-row";
+  }
+
+  preserve {
+    breadcrumb: ".breadcrumbs-container";
+    legalDisclaimer: "#legal-footer";
+    csrfToken: "form input[name='csrfmiddlewaretoken']";
+    sessionId: "form input[name='session_id']";
+  }
+}
+
+// ── Search Form Replacement ──
+
+reconstruct "#searchform" -> UiSearchBar {
+  placeholder: "Search classifieds...";
+  submitUrl: "https://craigslist.org/search/";
+  queryParamName: "query";
+  preserve: "form | hiddenInputs";
+}
+
+// ── Selector Actions ──
+
+selector "#AdBanner, .banner-ad, [class*='GoogleAd']" {
+  action: hide;
+}
+
+selector ".legacyFooter, #old-footer" {
+  action: hide;
+}
+
+selector ".cookie-notice, #gdpr-banner" {
+  action: hide;
+}
+
+selector "nav.deprecated-nav, #old-category-nav" {
+  action: hide;
+}
+
+selector ".sponsored-results, .premium-listing-badge" {
+  action: hide;
+}

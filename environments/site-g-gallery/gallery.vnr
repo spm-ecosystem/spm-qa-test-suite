@@ -1,0 +1,72 @@
+theme "Gallery Midnight" {
+  variables {
+    --spm-bg-primary: "#0c0c0c";
+    --spm-bg-surface: "#161616";
+    --spm-bg-element: "#1e1e1e";
+    --spm-text-primary: "#e8e8e8";
+    --spm-text-muted: "#888888";
+    --spm-accent: "#3b82f6";
+    --spm-border-contrast: "rgba(255, 255, 255, 0.05)";
+    --spm-radius: "6px";
+  }
+
+  customStyles {
+    "body { background-color: #0c0c0c !important; font-family: 'Inter', sans-serif !important; }"
+  }
+}
+
+// ── Base Scraping Class ──
+
+class GalleryItem {
+  scope: ".post-preview";
+
+  bind imageUrl: "img.preview | attr:src";
+  bind linkUrl: "a | attr:href";
+}
+
+// ── Extended Class with Title & Tags ──
+
+class DetailedGalleryItem extends GalleryItem {
+  bind title: "img.preview | attr:title";
+  bind tags: "self | attr:data-tags";
+  bind rating: "self | attr:data-rating";
+}
+
+// ── Gallery Grid Reconstruction ──
+
+reconstruct "#posts-container" -> UiSplitLayout {
+  urlPattern: "page=post&s=list";
+  sidebarWidth: "260px";
+  sidebarSide: "left";
+  showSearch: true;
+
+  child imageSlot extends DetailedGalleryItem {
+    selector: "#post-list .post-preview";
+  }
+
+  child tags {
+    selector: "#tag-sidebar li";
+    bind name: "a:nth-child(2) | text";
+    bind count: "span.post-count | text";
+    bind type: "self | attr:class";
+    bind url: "a:nth-child(2) | attr:href";
+  }
+
+  preserve {
+    pagination: "#paginator";
+  }
+}
+
+// ── Standalone Image Cards for Detail View ──
+
+reconstruct ".post-detail-view" -> UiImageCard {
+  urlPattern: "page=post&s=view";
+  aspectRatio: "4:3";
+  showTitle: true;
+}
+
+// ── Hide Legacy Sidebar & Ads ──
+
+selector "#ad-container, .legacy-sidebar, .news-ticker" {
+  action: hide;
+}

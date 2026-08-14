@@ -1,0 +1,74 @@
+theme "Wiki Dark" {
+  variables {
+    --spm-bg-primary: "#1a1a2e";
+    --spm-bg-surface: "#16213e";
+    --spm-bg-element: "#0f3460";
+    --spm-text-primary: "#e4e4e7";
+    --spm-text-muted: "#94a3b8";
+    --spm-accent: "#e94560";
+    --spm-border-contrast: "rgba(255, 255, 255, 0.06)";
+  }
+
+  customStyles {
+    "body { background-color: #1a1a2e !important; font-family: 'Inter', sans-serif !important; }"
+  }
+}
+
+// ── Navigation Header Reconstruction ──
+
+reconstruct "#mw-navigation" -> UiNavHeader {
+  siteName: "ArchWiki";
+  logoUrl: "https://wiki.archlinux.org/images/logo.png";
+  logoHref: "/";
+  sticky: true;
+  searchPlaceholder: "Search wiki articles...";
+  primaryLinks: R"([
+    { "label": "Main Page", "url": "/" },
+    { "label": "Categories", "url": "/title/Table_of_contents" },
+    { "label": "Installation Guide", "url": "/title/Installation_guide" },
+    { "label": "General Recommendations", "url": "/title/General_recommendations" },
+    { "label": "Frequently Asked Questions", "url": "/title/FAQ" },
+    { "label": "Café & Résumé", "url": "/title/Special" },
+    { "label": "日本語ページ", "url": "/title/Main_page_(日本語)" },
+    { "label": "System Administration", "url": "/title/System_administration" },
+    { "label": "Networking", "url": "/title/Network_configuration" },
+    { "label": "Package Management", "url": "/title/Pacman" },
+    { "label": "Desktop Environments", "url": "/title/Desktop_environment" },
+    { "label": "Troubleshooting", "url": "/title/General_troubleshooting" },
+    { "label": "Community Portal", "url": "/title/ArchWiki:Contributing" }
+  ])";
+  secondaryLinks: R"([
+    { "label": "Login", "url": "/title/Special:UserLogin" },
+    { "label": "Preferences", "url": "/title/Special:Preferences" },
+    { "label": "Contributions", "url": "/title/Special:MyContributions" },
+    { "label": "Watchlist", "url": "/title/Special:Watchlist" },
+    { "label": "Log out", "url": "/title/Special:UserLogout" }
+  ])";
+}
+
+// ── Mobile-Only Navigation (media query) ──
+
+reconstruct "#mw-mf-navigation" -> UiNavHeader {
+  media: "(max-width: 768px)";
+  siteName: "ArchWiki Mobile";
+  sticky: true;
+  primaryLinks: R"([
+    { "label": "Home", "url": "/" },
+    { "label": "Search", "url": "/title/Special:Search" }
+  ])";
+}
+
+// ── Search Bar with Hidden Input Preservation ──
+
+reconstruct "#searchform" -> UiSearchBar {
+  placeholder: "Search ArchWiki...";
+  submitUrl: "https://wiki.archlinux.org/index.php";
+  queryParamName: "search";
+  preserve: "form | hiddenInputs";
+}
+
+// ── Hide Legacy Elements ──
+
+selector "#mw-panel, #footer, .mw-indicators" {
+  action: hide;
+}

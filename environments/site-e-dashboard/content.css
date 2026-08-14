@@ -1,9 +1,0 @@
-/* QA Test Environment - Site E: User Account Dashboard */
-body {
-  background-color: #09090b !important;
-  color: #f4f4f5 !important;
-}
-
-#user-account-wrapper {
-  padding: 24px !important;
-}
