@@ -1,17 +1,26 @@
-# QA Task Brief: Site B - Retro E-Commerce Catalog (`site-b-catalog`)
+# QA Environment Task Brief: Site B - Safebooru Image Catalog & Gallery (`site-b-catalog`)
 
-## Target Site & Page Scenario
-- **Domain / Site:** `retro-ecommerce-catalog.com`
-- **Page Type:** Product Grid Catalog with ultra-wide hero banners and tag sidebars.
-- **Target Components:** `UiSplitLayout`, `UiImageViewer`, `UiScrollPanel`
+## 🌐 Target Site & Page Details
+- **Target URL Pattern:** `https://safebooru.org/index.php?page=post&s=list*`
+- **Site Type:** Retro Anime & Image Catalog (Safebooru)
+- **Target Components:** `UiSplitLayout`, `UiImageViewer`, `UiScrollPanel`, `UiTagBadge`
 
-## Task Instructions
-1. Inspect the legacy catalog markup and `catalog.vnr` theme rules.
-2. Rely **strictly** on the documentation in `docs/` (`docs/veneer-reference.md`, `docs/component-specs.md`, `docs/manifest-schema.md`, `docs/cli-tooling.md`).
-3. Conduct destructive testing on edge cases:
-   - Ultra-panoramic 32:9 image ratios loaded inside `UiImageViewer`.
-   - Empty tag filter arrays (`tags: []`) in `UiScrollPanel`.
-   - Navigation clicks outside standard anchor bounds in scroll panels.
-4. Evaluate documentation sufficiency and friction points.
-5. Generate the environment report at `environments/site-b-catalog/result.md` in English.
-6. Commit all changes locally: `git add environments/site-b-catalog/ && git commit -m "qa(site-b-catalog): complete evaluation and generate result.md"`.
+---
+
+## 🎯 Modernization & QA Objectives
+
+1. **Scraping Pipeline Validation (`catalog.vnr`):**
+   - Validate thumbnail extractions (`span.thumb img | attr:src`), image links (`a | attr:href`), and tag sidebar lists (`#tag-sidebar li`).
+   - Reconstruct main gallery wrapper `#content` into `UiSplitLayout` and `UiScrollPanel`.
+
+2. **Destructive Boundary & Robustness Testing:**
+   - **Ultra-Wide Aspect Ratios:** Test `UiImageViewer` rendering behavior when loading ultra-panoramic images (32:9 ratio).
+   - **Empty Filter Handling:** Test `UiScrollPanel` rendering when tag query arrays return empty (`tags: []`).
+   - **Sidebar Search:** Test `UiSearchBar` query forwarding in the sidebar slot.
+
+3. **Documentation Coverage Audit:**
+   - Evaluate whether `docs/component-specs.md` accurately documents `UiSplitLayout` and `UiScrollPanel` props contracts and child bindings.
+
+4. **Report & Git Commit Protocol:**
+   - Write complete findings to `environments/site-b-catalog/result.md` in English.
+   - Run `git add environments/site-b-catalog/ && git commit -m "qa(site-b-catalog): complete evaluation and generate result.md"`.
