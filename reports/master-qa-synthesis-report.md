@@ -84,7 +84,7 @@ graph TD
     C --> C2[overflow-x: auto in UiTableListPage]
     C --> C3[Sanitized HTML in UiCommentReply]
 
-    D --> D1[Add | number & | currency extractor pipes]
+    D --> D1["Add number & currency extractor pipes"]
     D --> D2[Parse JSON array [] literals without R]
 
     E --> E1[Document infiniteScroll in manifest-schema.md]
