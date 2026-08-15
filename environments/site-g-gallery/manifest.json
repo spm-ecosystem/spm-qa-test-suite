@@ -1,0 +1,70 @@
+{
+    "components": [
+        {
+            "action": "hide",
+            "selector": "#ad-container, .legacy-sidebar, .news-ticker"
+        }
+    ],
+    "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "imageSlot",
+                    "propsMap": {
+                        "imageUrl": "img.preview | attr:src",
+                        "linkUrl": "a | attr:href",
+                        "rating": "self | attr:data-rating",
+                        "tags": "self | attr:data-tags",
+                        "title": "img.preview | attr:title"
+                    },
+                    "selector": "#post-list .post-preview"
+                },
+                {
+                    "name": "tags",
+                    "propsMap": {
+                        "count": "span.post-count | text",
+                        "name": "a:nth-child(2) | text",
+                        "type": "self | attr:class",
+                        "url": "a:nth-child(2) | attr:href"
+                    },
+                    "selector": "#tag-sidebar li"
+                }
+            ],
+            "containerSelector": "#posts-container",
+            "layoutComponent": "UiSplitLayout",
+            "preserve": {
+                "pagination": "#paginator"
+            },
+            "props": {
+                "showSearch": true,
+                "sidebarSide": "left",
+                "sidebarWidth": "260px"
+            },
+            "urlPattern": "page=post&s=list"
+        },
+        {
+            "children": [],
+            "containerSelector": ".post-detail-view",
+            "layoutComponent": "UiImageCard",
+            "props": {
+                "aspectRatio": "4:3",
+                "showTitle": true
+            },
+            "urlPattern": "page=post&s=view"
+        }
+    ],
+    "theme": {
+        "cssVariables": {
+            "--spm-accent": "#3b82f6",
+            "--spm-bg-element": "#1e1e1e",
+            "--spm-bg-primary": "#0c0c0c",
+            "--spm-bg-surface": "#161616",
+            "--spm-border-contrast": "rgba(255, 255, 255, 0.05)",
+            "--spm-radius": "6px",
+            "--spm-text-muted": "#888888",
+            "--spm-text-primary": "#e8e8e8"
+        },
+        "customStyles": "body { background-color: #0c0c0c !important; font-family: 'Inter', sans-serif !important; }",
+        "label": "Gallery Midnight"
+    }
+}

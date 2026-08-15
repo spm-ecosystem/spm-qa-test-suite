@@ -29,7 +29,7 @@ reconstruct "#mw-navigation" -> UiNavHeader {
     { "label": "General Recommendations", "url": "/title/General_recommendations" },
     { "label": "Frequently Asked Questions", "url": "/title/FAQ" },
     { "label": "Café & Résumé", "url": "/title/Special" },
-    { "label": "日本語ページ", "url": "/title/Main_page_(日本語)" },
+    { "label": "日本語ページ", "url": "/title/Main_page_(日本語)\"},
     { "label": "System Administration", "url": "/title/System_administration" },
     { "label": "Networking", "url": "/title/Network_configuration" },
     { "label": "Package Management", "url": "/title/Pacman" },
@@ -64,7 +64,9 @@ reconstruct "#searchform" -> UiSearchBar {
   placeholder: "Search ArchWiki...";
   submitUrl: "https://wiki.archlinux.org/index.php";
   queryParamName: "search";
-  preserve: "form | hiddenInputs";
+  preserve {
+    hiddenInputs: "form input[type='hidden']";
+  }
 }
 
 // ── Hide Legacy Elements ──

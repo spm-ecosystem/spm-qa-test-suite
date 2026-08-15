@@ -60,7 +60,9 @@ reconstruct "#searchform" -> UiSearchBar {
   placeholder: "Search classifieds...";
   submitUrl: "https://craigslist.org/search/";
   queryParamName: "query";
-  preserve: "form | hiddenInputs";
+  preserve {
+    hiddenInputs: "form input[type='hidden']";
+  }
 }
 
 // ── Selector Actions ──
