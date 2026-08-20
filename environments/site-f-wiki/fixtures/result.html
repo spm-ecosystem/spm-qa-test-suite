@@ -1,0 +1,35 @@
+<!DOCTYPE html><html><head>
+  <title>ArchWiki Mock Page</title>
+<style id="spm-injected-theme-styles">:root {
+  --spm-accent: #e94560;
+  --spm-bg-element: #0f3460;
+  --spm-bg-primary: #1a1a2e;
+  --spm-bg-surface: #16213e;
+  --spm-border-contrast: rgba(255, 255, 255, 0.06);
+  --spm-text-muted: #94a3b8;
+  --spm-text-primary: #e4e4e7;
+}
+
+body { background-color: #1a1a2e !important; font-family: 'Inter', sans-serif !important; }</style></head>
+<body>
+  <div id="mw-navigation">
+    <div id="logo" style="display: none;"><a href="/">ArchWiki logo</a></div>
+  <spm-reconstruct-host layout="UiNavHeader" selector="#mw-navigation"></spm-reconstruct-host></div>
+
+  <div id="mw-mf-navigation">
+    <span style="display: none;">Mobile Nav</span>
+  <spm-reconstruct-host layout="UiNavHeader" selector="#mw-mf-navigation"></spm-reconstruct-host></div>
+
+  <div id="searchform">
+    <form action="/index.php" style="display: none;">
+      <input type="hidden" name="title" value="Special:Search">
+      <input type="text" name="search" placeholder="Search...">
+    </form>
+  <spm-reconstruct-host layout="UiSearchBar" selector="#searchform"></spm-reconstruct-host></div>
+
+  <div id="mw-panel" style="display: none;" data-spm-hidden="true">Legacy Panel</div>
+  <div id="footer" style="display: none;" data-spm-hidden="true">Legacy Footer</div>
+  <div class="mw-indicators" style="display: none;" data-spm-hidden="true">Legacy Indicators</div>
+
+
+</body></html>
