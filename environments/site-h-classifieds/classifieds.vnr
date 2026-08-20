@@ -35,12 +35,12 @@ reconstruct "#sortable-results" -> UiTableListPage {
   pageTitle: "Classifieds Listings";
   height: "calc(100vh - 64px)";
 
-  columns: R"([
+  columns: [
     { "key": "title", "header": "Title", "type": "link", "urlKey": "detailUrl" },
     { "key": "price", "header": "Price", "type": "badge" },
     { "key": "location", "header": "Location" },
     { "key": "datePosted", "header": "Posted" }
-  ])";
+  ];
 
   child tableRows extends ClassifiedAdItem {
     selector: ".result-row";

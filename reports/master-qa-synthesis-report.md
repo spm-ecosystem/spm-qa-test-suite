@@ -182,3 +182,27 @@ When launching subsequent QA subagent runs or adding new test environments:
 2. If an edge case or defect matches one of the 29 cataloged defect IDs above (`DEFECT-SAF-01` through `DEFECT-SHC-06`), subagents should reference the ID and verify whether recent component updates have remediated the issue.
 3. Newly discovered defects must be appended to this master catalog under a new Defect ID prefix matching the environment (e.g., `DEFECT-NEW-01`).
 4. If creating Mermaid diagrams, **always quote node labels** containing special characters.
+
+---
+
+## 7. Open GitHub Issues
+
+### `spm-qa-test-suite` Repository Issues
+- [**Issue #1**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/1): Document LayoutPrimitives prop tables (`DEFECT-SGG-01`)
+- [**Issue #2**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/2): Resolve items vs primaryLinks prop overlap in UiNavHeader (`DEFECT-SFW-01, SFW-05`)
+- [**Issue #3**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/3): Document selector actions replace and wrap (`DEFECT-SHC-01, SHC-02`)
+- [**Issue #4**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/4): Clarify preserve syntax variants - scalar vs dictionary (`DEFECT-SFW-03, SEC-04`)
+- [**Issue #5**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/5): Add UiImageCard documentation - aspect ratios, vnr example, fallback (`DEFECT-SGG-02, SGG-06`)
+- [**Issue #6**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/6): Document child extends and class scope inheritance semantics (`DEFECT-SGG-03`)
+- [**Issue #7**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/7): Add date and currency column types to UiTableListPage (`DEFECT-SHC-04, SEC-03`)
+- [**Issue #8**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/8): UiNavHeader needs built-in overflow handling for primaryLinks (`DEFECT-SFW-04`)
+- [**Issue #9**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/9): Add lazy loading prop to UiImageCard (`DEFECT-SGG-05`)
+- [**Issue #10**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/10): Define preserve slot fallback and selector conflict resolution (`DEFECT-SHC-05, SHC-06`)
+- [**Issue #11**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/11): Rename `qa-orchestration` skill to `qa-doc-audit` (Completed)
+
+### `spm-cli` Repository Issues
+- [**Issue #2**](https://github.com/spm-ecosystem/spm-cli/issues/2): `feat: Add spm validate command for manifest-against-HTML validation`
+- [**Issue #3**](https://github.com/spm-ecosystem/spm-cli/issues/3): `feat: Add spm apply command to apply manifest transformations to HTML snapshots`
+- [**Issue #4**](https://github.com/spm-ecosystem/spm-cli/issues/4): `feat: Add | split extractor pipe for delimiter-separated attribute values`
+- [**Issue #5**](https://github.com/spm-ecosystem/spm-cli/issues/5): `feat: Add | number and | cleanNumber extractor pipes for numeric parsing`
+

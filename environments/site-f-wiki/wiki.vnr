@@ -22,28 +22,28 @@ reconstruct "#mw-navigation" -> UiNavHeader {
   logoHref: "/";
   sticky: true;
   searchPlaceholder: "Search wiki articles...";
-  primaryLinks: R"([
+  primaryLinks: [
     { "label": "Main Page", "url": "/" },
     { "label": "Categories", "url": "/title/Table_of_contents" },
     { "label": "Installation Guide", "url": "/title/Installation_guide" },
     { "label": "General Recommendations", "url": "/title/General_recommendations" },
     { "label": "Frequently Asked Questions", "url": "/title/FAQ" },
     { "label": "Café & Résumé", "url": "/title/Special" },
-    { "label": "日本語ページ", "url": "/title/Main_page_(日本語)\"},
+    { "label": "日本語ページ", "url": "/title/Main_page_(日本語)" },
     { "label": "System Administration", "url": "/title/System_administration" },
     { "label": "Networking", "url": "/title/Network_configuration" },
     { "label": "Package Management", "url": "/title/Pacman" },
     { "label": "Desktop Environments", "url": "/title/Desktop_environment" },
     { "label": "Troubleshooting", "url": "/title/General_troubleshooting" },
     { "label": "Community Portal", "url": "/title/ArchWiki:Contributing" }
-  ])";
-  secondaryLinks: R"([
+  ];
+  secondaryLinks: [
     { "label": "Login", "url": "/title/Special:UserLogin" },
     { "label": "Preferences", "url": "/title/Special:Preferences" },
     { "label": "Contributions", "url": "/title/Special:MyContributions" },
     { "label": "Watchlist", "url": "/title/Special:Watchlist" },
     { "label": "Log out", "url": "/title/Special:UserLogout" }
-  ])";
+  ];
 }
 
 // ── Mobile-Only Navigation (media query) ──
@@ -52,10 +52,10 @@ reconstruct "#mw-mf-navigation" -> UiNavHeader {
   media: "(max-width: 768px)";
   siteName: "ArchWiki Mobile";
   sticky: true;
-  primaryLinks: R"([
+  primaryLinks: [
     { "label": "Home", "url": "/" },
     { "label": "Search", "url": "/title/Special:Search" }
-  ])";
+  ];
 }
 
 // ── Search Bar with Hidden Input Preservation ──

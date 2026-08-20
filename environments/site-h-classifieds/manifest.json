@@ -1,0 +1,104 @@
+{
+    "components": [
+        {
+            "action": "hide",
+            "selector": "#AdBanner, .banner-ad, [class*='GoogleAd']"
+        },
+        {
+            "action": "hide",
+            "selector": ".legacyFooter, #old-footer"
+        },
+        {
+            "action": "hide",
+            "selector": ".cookie-notice, #gdpr-banner"
+        },
+        {
+            "action": "hide",
+            "selector": "nav.deprecated-nav, #old-category-nav"
+        },
+        {
+            "action": "hide",
+            "selector": ".sponsored-results, .premium-listing-badge"
+        }
+    ],
+    "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "tableRows",
+                    "propsMap": {
+                        "datePosted": "time.result-date | attr:datetime",
+                        "detailUrl": "a.result-title | attr:href",
+                        "location": "span.result-hood | text",
+                        "price": "span.result-price | text",
+                        "thumbnailUrl": "a.result-image img | attr:src",
+                        "title": "a.result-title | text"
+                    },
+                    "scope": ".result-row",
+                    "selector": ".result-row"
+                }
+            ],
+            "containerSelector": "#sortable-results",
+            "layoutComponent": "UiTableListPage",
+            "preserve": {
+                "breadcrumb": ".breadcrumbs-container",
+                "csrfToken": "form input[name='csrfmiddlewaretoken']",
+                "legalDisclaimer": "#legal-footer",
+                "sessionId": "form input[name='session_id']"
+            },
+            "props": {
+                "columns": [
+                    {
+                        "header": "Title",
+                        "key": "title",
+                        "type": "link",
+                        "urlKey": "detailUrl"
+                    },
+                    {
+                        "header": "Price",
+                        "key": "price",
+                        "type": "badge"
+                    },
+                    {
+                        "header": "Location",
+                        "key": "location"
+                    },
+                    {
+                        "header": "Posted",
+                        "key": "datePosted"
+                    }
+                ],
+                "height": "calc(100vh - 64px)",
+                "pageTitle": "Classifieds Listings"
+            },
+            "urlPattern": "search/*"
+        },
+        {
+            "children": [],
+            "containerSelector": "#searchform",
+            "layoutComponent": "UiSearchBar",
+            "preserve": {
+                "hiddenInputs": "form input[type='hidden']"
+            },
+            "props": {
+                "placeholder": "Search classifieds...",
+                "queryParamName": "query",
+                "submitUrl": "https://craigslist.org/search/"
+            }
+        }
+    ],
+    "theme": {
+        "cssVariables": {
+            "--spm-accent": "#6d28d9",
+            "--spm-bg-element": "#f5f5f5",
+            "--spm-bg-primary": "#fafafa",
+            "--spm-bg-surface": "#ffffff",
+            "--spm-border-contrast": "rgba(0, 0, 0, 0.08)",
+            "--spm-radius": "8px",
+            "--spm-text-muted": "#6b7280",
+            "--spm-text-primary": "#1a1a1a"
+        },
+        "customStyles": "body { background-color: #fafafa !important; font-family: 'Inter', sans-serif !important; }",
+        "label": "Classifieds Clean"
+    }
+}
