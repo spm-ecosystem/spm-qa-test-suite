@@ -199,6 +199,8 @@ When launching subsequent QA subagent runs or adding new test environments:
 - [**Issue #9**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/9): Add lazy loading prop to UiImageCard (`DEFECT-SGG-05`)
 - [**Issue #10**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/10): Define preserve slot fallback and selector conflict resolution (`DEFECT-SHC-05, SHC-06`)
 - [**Issue #11**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/11): Rename `qa-orchestration` skill to `qa-doc-audit` (Completed)
+- [**Issue #12**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/12): Update Veneer reference documentation for native JSON arrays and objects
+
 
 ### `spm-cli` Repository Issues
 - [**Issue #2**](https://github.com/spm-ecosystem/spm-cli/issues/2): `feat: Add spm validate command for manifest-against-HTML validation`
