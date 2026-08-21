@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Retro Anime Gallery Mock Page</title>
+</head>
+<body>
+  <div id="posts-container">
+    <div id="tag-sidebar">
+      <ul>
+        <li class="tag-type-artist">
+          <a href="#">Artist</a>
+          <a href="/posts?tags=nice_artist">nice_artist</a>
+          <span class="post-count">42</span>
+        </li>
+      </ul>
+    </div>
+    
+    <div id="post-list">
+      <div class="post-preview" data-tags="1girl blue_hair school_uniform" data-rating="s">
+        <a href="/posts/1">
+          <img class="preview" src="/images/thumb1.jpg" title="Cute Anime Girl" />
+        </a>
+      </div>
+    </div>
+    
+    <div id="paginator">
+      <a href="?page=1">1</a>
+      <span class="current">2</span>
+      <a href="?page=3">3</a>
+    </div>
+  </div>
+
+  <div class="post-detail-view">
+    <h2>Detail View Box</h2>
+  </div>
+
+  <div id="ad-container">Ad Space</div>
+  <div class="legacy-sidebar">Legacy Sidebar</div>
+  <div class="news-ticker">News Ticker</div>
+</body>
+</html>

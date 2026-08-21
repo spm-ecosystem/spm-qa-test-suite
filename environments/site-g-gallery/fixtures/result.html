@@ -1,0 +1,51 @@
+<!DOCTYPE html><html><head>
+  <title>Retro Anime Gallery Mock Page</title>
+<style id="spm-injected-theme-styles">:root {
+  --spm-accent: #3b82f6;
+  --spm-bg-element: #1e1e1e;
+  --spm-bg-primary: #0c0c0c;
+  --spm-bg-surface: #161616;
+  --spm-border-contrast: rgba(255, 255, 255, 0.05);
+  --spm-radius: 6px;
+  --spm-text-muted: #888888;
+  --spm-text-primary: #e8e8e8;
+}
+
+body { background-color: #0c0c0c !important; font-family: 'Inter', sans-serif !important; }</style></head>
+<body>
+  <div id="posts-container">
+    <div id="tag-sidebar" style="display: none;">
+      <ul>
+        <li class="tag-type-artist">
+          <a href="#">Artist</a>
+          <a href="/posts?tags=nice_artist">nice_artist</a>
+          <span class="post-count">42</span>
+        </li>
+      </ul>
+    </div>
+    
+    <div id="post-list" style="display: none;">
+      <div class="post-preview" data-tags="1girl blue_hair school_uniform" data-rating="s">
+        <a href="/posts/1">
+          <img class="preview" src="/images/thumb1.jpg" title="Cute Anime Girl">
+        </a>
+      </div>
+    </div>
+    
+    <div id="paginator" style="display: none;">
+      <a href="?page=1">1</a>
+      <span class="current">2</span>
+      <a href="?page=3">3</a>
+    </div>
+  <spm-reconstruct-host layout="UiSplitLayout" selector="#posts-container"></spm-reconstruct-host></div>
+
+  <div class="post-detail-view">
+    <h2 style="display: none;">Detail View Box</h2>
+  <spm-reconstruct-host layout="UiImageCard" selector=".post-detail-view"></spm-reconstruct-host></div>
+
+  <div id="ad-container" style="display: none;" data-spm-hidden="true">Ad Space</div>
+  <div class="legacy-sidebar" style="display: none;" data-spm-hidden="true">Legacy Sidebar</div>
+  <div class="news-ticker" style="display: none;" data-spm-hidden="true">News Ticker</div>
+
+
+</body></html>
