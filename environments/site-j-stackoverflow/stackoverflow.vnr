@@ -1,0 +1,55 @@
+theme "StackOverflow Light" {
+  variables {
+    --spm-bg-primary: "#ffffff";
+    --spm-bg-surface: "#f8f9fa";
+    --spm-bg-element: "#e1ecf4";
+    --spm-text-primary: "#232629";
+    --spm-text-muted: "#6a737c";
+    --spm-accent: "#0074cc";
+    --spm-border-contrast: "rgba(0, 0, 0, 0.08)";
+    --spm-radius: "4px";
+  }
+
+  customStyles {
+    "body { background-color: #ffffff !important; font-family: -apple-system,BlinkMacSystemFont,`Segoe UI`,Helvetica,Arial,sans-serif !important; }"
+  }
+}
+
+class StackOverflowQuestionItem {
+  scope: ".question-summary";
+
+  bind id: "self | attr:id | cleanNumber";
+  bind title: "a.question-hyperlink | text";
+  bind detailUrl: "a.question-hyperlink | attr:href";
+  bind votes: "span.vote-count-post | cleanNumber";
+  bind tags: "self | attr:data-tags | split:` `";
+  bind views: "div.views | cleanNumber";
+}
+
+reconstruct "#questions-container" -> UiTableListPage {
+  urlPattern: ".*/questions.*";
+  pageTitle: "StackOverflow Questions";
+  height: "calc(100vh - 60px)";
+
+  columns: [
+    { "key": "id", "header": "ID", "type": "text" },
+    { "key": "title", "header": "Question", "type": "link", "urlKey": "detailUrl" },
+    { "key": "votes", "header": "Votes", "type": "badge" },
+    { "key": "views", "header": "Views", "type": "text" },
+    { "key": "tags", "header": "Tags" }
+  ];
+
+  child tableRows extends StackOverflowQuestionItem {
+    selector: ".question-summary";
+  }
+}
+
+reconstruct "#searchform" -> UiSearchBar {
+  placeholder: "Search questions...";
+  submitUrl: "/search";
+  queryParamName: "q";
+}
+
+selector "#sidebar, #community-bulletins" {
+  action: hide;
+}

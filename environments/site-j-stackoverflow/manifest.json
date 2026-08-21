@@ -1,0 +1,85 @@
+{
+    "components": [
+        {
+            "action": "hide",
+            "selector": "#sidebar, #community-bulletins"
+        }
+    ],
+    "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "tableRows",
+                    "propsMap": {
+                        "detailUrl": "a.question-hyperlink | attr:href",
+                        "id": "self | attr:id | cleanNumber",
+                        "tags": "self | attr:data-tags | split:` `",
+                        "title": "a.question-hyperlink | text",
+                        "views": "div.views | cleanNumber",
+                        "votes": "span.vote-count-post | cleanNumber"
+                    },
+                    "scope": ".question-summary",
+                    "selector": ".question-summary"
+                }
+            ],
+            "containerSelector": "#questions-container",
+            "layoutComponent": "UiTableListPage",
+            "props": {
+                "columns": [
+                    {
+                        "header": "ID",
+                        "key": "id",
+                        "type": "text"
+                    },
+                    {
+                        "header": "Question",
+                        "key": "title",
+                        "type": "link",
+                        "urlKey": "detailUrl"
+                    },
+                    {
+                        "header": "Votes",
+                        "key": "votes",
+                        "type": "badge"
+                    },
+                    {
+                        "header": "Views",
+                        "key": "views",
+                        "type": "text"
+                    },
+                    {
+                        "header": "Tags",
+                        "key": "tags"
+                    }
+                ],
+                "height": "calc(100vh - 60px)",
+                "pageTitle": "StackOverflow Questions"
+            },
+            "urlPattern": ".*/questions.*"
+        },
+        {
+            "children": [],
+            "containerSelector": "#searchform",
+            "layoutComponent": "UiSearchBar",
+            "props": {
+                "placeholder": "Search questions...",
+                "queryParamName": "q",
+                "submitUrl": "/search"
+            }
+        }
+    ],
+    "theme": {
+        "cssVariables": {
+            "--spm-accent": "#0074cc",
+            "--spm-bg-element": "#e1ecf4",
+            "--spm-bg-primary": "#ffffff",
+            "--spm-bg-surface": "#f8f9fa",
+            "--spm-border-contrast": "rgba(0, 0, 0, 0.08)",
+            "--spm-radius": "4px",
+            "--spm-text-muted": "#6a737c",
+            "--spm-text-primary": "#232629"
+        },
+        "customStyles": "body { background-color: #ffffff !important; font-family: -apple-system,BlinkMacSystemFont,`Segoe UI`,Helvetica,Arial,sans-serif !important; }",
+        "label": "StackOverflow Light"
+    }
+}
