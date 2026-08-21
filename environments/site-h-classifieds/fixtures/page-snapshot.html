@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Classifieds Board Mock Page</title>
+</head>
+<body>
+  <div class="breadcrumbs-container">
+    <a href="/">Home</a> &gt; <a href="/for-sale">For Sale</a>
+  </div>
+
+  <div id="searchform">
+    <form action="https://craigslist.org/search/">
+      <input type="hidden" name="csrfmiddlewaretoken" value="csrf_token_value_123" />
+      <input type="hidden" name="session_id" value="sess_999" />
+      <input type="text" name="query" placeholder="Search..." />
+    </form>
+  </div>
+
+  <div id="sortable-results">
+    <div class="result-row">
+      <a class="result-image" href="/item/1">
+        <img src="/images/bike.jpg" alt="bike" />
+      </a>
+      <a class="result-title" href="/item/1">Vintage Bicycle</a>
+      <span class="result-price">$150</span>
+      <span class="result-hood">North End</span>
+      <time class="result-date" datetime="2026-08-21T03:09:45-03:00">Aug 21</time>
+    </div>
+  </div>
+
+  <div id="legal-footer">
+    <p>All rights reserved. Terms of Service apply.</p>
+  </div>
+
+  <!-- Legacy elements to hide -->
+  <div id="AdBanner">Ad banner</div>
+  <div class="banner-ad">Another banner</div>
+  <div class="my-GoogleAd-class">Google Ad</div>
+  <div class="legacyFooter">Legacy footer</div>
+  <div id="old-footer">Old footer</div>
+  <div class="cookie-notice">We use cookies</div>
+  <div id="gdpr-banner">GDPR compliance</div>
+  <nav class="deprecated-nav">Old nav</nav>
+  <div id="old-category-nav">Old category nav</div>
+  <div class="sponsored-results">Sponsored results</div>
+  <div class="premium-listing-badge">Premium listing</div>
+</body>
+</html>

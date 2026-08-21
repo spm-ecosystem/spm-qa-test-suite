@@ -1,0 +1,58 @@
+<!DOCTYPE html><html><head>
+  <title>Classifieds Board Mock Page</title>
+<style id="spm-injected-theme-styles">:root {
+  --spm-accent: #6d28d9;
+  --spm-bg-element: #f5f5f5;
+  --spm-bg-primary: #fafafa;
+  --spm-bg-surface: #ffffff;
+  --spm-border-contrast: rgba(0, 0, 0, 0.08);
+  --spm-radius: 8px;
+  --spm-text-muted: #6b7280;
+  --spm-text-primary: #1a1a1a;
+}
+
+body { background-color: #fafafa !important; font-family: 'Inter', sans-serif !important; }</style></head>
+<body>
+  <div class="breadcrumbs-container">
+    <a href="/">Home</a> &gt; <a href="/for-sale">For Sale</a>
+  </div>
+
+  <div id="searchform">
+    <form action="https://craigslist.org/search/" style="display: none;">
+      <input type="hidden" name="csrfmiddlewaretoken" value="csrf_token_value_123">
+      <input type="hidden" name="session_id" value="sess_999">
+      <input type="text" name="query" placeholder="Search...">
+    </form>
+  <spm-reconstruct-host layout="UiSearchBar" selector="#searchform"></spm-reconstruct-host></div>
+
+  <div id="sortable-results">
+    <div class="result-row" style="display: none;">
+      <a class="result-image" href="/item/1">
+        <img src="/images/bike.jpg" alt="bike">
+      </a>
+      <a class="result-title" href="/item/1">Vintage Bicycle</a>
+      <span class="result-price">$150</span>
+      <span class="result-hood">North End</span>
+      <time class="result-date" datetime="2026-08-21T03:09:45-03:00">Aug 21</time>
+    </div>
+  <spm-reconstruct-host layout="UiTableListPage" selector="#sortable-results"></spm-reconstruct-host></div>
+
+  <div id="legal-footer">
+    <p>All rights reserved. Terms of Service apply.</p>
+  </div>
+
+  <!-- Legacy elements to hide -->
+  <div id="AdBanner" style="display: none;" data-spm-hidden="true">Ad banner</div>
+  <div class="banner-ad" style="display: none;" data-spm-hidden="true">Another banner</div>
+  <div class="my-GoogleAd-class" style="display: none;" data-spm-hidden="true">Google Ad</div>
+  <div class="legacyFooter" style="display: none;" data-spm-hidden="true">Legacy footer</div>
+  <div id="old-footer" style="display: none;" data-spm-hidden="true">Old footer</div>
+  <div class="cookie-notice" style="display: none;" data-spm-hidden="true">We use cookies</div>
+  <div id="gdpr-banner" style="display: none;" data-spm-hidden="true">GDPR compliance</div>
+  <nav class="deprecated-nav" style="display: none;" data-spm-hidden="true">Old nav</nav>
+  <div id="old-category-nav" style="display: none;" data-spm-hidden="true">Old category nav</div>
+  <div class="sponsored-results" style="display: none;" data-spm-hidden="true">Sponsored results</div>
+  <div class="premium-listing-badge" style="display: none;" data-spm-hidden="true">Premium listing</div>
+
+
+</body></html>
