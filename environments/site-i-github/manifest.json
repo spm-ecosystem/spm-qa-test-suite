@@ -1,0 +1,79 @@
+{
+    "components": [
+        {
+            "action": "hide",
+            "selector": ".repo-header, footer"
+        }
+    ],
+    "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "tableRows",
+                    "propsMap": {
+                        "commentsCount": "span.comment-count | number",
+                        "detailUrl": "a.issue-title | attr:href",
+                        "id": "span.issue-number | cleanNumber",
+                        "labels": "self | attr:data-labels | split:,",
+                        "title": "a.issue-title | text"
+                    },
+                    "scope": ".js-issue-row",
+                    "selector": ".js-issue-row"
+                }
+            ],
+            "containerSelector": "#issues-container",
+            "layoutComponent": "UiTableListPage",
+            "props": {
+                "columns": [
+                    {
+                        "header": "Number",
+                        "key": "id",
+                        "type": "text"
+                    },
+                    {
+                        "header": "Title",
+                        "key": "title",
+                        "type": "link",
+                        "urlKey": "detailUrl"
+                    },
+                    {
+                        "header": "Comments",
+                        "key": "commentsCount",
+                        "type": "badge"
+                    },
+                    {
+                        "header": "Labels",
+                        "key": "labels"
+                    }
+                ],
+                "height": "calc(100vh - 80px)",
+                "pageTitle": "Repository Issues"
+            },
+            "urlPattern": ".*/issues.*"
+        },
+        {
+            "children": [],
+            "containerSelector": "#searchform",
+            "layoutComponent": "UiSearchBar",
+            "props": {
+                "placeholder": "Search issues...",
+                "queryParamName": "q",
+                "submitUrl": "/search"
+            }
+        }
+    ],
+    "theme": {
+        "cssVariables": {
+            "--spm-accent": "#58a6ff",
+            "--spm-bg-element": "#21262d",
+            "--spm-bg-primary": "#0d1117",
+            "--spm-bg-surface": "#161b22",
+            "--spm-border-contrast": "rgba(240, 246, 252, 0.1)",
+            "--spm-radius": "6px",
+            "--spm-text-muted": "#8b949e",
+            "--spm-text-primary": "#c9d1d9"
+        },
+        "customStyles": "body { background-color: #0d1117 !important; font-family: -apple-system,BlinkMacSystemFont,`Segoe UI`,Helvetica,Arial,sans-serif !important; }",
+        "label": "GitHub Dark"
+    }
+}

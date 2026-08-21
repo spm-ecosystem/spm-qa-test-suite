@@ -1,0 +1,53 @@
+theme "GitHub Dark" {
+  variables {
+    --spm-bg-primary: "#0d1117";
+    --spm-bg-surface: "#161b22";
+    --spm-bg-element: "#21262d";
+    --spm-text-primary: "#c9d1d9";
+    --spm-text-muted: "#8b949e";
+    --spm-accent: "#58a6ff";
+    --spm-border-contrast: "rgba(240, 246, 252, 0.1)";
+    --spm-radius: "6px";
+  }
+
+  customStyles {
+    "body { background-color: #0d1117 !important; font-family: -apple-system,BlinkMacSystemFont,`Segoe UI`,Helvetica,Arial,sans-serif !important; }"
+  }
+}
+
+class GithubIssueItem {
+  scope: ".js-issue-row";
+
+  bind id: "span.issue-number | cleanNumber";
+  bind title: "a.issue-title | text";
+  bind detailUrl: "a.issue-title | attr:href";
+  bind commentsCount: "span.comment-count | number";
+  bind labels: "self | attr:data-labels | split:,";
+}
+
+reconstruct "#issues-container" -> UiTableListPage {
+  urlPattern: ".*/issues.*";
+  pageTitle: "Repository Issues";
+  height: "calc(100vh - 80px)";
+
+  columns: [
+    { "key": "id", "header": "Number", "type": "text" },
+    { "key": "title", "header": "Title", "type": "link", "urlKey": "detailUrl" },
+    { "key": "commentsCount", "header": "Comments", "type": "badge" },
+    { "key": "labels", "header": "Labels" }
+  ];
+
+  child tableRows extends GithubIssueItem {
+    selector: ".js-issue-row";
+  }
+}
+
+reconstruct "#searchform" -> UiSearchBar {
+  placeholder: "Search issues...";
+  submitUrl: "/search";
+  queryParamName: "q";
+}
+
+selector ".repo-header, footer" {
+  action: hide;
+}

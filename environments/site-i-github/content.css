@@ -1,0 +1,15 @@
+:host {
+  --github-accent: #58a6ff;
+}
+
+.table-list-container {
+  padding: 16px;
+  background-color: var(--spm-bg-primary);
+  border-radius: var(--spm-radius);
+}
+
+.js-issue-row {
+  display: flex;
+  padding: 8px;
+  border-bottom: 1px solid var(--spm-border-contrast);
+}
