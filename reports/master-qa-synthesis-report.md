@@ -162,7 +162,12 @@ graph TD
 | `UiHeroLanding` | site-d-hero | ✅ Tested |
 | `UiNavHeader` | site-f-wiki | ✅ Tested |
 | `UiImageCard` | site-g-gallery | ✅ Tested |
-| `LayoutPrimitives` | site-g-gallery | ⚠️ Doc-audited only |
+| `UiDashboardPage` | unit tests | ✅ Tested (Unit Tests) |
+| `UiModernGridPage` | unit tests | ✅ Tested (Unit Tests) |
+| `UiPaginationBar` | unit tests | ✅ Tested (Unit Tests) |
+| `UiPostDetails` | unit tests | ✅ Tested (Unit Tests) |
+| `UiTagBadge` | unit tests | ✅ Tested (Unit Tests) |
+| `LayoutPrimitives` | site-g-gallery, unit tests | ✅ Tested (Unit & E2E) |
 | `class extends` | site-g-gallery | ✅ Tested |
 | `scope` directive | site-h-classifieds | ✅ Tested |
 | `selector hide` | site-h-classifieds | ✅ Tested |
