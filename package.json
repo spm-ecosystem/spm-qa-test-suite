@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "update-docs": "node scripts/update-docs.js"
   },
   "devDependencies": {
     "@playwright/test": "^1.44.0"
