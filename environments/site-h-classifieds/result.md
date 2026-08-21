@@ -7,9 +7,8 @@
 - **Confidence Level:** High — doc gaps verified
 
 ---
-
 ## 2. Compilation Results
-- **Command:** `/home/watashi/Projects/spm-cli/spm compile classifieds.vnr -o manifest.json`
+- **Command:** `/home/watashi/Projects/spm-cli/spm compile . -o manifest.json`
 - **Exit code:** 0
 - **manifest.json valid JSON:** Yes
 - **Expected fields present:** `theme`, `reconstructs`, `components`
@@ -41,6 +40,7 @@
 - **Cross-Reference Gaps:**
   - The `scope` directive is completely missing from [component-specs.md](file:///home/watashi/Projects/spm-qa-test-suite/docs/component-specs.md) despite being heavily used in component definitions.
   - The `components[].action` enum lacks a formal constraints schema description in [manifest-schema.md](file:///home/watashi/Projects/spm-qa-test-suite/docs/manifest-schema.md).
+  - The extension content script runtime (`modernizer.tsx`) only checks for `scope === 'document'` and otherwise defaults scoping to the parent container element (`originalEl`), meaning custom scope selector values (like `".result-row"`) are ignored at runtime.
 
 ---
 
@@ -53,12 +53,13 @@
 | `DEFECT-SHC-04` | [component-specs.md](file:///home/watashi/Projects/spm-qa-test-suite/docs/component-specs.md#L830-L832) | Feature / Missing Column Types | Column `type` enum previously lacked `"date"` and `"currency"` formats in `UiTableListPage`. | **Resolved** (formatting types added and documented). |
 | `DEFECT-SHC-05` | `preserve` runtime | Robustness / Missing Fallback | Undocumented behavior when a `preserve` slot matches no legacy elements (potential runtime crash vs silent null fallback). | Update runtime and documentation to guarantee a graceful fallback to `null` for missing targets. |
 | `DEFECT-SHC-06` | `selector` runtime | Robustness / Edge Case | Overlapping `selector` blocks targeting the same element have undefined conflict resolution precedence. | Define and document resolution precedence rules (e.g., `replace` overrides `hide`). |
-| `DEFECT-SHC-07` | [veneer-reference.md](file:///home/watashi/Projects/spm-qa-test-suite/docs/veneer-reference.md#L271-L294) | Documentation / Gap | Scoped binding syntax using custom selector values (e.g. `scope: ".result-row";`) is not documented, only `"container"` and `"document"` values are listed. | Add explanation and examples for utilizing custom CSS selector values with the `scope` directive. |
+| `DEFECT-SHC-07` | [veneer-reference.md](file:///home/watashi/Projects/spm-qa-test-suite/docs/veneer-reference.md#L271-L294) | Documentation / Gap | Scoped binding syntax using custom selector values (e.g. `scope: ".result-row";`) is not documented, and is ignored by the runtime which only checks for `"document"`. | Document custom scope selectors and update extension runtime (`modernizer.tsx`) to resolve queries within custom boundary elements if `scope` is a selector. |
 
 ---
 
 ## 6. Recommended Actions for Ecosystem Improvement
 1. **Document `wrap` Action** or remove it from task requirements if currently unsupported by the compiler/runtime.
-2. **Add Custom Selector Scoping Example** to the `scope` directive documentation.
-3. **Cross-reference `scope` in component-specs.md** to make sure component developers find it.
-4. **Enforce `components[].action` enum** in `manifest-schema.md`.
+2. **Align custom `scope` selectors**: Update the runtime engine (`modernizer.tsx`) to query descendants relative to the specified custom selector (rather than checking strictly for `"document"` and defaulting everything else to the reconstruct root).
+3. **Add Custom Selector Scoping Example** to the `scope` directive documentation.
+4. **Cross-reference `scope` in component-specs.md** to make sure component developers find it.
+5. **Enforce `components[].action` enum** in `manifest-schema.md`.
