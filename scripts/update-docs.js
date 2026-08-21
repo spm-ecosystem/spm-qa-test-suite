@@ -28,6 +28,10 @@ copyDoc(
   path.join(cliDocsRoot, 'veneer_spec.md'),
   path.join(testSuiteRoot, 'docs/veneer-reference.md')
 );
+copyDoc(
+  path.join(cliDocsRoot, 'cli_tooling.md'),
+  path.join(testSuiteRoot, 'docs/cli-tooling.md')
+);
 
 // 2. Aggregate Component Specs
 const componentSpecsPath = path.join(testSuiteRoot, 'docs/component-specs.md');

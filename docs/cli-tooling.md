@@ -22,6 +22,25 @@ spm compile [path/to/vnr_project]
 - Lexes, parses, resolves class inheritance, and emits formatted JSON.
 - Deep-merges preexisting metadata (`author`, `description`, `targetUrl`, `version`) into the output `manifest.json`.
 
+### C. Selector Validation (`spm validate`)
+Validates compiled manifest selectors and data extraction pipes against local HTML page snapshots offline.
+```bash
+spm validate <manifest.json> --against <snapshot.html> [--json]
+```
+- Parses HTML snapshots using a JSDOM-equivalent layout engine.
+- Matches CSS selectors for all components and reconstructs.
+- Runs data extraction pipes (`text`, `attr`, `split`, `number`, `cleanNumber`) and validates that expected properties extract successfully.
+- Outputs detailed pass/fail status reports, or clean JSON metadata if `--json` is supplied.
+
+### D. Transformation Application (`spm apply`)
+Applies compiled manifest transformations to a local HTML snapshot and saves the modernized layout result.
+```bash
+spm apply <manifest.json> --input <input.html> -o <output.html>
+```
+- Implements layout replacements, components reconstruction, and element hiding.
+- Injects theme CSS variables and custom styles directly in the `<head>` style block.
+- Outputs the finalized modern HTML file for visual verification.
+
 ---
 
 ## 2. Recommended Directory Layout for Themes
