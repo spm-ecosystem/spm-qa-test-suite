@@ -1,121 +1,60 @@
-# Centralized QA Audit Report (`qa-result.md`)
+# Centralized Master QA Audit Report (`qa-result.md`)
 
-> **Current Focus Environment:** `site-l-extreme-legacy` (Extreme Legacy DOM Structures, 4-Level Table Nesting, Duplicate Form IDs, Deprecated Tags, Fragmented Nodes)  
-> **Status:** Deep Single-Environment Audit & Subagent Friction Analysis Active
+> **Master Plan:** `docs/qa-test-plan.md`  
+> **Status:** Active Sequential Testing Stream  
+> **Completed Environments:** 2 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`)
 
 ---
 
-## 1. Subagent Execution & Diagnostic Audit (`spm-veneer-coder`)
+## 1. Environment Test 1: `site-l-extreme-legacy`
+- **Domain:** `synthetic-legacy-portal.internal`
+- **Scenario:** Extreme legacy DOM structures, 4-level table nesting, duplicate form IDs, deprecated HTML tags (`<font>`, `<marquee>`, `<center>`), custom elements (`<custom-card>`), and fragmented text nodes.
+- **Compilation Status:** PASS (`spm compile legacy.vnr -o manifest.json` exit code 0)
+- **E2E Playwright Status:** PASS (`screenshots/05_extreme_legacy_modernized.png`)
 
-We dispatched the specialized LLM subagent `spm-veneer-coder` (`subagent_cli.py`) to analyze `page-snapshot.html` and attempt generating `.vnr` spec code and `content.css` for `site-l-extreme-legacy`.
-
-### Empirical Subagent Execution Log:
+### Subagent Execution Audit (`spm-veneer-coder`):
 - **Model:** `veneer-coder` (Ollama local runner)
 - **Status:** FAILED (Reached max self-correction retries = 3)
-- **Diagnostic Failures Encountered:**
-  - **Retry 1:** `[Parser Error] Line 15: Unexpected token in global scope`  
-    *Cause:* Subagent placed a `customStyles { ... }` block outside of a `theme "Name" { ... }` block in global scope.
-  - **Retry 2:** `[Resolver Error] Unknown base class for child: TableRow`  
-    *Cause:* Subagent wrote `child tableRows extends TableRow { ... }` without declaring `class TableRow { ... }` beforehand.
-  - **Retry 3:** `[Resolver Error] Unknown base class for child: TableRow`  
-    *Cause:* Self-correction loop failed to declare the base class and repeated the missing class extension error.
+- **Empirical Diagnostics:**
+  - *Retry 1:* `[Parser Error] Unexpected token in global scope` — placed `customStyles { ... }` outside of `theme` block.
+  - *Retries 2 & 3:* `[Resolver Error] Unknown base class for child: TableRow` — wrote `child tableRows extends TableRow` without declaring `class TableRow { ... }` beforehand.
 
-### Key Finding on Subagent Friction:
-LLM subagents frequently attempt to use OOP inheritance (`extends TableRow`) because examples in `docs/veneer-reference.md` show class inheritance. However, subagents omit the class definition header (`class TableRow { ... }`), triggering fatal compiler resolver errors (`Unknown base class for child`).
+### Technical Friction & Edge Case Audit:
+1. **Duplicate Form Identifiers (`id="user-input"`):** Pages with 3 `<form>` elements containing duplicate `id="user-input"` lead to silent data overwrites. `document.querySelector("#user-input")` always returns Form A's input, dropping Form B and C values unless scoped (`#search-form-secondary #user-input`).
+2. **Color Bleeding from Deprecated `<font color="red">` Tags:** Inline HTML `color="red"` attributes override modern CSS `--spm-text-primary` variables in dark mode themes unless explicitly overridden with `font { color: inherit !important; }`.
+3. **Deep Table Nesting Selection Corruption:** Broad selectors (`table table tr`) select rows across Level 2, Level 3, and Level 4 tables simultaneously, corrupting row extractions.
 
----
-
-## 2. Technical Friction & Edge Case Audit (`site-l-extreme-legacy`)
-
-### Section 1: Deep Table Nesting (4 Levels) & Cell Corruption
-- **Legacy DOM Behavior:** Contains 4 nested `<table>` elements with deprecated attributes (`border="2"`, `bgcolor="#ffdddd"`), `colspan`/`rowspan`, and missing `</td>` closing tags (`<td>Level 3 Cell B with missing end tag </tr>`).
-- **Selector Collision Risk:** Subagents write broad selectors like `table table tr`. This selector queries rows across Level 2, Level 3, AND Level 4 tables simultaneously, corrupting the extracted row list.
-- **Component Gap:** `UiTableListPage` assumes a flat 2D data matrix (`tableRows`). When fed nested tables, cell extractions contain raw HTML strings of inner child tables.
-- **Solution:** Require explicit direct child selectors (`table#outer-table > tbody > tr`) or introduce a `cleanText` pipe to strip nested table tags.
-
-### Section 2: Duplicate Form Identifiers (`id="user-input"`)
-- **Legacy DOM Behavior:** Contains 3 distinct `<form>` elements (`#search-form-primary`, `#search-form-secondary`, `#search-form-footer`), all containing `<input id="user-input" name="query">`. Form B contains two duplicate inputs with `id="user-input"`.
-- **Silent Data Overwrite:** In standard DOM queries, `document.querySelector("#user-input")` ALWAYS returns the first input in Form A. Form B ("secondary search term") and Form C inputs are silently overwritten by Form A's value.
-- **Compiler Gap:** `spm compile` and `spm validate` do not warn when selectors reference `#id` attributes that appear multiple times in a single HTML snapshot.
-- **Solution:** Update `spm validate` to emit a diagnostic warning requiring parent container scoping (e.g. `#search-form-secondary #user-input`).
-
-### Section 3: Deprecated Tags (`<font color="red">`, `<marquee>`, `<center>`)
-- **Legacy DOM Behavior:** Contains obsolete formatting tags like `<font color="red" size="4">` and `<marquee>`.
-- **Theme Override Defect:** Modern CSS variables (`--spm-text-primary: "#c9d1d9"`) do NOT override HTML inline `color="red"` attributes on `<font>` tags unless explicitly overridden with `!important`.
-- **Solution:** Automatically append legacy tag reset rules (`font { color: inherit !important; font-family: inherit !important; } marquee { display: inline-block !important; }`) into compiled theme `customStyles`.
-
-### Section 4: Fragmented Text Nodes across HTML Comments
-- **Legacy DOM Behavior:** Text nodes fragmented across HTML comment blocks `<!-- text fragment -->` and formatting tags (`<b>`, `<i>`, `<span>`).
-- **Solution:** Use `cleanText` pipe to normalize multi-line whitespace and strip HTML comments cleanly.
+### Cataloged Defect Summary (`site-l-extreme-legacy`):
+- `DEFECT-LEG-01` [Compiler/Resolver]: Subagent fails compilation when extending undeclared base classes (`extends TableRow`).
+- `DEFECT-LEG-02` [Compiler/Validation]: `spm validate` missing diagnostic warnings for duplicate `#id` references.
+- `DEFECT-LEG-03` [Theme Engine]: HTML `<font color="...">` overrides theme `--spm-text-primary` in dark mode.
 
 ---
 
-## 3. Defect & Gap Catalog for `site-l-extreme-legacy`
+## 2. Environment Test 2: `site-m-extreme-events`
+- **Domain:** `synthetic-events-portal.internal`
+- **Scenario:** Inline `onclick` redirects (`window.location.href`), custom JS function calls (`customFetch('item-99')`), dynamic class hashing (`css-9x2a1b`), XSS payloads (`<script>`, `onerror`), and interactive QA log console (`#qa-log`).
+- **Compilation Status:** PASS (`spm compile events.vnr -o manifest.json` exit code 0)
+- **E2E Playwright Status:** PASS (`screenshots/06_extreme_events_modernized.png`)
 
-| Defect ID | Category | Description | Proposed Remediation |
-| :--- | :--- | :--- | :--- |
-| `DEFECT-LEG-01` | Compiler / Resolver | Subagent fails compilation when writing `extends TableRow` without declaring `class TableRow`. | Add subagent prompt rule enforcing explicit class declarations before `extends`. |
-| `DEFECT-LEG-02` | Compiler / Validation | `spm validate` does not warn on duplicate `#id` references across forms. | Emit diagnostic warning when duplicate IDs exist in HTML snapshot. |
-| `DEFECT-LEG-03` | Theme / Styling | HTML `<font color="...">` attributes override theme `--spm-text-primary` in dark mode. | Automatically append `<font>` reset rules to compiled `customStyles`. |
-| `DEFECT-LEG-04` | Component Library | No `UiNestedTreeTable` component for multi-level hierarchical table data. | Add `UiNestedTreeTable` component to `spm-components`. |
+### Subagent Execution Audit (`spm-veneer-coder`):
+- **Model:** `veneer-coder` (Ollama local runner)
+- **Status:** SUCCESS (Compiled manifest on Retry 1)
+- **Log:** Generated `.vnr` spec and `content.css` correctly specifying `child cards` schema.
 
----
+### Technical Friction & Edge Case Audit:
+1. **Loss of Inline Script Behavior (`customFetch()` & `data-action="redirect"`):**
+   - *Friction:* Subagents map `bind url: "a | hrefOrOnclick"`. The extractor reads the URL string, but `UiDashboardPage` renders a static `<a href="...">` link.
+   - *Behavioral Loss:* The original inline JavaScript execution (`customFetch('item-99')`) or event listeners (`data-action="redirect"`) are destroyed when React replaces the original DOM node.
+   - *Fix Needed:* Implement synthetic event proxying (`triggerProxyClick`) in `engine.ts` to dispatch click events to original hidden DOM nodes.
+2. **Prop Array Schema Strictness (`UiDashboardPage`):**
+   - *Friction:* `UiDashboardPage` requires the child array name to be `child cards` with props `{ title, description, url, urlLabel }`.
+   - *Failure Mode:* Inventing natural names like `child eventFeed` causes `UiDashboardPage` to receive `cards = []` and render **"No options available."**.
+3. **Shadow DOM Style Loss on Preserved Slots (`preserve`):**
+   - *Friction:* Moving `#qa-log` into a Shadow DOM slot via `preserve { interactiveConsole: "#qa-log" }` strips external document CSS (background, fonts).
+   - *Fix Needed:* Introduce a dedicated `UiTerminalConsole` component in `spm-components`.
 
-## 4. Validated Correct Spec (`legacy.vnr`)
-
-Below is the verified, 100% compile-passing `.vnr` spec that resolves all subagent syntax errors by explicitly defining `class TableRowBase` before extending it:
-
-```vnr
-theme "Extreme Legacy Dark" {
-  variables {
-    --spm-bg-primary: "#0d1117";
-    --spm-bg-surface: "#161b22";
-    --spm-bg-element: "#21262d";
-    --spm-text-primary: "#c9d1d9";
-    --spm-text-muted: "#8b949e";
-    --spm-accent: "#58a6ff";
-    --spm-border-contrast: "rgba(240, 246, 252, 0.1)";
-  }
-
-  customStyles {
-    "marquee { display: none !important; } font { color: inherit !important; font-family: inherit !important; }"
-  }
-}
-
-class TableRowBase {
-  bind title: "td:first-child | text";
-  bind detail: "td:last-child | html";
-}
-
-reconstruct "#section-1-deep-tables" -> UiTableListPage {
-  pageTitle: "Modernized Legacy Data Catalog";
-  columns: R"([
-    { "key": "title", "header": "Item / Level", "type": "text" },
-    { "key": "detail", "header": "Cell Content", "type": "html" }
-  ])";
-
-  child tableRows extends TableRowBase {
-    selector: "table table tr";
-  }
-
-  preserve {
-    legacySearchForm: "#search-form-primary";
-    hiddenMetadata: "#search-form-secondary input[type='hidden']";
-  }
-}
-
-selector "header" -> UiNavHeader {
-  action: replace;
-  siteName: "Legacy Portal Sandbox";
-  logoUrl: "https://synthetic-legacy-portal.internal/assets/logo.png";
-  primaryLinks: [
-    { "label": "Catalog", "url": "/catalog" },
-    { "label": "Archive", "url": "/archive" },
-    { "label": "Help & Docs", "url": "/docs" }
-  ];
-}
-
-selector "#section-3-deprecated-tags marquee, #search-form-footer, center > font" {
-  action: hide;
-}
-```
+### Cataloged Defect Summary (`site-m-extreme-events`):
+- `DEFECT-EV-01` [Engine/Proxy]: Inline `onclick` script calls (`customFetch()`) destroyed during component replacement.
+- `DEFECT-EV-02` [Compiler/Schema]: `spm compile` accepts non-matching child prop names (`child eventFeed` instead of `child cards`).
+- `DEFECT-EV-03` [Component Library]: Missing `UiTerminalConsole` component for live interactive log streams.
