@@ -33,7 +33,7 @@ test.describe('SPM Extension E2E Modernization Flow', () => {
   });
 
   test('should load extension, modernize ArchWiki page, and support interactions', async () => {
-    const pathToExtension = '/home/watashi/Projects/extension/dist';
+    const pathToExtension = process.env.EXTENSION_DIST_PATH || path.resolve(__dirname, '../../extension/dist');
     
     // 2. Launch Chromium persistently with the extension loaded
     const context = await chromium.launchPersistentContext('', {
