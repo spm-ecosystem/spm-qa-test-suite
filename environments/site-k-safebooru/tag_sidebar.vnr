@@ -1,0 +1,11 @@
+class TagItem {
+    bind tagName: "a | text";
+    bind tagUrl: "a | attr:href";
+    bind count: "span.tag-count | nextSiblingText | cleanNumber";
+}
+
+reconstruct "#tag-sidebar" -> UiPostDetails {
+    child tags extends TagItem {
+        selector: "li";
+    }
+}

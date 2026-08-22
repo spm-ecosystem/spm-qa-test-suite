@@ -1,0 +1,11 @@
+class ThumbCard {
+    bind imageUrl: "img | attr:src";
+    bind postUrl: "a | hrefOrOnclick";
+    bind itemSelector: "self | selector";
+}
+
+reconstruct "#grid-container" -> UiModernGridPage {
+    child gridItems extends ThumbCard {
+        selector: "span.thumb";
+    }
+}

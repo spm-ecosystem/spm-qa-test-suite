@@ -1,0 +1,55 @@
+{
+    "components": [],
+    "reconstructs": [
+        {
+            "children": [],
+            "containerSelector": "#header",
+            "layoutComponent": "UiNavHeader",
+            "props": {
+                "action": "replace",
+                "logoUrl": "#site-title a | hrefOrOnclick",
+                "pageTitle": "#site-title a | text"
+            }
+        },
+        {
+            "children": [],
+            "containerSelector": "#searchform",
+            "layoutComponent": "UiSearchBar",
+            "props": {
+                "action": "replace",
+                "hiddenFields": "form | hiddenInputs",
+                "submitUrl": "form | attr:action"
+            }
+        },
+        {
+            "children": [
+                {
+                    "name": "gridItems",
+                    "propsMap": {
+                        "imageUrl": "img | attr:src",
+                        "itemSelector": "self | selector",
+                        "postUrl": "a | hrefOrOnclick"
+                    },
+                    "selector": "span.thumb"
+                }
+            ],
+            "containerSelector": "#grid-container",
+            "layoutComponent": "UiModernGridPage"
+        },
+        {
+            "children": [
+                {
+                    "name": "tags",
+                    "propsMap": {
+                        "count": "span.tag-count | nextSiblingText | cleanNumber",
+                        "tagName": "a | text",
+                        "tagUrl": "a | attr:href"
+                    },
+                    "selector": "li"
+                }
+            ],
+            "containerSelector": "#tag-sidebar",
+            "layoutComponent": "UiPostDetails"
+        }
+    ]
+}

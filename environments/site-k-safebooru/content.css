@@ -1,0 +1,4 @@
+/* Safebooru Modernization Styles */
+#header, #searchform, #grid-container, #tag-sidebar {
+  display: block;
+}

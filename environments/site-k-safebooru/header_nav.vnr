@@ -1,0 +1,11 @@
+reconstruct "#header" -> UiNavHeader {
+    action: replace;
+    bind logoUrl: "#site-title a | hrefOrOnclick";
+    bind pageTitle: "#site-title a | text";
+}
+
+reconstruct "#searchform" -> UiSearchBar {
+    action: replace;
+    bind submitUrl: "form | attr:action";
+    bind hiddenFields: "form | hiddenInputs";
+}

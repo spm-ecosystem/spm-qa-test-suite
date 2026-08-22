@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Safebooru - Post List</title>
+</head>
+<body id="body">
+  <div id="header">
+    <h2 id="site-title"><a href="index.php">Safebooru</a></h2>
+    <ul class="flat-list" id="navbar">
+      <li class="current-page"><a href="index.php?page=post&s=list">Posts</a></li>
+      <li><a href="index.php?page=comment&s=list">Comments</a></li>
+      <li><a href="index.php?page=tags&s=list">Tags</a></li>
+      <li><a href="index.php?page=wiki&s=list">Wiki</a></li>
+    </ul>
+    <form id="searchform" action="index.php?page=post&s=list" method="get">
+      <input type="hidden" name="page" value="post">
+      <input type="hidden" name="s" value="list">
+      <input type="text" name="tags" id="tags" placeholder="Search tags...">
+      <input type="submit" value="Search">
+    </form>
+  </div>
+
+  <div id="post-list">
+    <div class="sidebar">
+      <ul id="tag-sidebar">
+        <li class="tag-type-artist"><a href="index.php?page=post&s=list&tags=artist_name">artist_name</a> <span class="tag-count">1.2k</span></li>
+        <li class="tag-type-character"><a href="index.php?page=post&s=list&tags=character_name">character_name</a> <span class="tag-count">5.4k</span></li>
+        <li class="tag-type-copyright"><a href="index.php?page=post&s=list&tags=series_title">series_title</a> <span class="tag-count">8.9k</span></li>
+        <li class="tag-type-general"><a href="index.php?page=post&s=list&tags=blue_hair">blue_hair</a> <span class="tag-count">42k</span></li>
+      </ul>
+    </div>
+
+    <div class="content">
+      <div id="grid-container">
+        <span class="thumb" id="s1001">
+          <a href="index.php?page=post&s=view&id=1001" onclick="location.href='index.php?page=post&s=view&id=1001'">
+            <img src="https://safebooru.org/thumbnails/1000/thumbnail_1001.jpg" alt="blue_hair character_name" title="blue_hair character_name">
+          </a>
+        </span>
+        <span class="thumb" id="s1002">
+          <a href="index.php?page=post&s=view&id=1002" onclick="location.href='index.php?page=post&s=view&id=1002'">
+            <img src="https://safebooru.org/thumbnails/1000/thumbnail_1002.jpg" alt="artist_name series_title" title="artist_name series_title">
+          </a>
+        </span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
