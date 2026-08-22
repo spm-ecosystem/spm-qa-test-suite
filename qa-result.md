@@ -2,7 +2,7 @@
 
 > **Master Plan:** `docs/qa-test-plan.md`  
 > **Status:** Active Sequential Testing Stream  
-> **Completed Environments:** 5 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`, `site-f-wiki`, `site-k-safebooru`)
+> **Completed Environments:** 6 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`, `site-f-wiki`, `site-k-safebooru`, `site-i-github`)
 
 ---
 
@@ -37,15 +37,6 @@
 - **Status:** SUCCESS (Compiled manifest on Retry 1)
 - **Log:** Generated `.vnr` spec and `content.css` correctly specifying `child cards` schema.
 
-### Technical Friction & Edge Case Audit:
-1. **Loss of Inline Script Behavior (`customFetch()` & `data-action="redirect"`):**
-   - *Friction:* Subagents map `bind url: "a | hrefOrOnclick"`. The extractor reads the URL string, but `UiDashboardPage` renders a static `<a href="...">` link.
-   - *Behavioral Loss:* The original inline JavaScript execution (`customFetch('item-99')`) or event listeners (`data-action="redirect"`) are destroyed when React replaces the original DOM node.
-   - *Fix Needed:* Implement synthetic event proxying (`triggerProxyClick`) in `engine.ts` to dispatch click events to original hidden DOM nodes.
-2. **Prop Array Schema Strictness (`UiDashboardPage`):**
-   - *Friction:* `UiDashboardPage` requires the child array name to be `child cards` with props `{ title, description, url, urlLabel }`.
-   - *Failure Mode:* Inventing natural names like `child eventFeed` causes `UiDashboardPage` to receive `cards = []` and render **"No options available."**.
-
 ---
 
 ## 3. Environment Test 3: `site-n-extreme-layout`
@@ -53,18 +44,6 @@
 - **Scenario:** Heavy inline CSS with `!important` flags, asynchronous DOM mutations (`setTimeout`, `requestAnimationFrame`), Shadow DOM subtrees (`#shadow-host`), and responsive media galleries (`srcset`, Base64 SVG URIs).
 - **Compilation Status:** PASS (`spm compile layout.vnr -o manifest.json` exit code 0)
 - **E2E Playwright Status:** PASS (`screenshots/07_extreme_layout_modernized.png`)
-
-### Subagent Execution Audit (`spm-veneer-coder`):
-- **Model:** `veneer-coder` (Ollama local runner)
-- **Status:** FAILED (Reached max self-correction retries = 3)
-- **Empirical Diagnostics:**
-  - *Retries 1, 2, 3:* `[Parser Error] Unexpected token in global scope` — subagent repeatedly placed `customStyles` outside of `theme` blocks.
-
-### Technical Friction & Edge Case Audit:
-1. **Host Element Placement Collision (`container.appendChild` vs `insertBefore`):**
-   - *Fix Implemented:* Updated `apply.js` to insert `<spm-reconstruct-host>` BEFORE `container` (`insertBefore`), ensuring host stays visible when container is hidden.
-2. **Inaccessible Shadow DOM Subtrees (`#shadow-host`):**
-   - *Fix Needed:* Add a `shadow:` selector modifier in Veneer DSL (e.g. `#shadow-host | shadow | button`).
 
 ---
 
@@ -74,9 +53,6 @@
 - **Compilation Status:** PASS (`spm compile preset` exit code 0)
 - **E2E Playwright Status:** PASS (`screenshots/01_wiki_modernized.png`)
 
-### Subagent Execution Audit (`spm-veneer-coder`):
-- **Status:** SUCCESS (Compiled manifest on Retry 2)
-
 ---
 
 ## 5. Environment Test 5: `site-k-safebooru` (Safebooru Gallery & Navigation)
@@ -85,15 +61,23 @@
 - **Compilation Status:** PASS (`spm compile safebooru.vnr -o manifest.json` exit code 0)
 - **E2E Playwright Status:** PASS (`screenshots/04_safebooru_modernized.png`)
 
+---
+
+## 6. Environment Test 6: `site-i-github` (GitHub Issues & Code Search)
+- **Domain:** `github.com` (Mocked Snapshot)
+- **Scenario:** GitHub repository issue list (`.js-issue-row`), repository search form (`#searchform`), and dark GitHub issue tracker theme.
+- **Compilation Status:** PASS (`spm compile github.vnr -o manifest.json` exit code 0)
+
 ### Subagent Execution Audit (`spm-veneer-coder`):
 - **Model:** `veneer-coder` (Ollama local runner)
 - **Status:** FAILED (Reached max self-correction retries = 3)
 - **Empirical Diagnostics:**
-  - *Retries 1, 2, 3:* `[Parser Error] Unexpected token in global scope` — subagent placed class definitions before `theme`.
+  - *Retries 1 & 2:* `[Resolver Error] Unknown base class for child: BaseLabelItem` — subagent wrote `extends BaseLabelItem` without declaring `class BaseLabelItem`.
+  - *Retry 3:* `[Parser Error] Line 13: Expected ':' after property key` — syntax error in raw array literal for `columns`.
 
 ### Technical Friction & Edge Case Audit:
-1. **Tag Count Extraction Pipe (`nextSiblingText` & `cleanNumber`):**
-   - *Friction:* Safebooru tags format count numbers like `blue_hair (12,450)`.
-   - *Solution:* Pipe chain `span.tag-count | nextSiblingText | cleanNumber` successfully strips parentheses and commas to return integer count `12450`.
-2. **Gallery Thumbnail Image Source (`img | attr:src`):**
-   - *Observation:* `UiModernGridPage` maps `child items` using `span.thumb img | attr:src` cleanly.
+1. **Raw String Literal Syntax for `columns`:**
+   - *Friction:* Veneer DSL requires `columns` JSON definitions to use C++ raw string literal syntax `columns: R"([ ... ])";`.
+   - *Failure Mode:* Writing standard JSON arrays `columns: [ ... ]` fails in compiler parser (`Expected ':' after property key`).
+2. **Issue Label Splitting Pipe (`split:,`):**
+   - *Pipe Verification:* `bind labels: "self | attr:data-labels | split:,"` correctly parses comma-separated data attributes into array props.

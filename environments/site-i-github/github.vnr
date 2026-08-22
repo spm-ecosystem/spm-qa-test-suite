@@ -30,12 +30,12 @@ reconstruct "#issues-container" -> UiTableListPage {
   pageTitle: "Repository Issues";
   height: "calc(100vh - 80px)";
 
-  columns: [
+  columns: R"([
     { "key": "id", "header": "Number", "type": "text" },
     { "key": "title", "header": "Title", "type": "link", "urlKey": "detailUrl" },
     { "key": "commentsCount", "header": "Comments", "type": "badge" },
     { "key": "labels", "header": "Labels" }
-  ];
+  ])";
 
   child tableRows extends GithubIssueItem {
     selector: ".js-issue-row";
