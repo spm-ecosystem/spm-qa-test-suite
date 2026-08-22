@@ -160,7 +160,7 @@
   <spm-modern-component name="UiNavHeader" selector="header"></spm-modern-component>
 
   <!-- Section 1: Complex Inline onclick Links -->
-  <section id="section-1-onclick-links">
+  <spm-reconstruct-host layout="UiDashboardPage" selector="#section-1-onclick-links"></spm-reconstruct-host><section id="section-1-onclick-links">
     <h2 style="display: none;">Section 1: Complex Inline <code>onclick</code> Links</h2>
     <p style="display: none;">Tests extraction and handling of inline event handlers, string arithmetic within <code>onclick</code> attributes, custom function invocations, and data-attribute redirect triggers.</p>
 
@@ -196,7 +196,7 @@
         <code>data-action="redirect" href="#" data-target="item-456"</code>
       </div>
     </div>
-  <spm-reconstruct-host layout="UiDashboardPage" selector="#section-1-onclick-links"></spm-reconstruct-host></section>
+  </section>
 
   <!-- Section 2: Unstable & Dynamic Selectors -->
   <section id="section-2-dynamic-selectors">
@@ -231,7 +231,7 @@
   </section>
 
   <!-- Section 3: XSS Payload & Sanitization Testbed -->
-  <section id="section-3-xss-sanitization">
+  <spm-reconstruct-host layout="UiSearchBar" selector="#section-3-xss-sanitization"></spm-reconstruct-host><section id="section-3-xss-sanitization">
     <h2 style="display: none;">Section 3: XSS Payload &amp; Sanitization Testbed</h2>
     <p style="display: none;">Provides synthetic attack vectors including script tag injections, event listener attributes, unclosed tag structures, and HTML entity encodings for testing DOMPurify or custom SPM engine sanitization bounds.</p>
 
@@ -267,7 +267,7 @@
         <p class=" test-malformed"="" data-payload="<script>">Malformed text node content &lt;script&gt;alert('xss-entity')&lt;/script&gt;<p></p>
       </div>
     </div>
-  </div><spm-reconstruct-host layout="UiSearchBar" selector="#section-3-xss-sanitization"></spm-reconstruct-host></section>
+  </div></section>
 
   <!-- Interactive QA Event Log Console -->
   <section id="qa-log-container">

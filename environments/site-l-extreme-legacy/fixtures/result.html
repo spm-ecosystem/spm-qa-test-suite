@@ -68,7 +68,7 @@ marquee { display: none !important; } font { color: inherit !important; font-fam
   <spm-modern-component name="UiNavHeader" selector="header"></spm-modern-component>
 
   <!-- Section 1: Deep Table Nesting -->
-  <section id="section-1-deep-tables">
+  <spm-reconstruct-host layout="UiTableListPage" selector="#section-1-deep-tables"></spm-reconstruct-host><section id="section-1-deep-tables">
     <h2 style="display: none;">Section 1: Deep Table Nesting</h2>
     <p style="display: none;">This section contains 3+ levels of nested <code>&lt;table&gt;</code> elements with legacy attributes, missing/malformed closing tags, and inline formatting.</p>
     
@@ -135,7 +135,7 @@ marquee { display: none !important; } font { color: inherit !important; font-fam
         </tr>
       </tbody>
     </table>
-  <spm-reconstruct-host layout="UiTableListPage" selector="#section-1-deep-tables"></spm-reconstruct-host></section>
+  </section>
 
   <!-- Section 2: Duplicate Identifiers -->
   <section id="section-2-duplicate-ids">
