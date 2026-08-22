@@ -14,40 +14,36 @@ theme "Extreme Legacy Dark" {
   }
 }
 
-// Base blueprint class for table row extraction
 class RowBase {
-  bind title: "td.cell-title | text";
-  bind price: "td.cell-price | text | cleanNumber";
-  bind category: "td.cell-cat | text";
+  bind title: "td | text";
+  bind detailUrl: "a | attr:href";
 }
 
-// Inherited class with custom tag pipes
 class AdvancedRow extends RowBase {
-  bind tags: "td.cell-tags | text | split:,";
-  bind detailUrl: "td.cell-title a | attr:href";
-  bind id: "self | attr:data-item-id";
+  bind tags: "span | text | split";
+  bind id: "self | attr:id";
 }
 
-// Main Table Page Reconstruction
-reconstruct "#legacy-root-table" -> UiTableListPage {
+// Reconstruct Section 1 Deep Tables
+reconstruct "#section-1-deep-tables" -> UiTableListPage {
   pageTitle: "Modernized Legacy Data Catalog";
   subtitle: "Extracted from 4-level nested legacy tables";
   sticky: true;
 
   child tableItems extends AdvancedRow {
-    selector: "#data-table-body > tr:not(.table-header):not(.table-footer)";
+    selector: "table table tr";
   }
 
   preserve {
-    legacySearchForm: "#duplicate-form-1";
-    hiddenMetadata: "form input[name='session_token']";
+    legacySearchForm: "#search-form-primary";
+    hiddenMetadata: "#search-form-secondary input[type='hidden']";
   }
 }
 
-// Secondary Navigation Replacement
-selector "#legacy-top-nav" -> UiNavHeader {
+// Replace Legacy Top Header with Modern React Nav Header
+selector "header" -> UiNavHeader {
   action: replace;
-  siteName: "Legacy Portal";
+  siteName: "Legacy Portal Sandbox";
   logoUrl: "https://synthetic-legacy-portal.internal/assets/logo.png";
   primaryLinks: [
     { "label": "Catalog", "url": "/catalog" },
@@ -56,7 +52,7 @@ selector "#legacy-top-nav" -> UiNavHeader {
   ];
 }
 
-// Hide Deprecated & Duplicate Legacy Banners
-selector "marquee, font[size='7'], #duplicate-form-2, center > font" {
+// Hide Deprecated Banners & Footer Form
+selector "#section-3-deprecated-tags marquee, #search-form-footer, center > font" {
   action: hide;
 }

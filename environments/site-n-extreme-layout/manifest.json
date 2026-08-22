@@ -21,11 +21,11 @@
                 "siteName": "Layout Sandbox",
                 "sticky": true
             },
-            "selector": "#legacy-layout-header"
+            "selector": "header"
         },
         {
             "action": "hide",
-            "selector": ".extreme-inline-box[style*='z-index: -9999']"
+            "selector": "#negative-margin-container"
         }
     ],
     "reconstructs": [
@@ -34,22 +34,17 @@
                 {
                     "name": "galleryItems",
                     "propsMap": {
-                        "id": "self | attr:data-card-id",
-                        "imageSrcset": "img.gallery-img | attr:srcset",
-                        "imageUrl": "img.gallery-img | attr:src",
-                        "rating": "span.card-rating | text | cleanNumber",
-                        "tags": "span.card-tags | text | split",
-                        "title": "h3.card-title | text",
-                        "viewUrl": "a.card-link | attr:href"
+                        "imageSrcset": "img | attr:srcset",
+                        "imageUrl": "img | attr:src",
+                        "rating": "span | text | cleanNumber",
+                        "title": "h3 | text"
                     },
-                    "selector": ".gallery-card-item"
+                    "selector": "#inline-stress-container"
                 }
             ],
-            "containerSelector": "#layout-root-container",
+            "containerSelector": "#section-1",
             "layoutComponent": "UiModernGridPage",
             "preserve": {
-                "asyncMutationContainer": "#async-mutation-container",
-                "paginationControls": "#gallery-pagination",
                 "shadowDomHost": "#shadow-host"
             },
             "props": {
@@ -71,7 +66,7 @@
             "--spm-text-muted": "#a0a5b5",
             "--spm-text-primary": "#ffffff"
         },
-        "customStyles": ".extreme-inline-box { width: 100% !important; margin: 0 !important; float: none !important; }\n:host { display: block; width: 100%; box-sizing: border-box; }",
+        "customStyles": "#inline-stress-container { width: 100% !important; margin: 0 !important; float: none !important; }\n:host { display: block; width: 100%; box-sizing: border-box; }",
         "label": "Extreme Layout Neon"
     }
 }

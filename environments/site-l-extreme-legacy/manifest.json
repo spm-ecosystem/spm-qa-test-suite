@@ -19,13 +19,13 @@
                         "url": "/docs"
                     }
                 ],
-                "siteName": "Legacy Portal"
+                "siteName": "Legacy Portal Sandbox"
             },
-            "selector": "#legacy-top-nav"
+            "selector": "header"
         },
         {
             "action": "hide",
-            "selector": "marquee, font[size='7'], #duplicate-form-2, center > font"
+            "selector": "#section-3-deprecated-tags marquee, #search-form-footer, center > font"
         }
     ],
     "reconstructs": [
@@ -34,21 +34,19 @@
                 {
                     "name": "tableItems",
                     "propsMap": {
-                        "category": "td.cell-cat | text",
-                        "detailUrl": "td.cell-title a | attr:href",
-                        "id": "self | attr:data-item-id",
-                        "price": "td.cell-price | text | cleanNumber",
-                        "tags": "td.cell-tags | text | split:,",
-                        "title": "td.cell-title | text"
+                        "detailUrl": "a | attr:href",
+                        "id": "self | attr:id",
+                        "tags": "span | text | split",
+                        "title": "td | text"
                     },
-                    "selector": "#data-table-body > tr:not(.table-header):not(.table-footer)"
+                    "selector": "table table tr"
                 }
             ],
-            "containerSelector": "#legacy-root-table",
+            "containerSelector": "#section-1-deep-tables",
             "layoutComponent": "UiTableListPage",
             "preserve": {
-                "hiddenMetadata": "form input[name='session_token']",
-                "legacySearchForm": "#duplicate-form-1"
+                "hiddenMetadata": "#search-form-secondary input[type='hidden']",
+                "legacySearchForm": "#search-form-primary"
             },
             "props": {
                 "pageTitle": "Modernized Legacy Data Catalog",

@@ -179,34 +179,30 @@
   --spm-text-primary: #ffffff;
 }
 
-.extreme-inline-box { width: 100% !important; margin: 0 !important; float: none !important; }
+#inline-stress-container { width: 100% !important; margin: 0 !important; float: none !important; }
 :host { display: block; width: 100%; box-sizing: border-box; }</style></head>
 <body>
 
-  <header>
-    <a href="index.html" class="back-link">← Back to Master QA Hub</a>
-    <h1>QA Test Suite 03: CSS Inline Stress, Dynamic DOM &amp; Shadow DOM</h1>
-    <p class="subtitle">Synthetic layout stress testing for inline styles, dynamic mutations, Shadow DOM encapsulation, and media fallbacks.</p>
-  </header>
+  <spm-modern-component name="UiNavHeader" selector="header"></spm-modern-component>
 
   <main>
     <!-- Section 1: Heavy Inline CSS & !important Overrides -->
     <section id="section-1">
-      <h2>Section 1: Heavy Inline CSS &amp; !important Overrides</h2>
-      <p>This container features 50+ inline CSS style properties with extreme values, negative margins, complex font stacks, and high-priority <code>!important</code> overrides.</p>
+      <h2 style="display: none;">Section 1: Heavy Inline CSS &amp; !important Overrides</h2>
+      <p style="display: none;">This container features 50+ inline CSS style properties with extreme values, negative margins, complex font stacks, and high-priority <code>!important</code> overrides.</p>
       
       <!-- Extreme Inline Style Container with 50+ CSS declarations -->
-      <div id="inline-stress-container" style="width: 1200px !important; max-width: 1200px !important; min-width: 300px !important; z-index: 10 !important; position: relative !important; margin-top: 10px !important; margin-right: 0px !important; margin-bottom: 20px !important; margin-left: 0px !important; padding-top: 15px !important; padding-right: 20px !important; padding-bottom: 15px !important; padding-left: 20px !important; background-color: #fef2f2 !important; color: #991b1b !important; border-width: 2px !important; border-style: solid !important; border-color: #fca5a5 !important; border-radius: 8px !important; font-family: 'Comic Sans MS', 'Papyrus', 'Impact', 'Arial Black', 'Courier New', 'Times New Roman', fantasy, cursive, monospace, sans-serif !important; font-size: 15px !important; font-weight: 700 !important; font-style: italic !important; text-transform: uppercase !important; letter-spacing: 1px !important; word-spacing: 2px !important; line-height: 1.6 !important; opacity: 0.98 !important; transform: scale(1.0) !important; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1)) !important; flex-grow: 1 !important; flex-shrink: 0 !important; flex-basis: auto !important; overflow-x: hidden !important; overflow-y: visible !important; cursor: pointer !important; user-select: text !important; outline-width: 1px !important; outline-style: dashed !important; outline-color: #ef4444 !important; outline-offset: -2px !important; box-sizing: border-box !important; text-decoration: underline !important; white-space: normal !important; display: block !important; float: none !important; clear: both !important; vertical-align: middle !important; pointer-events: auto !important; transition: all 0.3s ease !important; visibility: visible !important; aspect-ratio: auto !important;">
+      <div id="inline-stress-container" style="width: 1200px !important; max-width: 1200px !important; min-width: 300px !important; z-index: 10 !important; position: relative !important; margin-top: 10px !important; margin-right: 0px !important; margin-bottom: 20px !important; margin-left: 0px !important; padding-top: 15px !important; padding-right: 20px !important; padding-bottom: 15px !important; padding-left: 20px !important; background-color: rgb(254, 242, 242) !important; color: rgb(153, 27, 27) !important; border-width: 2px !important; border-style: solid !important; border-color: rgb(252, 165, 165) !important; border-radius: 8px !important; font-family: &quot;Comic Sans MS&quot;, &quot;Papyrus&quot;, &quot;Impact&quot;, &quot;Arial Black&quot;, &quot;Courier New&quot;, &quot;Times New Roman&quot;, fantasy, cursive, monospace, sans-serif !important; font-size: 15px !important; font-weight: 700 !important; font-style: italic !important; text-transform: uppercase !important; letter-spacing: 1px !important; word-spacing: 2px !important; line-height: 1.6 !important; opacity: 0.98 !important; transform: scale(1.0) !important; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1)) !important; flex-grow: 1 !important; flex-shrink: 0 !important; flex-basis: auto !important; overflow-x: hidden !important; overflow-y: visible !important; cursor: pointer !important; user-select: text !important; outline-width: 1px !important; outline-style: dashed !important; outline-color: rgb(239, 68, 68) !important; outline-offset: -2px !important; box-sizing: border-box !important; text-decoration: underline !important; white-space: normal !important; display: none; float: none !important; clear: both !important; vertical-align: middle !important; pointer-events: auto !important; transition: all 0.3s ease !important; visibility: visible !important; aspect-ratio: auto !important;">
         <p style="margin: 0 !important; padding: 5px !important; font-size: 14px !important; text-align: left !important;">
           [Heavy Inline CSS Container] Applied 50+ inline style properties with <code>!important</code> flags to test engine style calculation and override durability.
         </p>
       </div>
 
       <!-- Secondary Stress Container with Negative Margins and Extreme Stack -->
-      <div id="negative-margin-container" style="margin-top: -5px !important; margin-bottom: 10px !important; z-index: -9999 !important; background-color: #eff6ff !important; border: 1px solid #93c5fd !important; padding: 12px !important; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif !important; color: #1e40af !important; border-top-left-radius: 4px !important; border-top-right-radius: 4px !important; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06) !important; text-shadow: 1px 1px 2px #bfdbfe !important;">
+      <div id="negative-margin-container" style="margin-top: -5px !important; margin-bottom: 10px !important; z-index: -9999 !important; background-color: rgb(239, 246, 255) !important; border: 1px solid rgb(147, 197, 253) !important; padding: 12px !important; font-family: Impact, Haettenschweiler, &quot;Arial Narrow Bold&quot;, sans-serif !important; color: rgb(30, 64, 175) !important; border-top-left-radius: 4px !important; border-top-right-radius: 4px !important; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06) !important; text-shadow: 1px 1px 2px #bfdbfe !important; display: none;" data-spm-hidden="true">
         Negative Margin &amp; Negative Z-Index Container (z-index: -9999).
       </div>
-    </section>
+    <spm-reconstruct-host layout="UiModernGridPage" selector="#section-1"></spm-reconstruct-host></section>
 
     <!-- Section 2: Asynchronous DOM Mutations (AJAX Simulation) -->
     <section id="section-2">

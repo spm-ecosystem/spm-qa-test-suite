@@ -15,42 +15,51 @@ theme "Event Sandbox Cyber" {
 }
 
 class EventItemBase {
-  bind label: "a.action-link | text";
-  bind targetUrl: "a.action-link | hrefOrOnclick";
-  bind itemId: "self | attr:data-item-id";
+  bind label: "a.test-link | text";
+  bind targetUrl: "a.test-link | hrefOrOnclick";
+  bind itemId: "a.test-link | attr:id";
 }
 
 class EventItemDetailed extends EventItemBase {
-  bind tags: "span.item-tags | text | split";
-  bind metricValue: "span.metric-num | text | cleanNumber";
+  bind targetData: "a.test-link | attr:data-target";
 }
 
-reconstruct "#events-root-container" -> UiDashboardPage {
+// Reconstruct Section 1 Onclick Links
+reconstruct "#section-1-onclick-links" -> UiDashboardPage {
   pageTitle: "Interactive Event Extraction & Security Sandbox";
   subtitle: "Testing dynamic selectors, inline onclick redirects, and XSS sanitization";
 
   child eventFeed extends EventItemDetailed {
-    selector: ".event-card-wrapper, .css-9x2a1b";
+    selector: ".test-case-card";
   }
 
   preserve {
     interactiveConsole: "#qa-log";
-    hiddenSecurityTokens: "#xss-form input[type='hidden']";
   }
 }
 
-reconstruct "#xss-form" -> UiSearchBar {
+// Reconstruct Section 3 XSS Sanitization Area
+reconstruct "#section-3-xss-sanitization" -> UiSearchBar {
   placeholder: "Test sanitization input...";
   queryParamName: "payload";
   submitUrl: "/sandbox-eval";
 
-  bind defaultValue: "input[name='query'] | attr:value";
-
-  preserve {
-    hiddenInputs: "input[type='hidden']";
-  }
+  bind defaultValue: "input#xss-input-1 | attr:value";
 }
 
-selector "#malformed-markup-section img[onerror], script" {
+// Replace Legacy Header with Modern React Header
+selector "header" -> UiNavHeader {
+  action: replace;
+  siteName: "Event Sandbox";
+  logoUrl: "https://synthetic-events-portal.internal/assets/logo.png";
+  primaryLinks: [
+    { "label": "Onclick Links", "url": "/onclick" },
+    { "label": "Dynamic Selectors", "url": "/selectors" },
+    { "label": "XSS Tests", "url": "/xss" }
+  ];
+}
+
+// Hide Malformed Tags
+selector "#malformed-tag-container img[onerror]" {
   action: hide;
 }

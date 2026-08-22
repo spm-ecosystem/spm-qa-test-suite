@@ -157,19 +157,14 @@
 #qa-log { font-family: monospace !important; border: 1px solid var(--spm-accent) !important; }</style></head>
 <body>
 
-  <header>
-    <h1>QA Test Suite 02: Event Handlers, Dynamic Extraction &amp; XSS Sanitization</h1>
-    <nav>
-      <a href="index.html">← Back to Index</a>
-    </nav>
-  </header>
+  <spm-modern-component name="UiNavHeader" selector="header"></spm-modern-component>
 
   <!-- Section 1: Complex Inline onclick Links -->
   <section id="section-1-onclick-links">
-    <h2>Section 1: Complex Inline <code>onclick</code> Links</h2>
-    <p>Tests extraction and handling of inline event handlers, string arithmetic within <code>onclick</code> attributes, custom function invocations, and data-attribute redirect triggers.</p>
+    <h2 style="display: none;">Section 1: Complex Inline <code>onclick</code> Links</h2>
+    <p style="display: none;">Tests extraction and handling of inline event handlers, string arithmetic within <code>onclick</code> attributes, custom function invocations, and data-attribute redirect triggers.</p>
 
-    <div class="test-case">
+    <div class="test-case" style="display: none;">
       <h3>Test 1.1: String Math Concatenation Redirect</h3>
       <p>Link with dynamic string calculation inside inline <code>onclick</code> handler:</p>
       <a href="#" onclick="window.location.href = '/view?id=' + (100 + 23) + '&amp;ref=qa'; return false;" class="test-link" id="link-string-math">
@@ -180,7 +175,7 @@
       </div>
     </div>
 
-    <div class="test-case">
+    <div class="test-case" style="display: none;">
       <h3>Test 1.2: Function Call Redirect</h3>
       <p>Link with <code>void(0)</code> expression and custom function invocation:</p>
       <a href="#" onclick="void(0); customFetch('item-99')" class="test-link" id="link-custom-fetch">
@@ -191,7 +186,7 @@
       </div>
     </div>
 
-    <div class="test-case">
+    <div class="test-case" style="display: none;">
       <h3>Test 1.3: Data Attribute Trigger</h3>
       <p>Link using <code>data-action="redirect"</code> attribute alongside <code>href="#"</code>:</p>
       <a href="#" data-action="redirect" data-target="item-456" class="test-link" id="link-data-action">
@@ -201,7 +196,7 @@
         <code>data-action="redirect" href="#" data-target="item-456"</code>
       </div>
     </div>
-  </section>
+  <spm-reconstruct-host layout="UiDashboardPage" selector="#section-1-onclick-links"></spm-reconstruct-host></section>
 
   <!-- Section 2: Unstable & Dynamic Selectors -->
   <section id="section-2-dynamic-selectors">
@@ -237,10 +232,10 @@
 
   <!-- Section 3: XSS Payload & Sanitization Testbed -->
   <section id="section-3-xss-sanitization">
-    <h2>Section 3: XSS Payload &amp; Sanitization Testbed</h2>
-    <p>Provides synthetic attack vectors including script tag injections, event listener attributes, unclosed tag structures, and HTML entity encodings for testing DOMPurify or custom SPM engine sanitization bounds.</p>
+    <h2 style="display: none;">Section 3: XSS Payload &amp; Sanitization Testbed</h2>
+    <p style="display: none;">Provides synthetic attack vectors including script tag injections, event listener attributes, unclosed tag structures, and HTML entity encodings for testing DOMPurify or custom SPM engine sanitization bounds.</p>
 
-    <div class="test-case">
+    <div class="test-case" style="display: none;">
       <h3>Test 3.1: Script Tag Injection Vector</h3>
       <p>Input field and rendered element containing unescaped <code>&lt;script&gt;</code> tag payload:</p>
       <label for="xss-input-1">Input Field Payload:</label><br>
@@ -253,7 +248,7 @@
       </div>
     </div>
 
-    <div class="test-case">
+    <div class="test-case" style="display: none;">
       <h3>Test 3.2: Image onerror Event Handler Injection</h3>
       <p>Broken image element with inline <code>onerror</code> payload attempting execution:</p>
       <div class="payload-container">
@@ -264,7 +259,7 @@
       </div>
     </div>
 
-    <div class="test-case">
+    <div class="test-case" style="display: none;">
       <h3>Test 3.3: Malformed Tags &amp; Encoded HTML Entities</h3>
       <p>Malformed tag with unclosed quotes, missing tag closings, and HTML entity encodings:</p>
       <div id="malformed-tag-container" class="payload-container">
@@ -272,7 +267,7 @@
         <p class=" test-malformed"="" data-payload="<script>">Malformed text node content &lt;script&gt;alert('xss-entity')&lt;/script&gt;<p></p>
       </div>
     </div>
-  </div></section>
+  </div><spm-reconstruct-host layout="UiSearchBar" selector="#section-3-xss-sanitization"></spm-reconstruct-host></section>
 
   <!-- Interactive QA Event Log Console -->
   <section id="qa-log-container">
@@ -286,7 +281,7 @@
   </section>
 
   <!-- Script logic for interactive QA logging & event handling -->
-  <script style="display: none;" data-spm-hidden="true">
+  <script>
     function logEvent(message) {
       const logBox = document.getElementById('qa-log');
       if (!logBox) return;

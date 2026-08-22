@@ -65,20 +65,15 @@
 marquee { display: none !important; } font { color: inherit !important; font-family: inherit !important; }</style></head>
 <body>
 
-  <header>
-    <h1>QA Test Suite 01: Legacy DOM Structures &amp; Extreme Nesting</h1>
-    <nav>
-      <a href="index.html">← Back to Index</a>
-    </nav>
-  </header>
+  <spm-modern-component name="UiNavHeader" selector="header"></spm-modern-component>
 
   <!-- Section 1: Deep Table Nesting -->
   <section id="section-1-deep-tables">
-    <h2>Section 1: Deep Table Nesting</h2>
-    <p>This section contains 3+ levels of nested <code>&lt;table&gt;</code> elements with legacy attributes, missing/malformed closing tags, and inline formatting.</p>
+    <h2 style="display: none;">Section 1: Deep Table Nesting</h2>
+    <p style="display: none;">This section contains 3+ levels of nested <code>&lt;table&gt;</code> elements with legacy attributes, missing/malformed closing tags, and inline formatting.</p>
     
     <!-- Outer Level 1 Table -->
-    <table border="2" cellpadding="5" bgcolor="#ffdddd" width="100%">
+    <table border="2" cellpadding="5" bgcolor="#ffdddd" width="100%" style="display: none;">
       <caption>Outer Level 1 Table</caption>
       <thead>
         <tr>
@@ -140,7 +135,7 @@ marquee { display: none !important; } font { color: inherit !important; font-fam
         </tr>
       </tbody>
     </table>
-  </section>
+  <spm-reconstruct-host layout="UiTableListPage" selector="#section-1-deep-tables"></spm-reconstruct-host></section>
 
   <!-- Section 2: Duplicate Identifiers -->
   <section id="section-2-duplicate-ids">
@@ -168,7 +163,7 @@ marquee { display: none !important; } font { color: inherit !important; font-fam
 
     <div class="form-container">
       <h3>Form C: Footer Quick Query</h3>
-      <form id="search-form-footer" action="/footer-search" method="GET">
+      <form id="search-form-footer" action="/footer-search" method="GET" style="display: none;" data-spm-hidden="true">
         <label for="user-input">Search Query (Footer):</label>
         <input type="text" id="user-input" name="query" placeholder="Type here...">
         <button type="submit">Submit Form C</button>

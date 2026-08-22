@@ -1,8 +1,31 @@
 {
     "components": [
         {
+            "action": "replace",
+            "name": "UiNavHeader",
+            "props": {
+                "logoUrl": "https://synthetic-events-portal.internal/assets/logo.png",
+                "primaryLinks": [
+                    {
+                        "label": "Onclick Links",
+                        "url": "/onclick"
+                    },
+                    {
+                        "label": "Dynamic Selectors",
+                        "url": "/selectors"
+                    },
+                    {
+                        "label": "XSS Tests",
+                        "url": "/xss"
+                    }
+                ],
+                "siteName": "Event Sandbox"
+            },
+            "selector": "header"
+        },
+        {
             "action": "hide",
-            "selector": "#malformed-markup-section img[onerror], script"
+            "selector": "#malformed-tag-container img[onerror]"
         }
     ],
     "reconstructs": [
@@ -11,19 +34,17 @@
                 {
                     "name": "eventFeed",
                     "propsMap": {
-                        "itemId": "self | attr:data-item-id",
-                        "label": "a.action-link | text",
-                        "metricValue": "span.metric-num | text | cleanNumber",
-                        "tags": "span.item-tags | text | split",
-                        "targetUrl": "a.action-link | hrefOrOnclick"
+                        "itemId": "a.test-link | attr:id",
+                        "label": "a.test-link | text",
+                        "targetData": "a.test-link | attr:data-target",
+                        "targetUrl": "a.test-link | hrefOrOnclick"
                     },
-                    "selector": ".event-card-wrapper, .css-9x2a1b"
+                    "selector": ".test-case-card"
                 }
             ],
-            "containerSelector": "#events-root-container",
+            "containerSelector": "#section-1-onclick-links",
             "layoutComponent": "UiDashboardPage",
             "preserve": {
-                "hiddenSecurityTokens": "#xss-form input[type='hidden']",
                 "interactiveConsole": "#qa-log"
             },
             "props": {
@@ -33,18 +54,15 @@
         },
         {
             "children": [],
-            "containerSelector": "#xss-form",
+            "containerSelector": "#section-3-xss-sanitization",
             "layoutComponent": "UiSearchBar",
-            "preserve": {
-                "hiddenInputs": "input[type='hidden']"
-            },
             "props": {
                 "placeholder": "Test sanitization input...",
                 "queryParamName": "payload",
                 "submitUrl": "/sandbox-eval"
             },
             "propsMap": {
-                "defaultValue": "input[name='query'] | attr:value"
+                "defaultValue": "input#xss-input-1 | attr:value"
             }
         }
     ],
