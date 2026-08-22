@@ -14,23 +14,16 @@ theme "Event Sandbox Cyber" {
   }
 }
 
-class EventItemBase {
-  bind label: "a.test-link | text";
-  bind targetUrl: "a.test-link | hrefOrOnclick";
-  bind itemId: "a.test-link | attr:id";
-}
-
-class EventItemDetailed extends EventItemBase {
-  bind targetData: "a.test-link | attr:data-target";
-}
-
-// Reconstruct Section 1 Onclick Links
 reconstruct "#section-1-onclick-links" -> UiDashboardPage {
   pageTitle: "Interactive Event Extraction & Security Sandbox";
-  subtitle: "Testing dynamic selectors, inline onclick redirects, and XSS sanitization";
+  subTitle: "Tests extraction and handling of inline event handlers, string arithmetic, function calls, and data-attributes.";
 
-  child eventFeed extends EventItemDetailed {
+  child cards {
     selector: ".test-case-card";
+    bind title: "h3 | text";
+    bind description: "p | text";
+    bind url: "a.test-link | hrefOrOnclick";
+    bind urlLabel: "a.test-link | text";
   }
 
   preserve {
@@ -38,7 +31,6 @@ reconstruct "#section-1-onclick-links" -> UiDashboardPage {
   }
 }
 
-// Reconstruct Section 3 XSS Sanitization Area
 reconstruct "#section-3-xss-sanitization" -> UiSearchBar {
   placeholder: "Test sanitization input...";
   queryParamName: "payload";
@@ -47,7 +39,6 @@ reconstruct "#section-3-xss-sanitization" -> UiSearchBar {
   bind defaultValue: "input#xss-input-1 | attr:value";
 }
 
-// Replace Legacy Header with Modern React Header
 selector "header" -> UiNavHeader {
   action: replace;
   siteName: "Event Sandbox";
@@ -59,7 +50,6 @@ selector "header" -> UiNavHeader {
   ];
 }
 
-// Hide Malformed Tags
 selector "#malformed-tag-container img[onerror]" {
   action: hide;
 }

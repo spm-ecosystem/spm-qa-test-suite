@@ -32,14 +32,14 @@
         {
             "children": [
                 {
-                    "name": "galleryItems",
+                    "name": "items",
                     "propsMap": {
-                        "imageSrcset": "img | attr:srcset",
+                        "id": "self | attr:id",
                         "imageUrl": "img | attr:src",
-                        "rating": "span | text | cleanNumber",
-                        "title": "h3 | text"
+                        "linkUrl": "a | attr:href",
+                        "title": "self | text"
                     },
-                    "selector": "#inline-stress-container"
+                    "selector": "#inline-stress-container, #negative-margin-container"
                 }
             ],
             "containerSelector": "#section-1",
@@ -48,10 +48,8 @@
                 "shadowDomHost": "#shadow-host"
             },
             "props": {
-                "columns": 3,
                 "pageTitle": "Extreme Layout & Shadow DOM Gallery",
-                "sticky": true,
-                "subtitle": "Stress testing inline CSS overrides, dynamic DOM mutations, and Shadow DOM bounds"
+                "sidebarWidth": "280px"
             }
         }
     ],

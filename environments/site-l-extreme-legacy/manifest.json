@@ -32,12 +32,10 @@
         {
             "children": [
                 {
-                    "name": "tableItems",
+                    "name": "tableRows",
                     "propsMap": {
-                        "detailUrl": "a | attr:href",
-                        "id": "self | attr:id",
-                        "tags": "span | text | split",
-                        "title": "td | text"
+                        "detail": "td:last-child | html",
+                        "title": "td:first-child | text"
                     },
                     "selector": "table table tr"
                 }
@@ -49,9 +47,19 @@
                 "legacySearchForm": "#search-form-primary"
             },
             "props": {
-                "pageTitle": "Modernized Legacy Data Catalog",
-                "sticky": true,
-                "subtitle": "Extracted from 4-level nested legacy tables"
+                "columns": [
+                    {
+                        "header": "Item / Level",
+                        "key": "title",
+                        "type": "text"
+                    },
+                    {
+                        "header": "Cell Content",
+                        "key": "detail",
+                        "type": "html"
+                    }
+                ],
+                "pageTitle": "Modernized Legacy Data Catalog"
             }
         }
     ],

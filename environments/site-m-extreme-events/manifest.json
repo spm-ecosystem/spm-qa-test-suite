@@ -32,12 +32,12 @@
         {
             "children": [
                 {
-                    "name": "eventFeed",
+                    "name": "cards",
                     "propsMap": {
-                        "itemId": "a.test-link | attr:id",
-                        "label": "a.test-link | text",
-                        "targetData": "a.test-link | attr:data-target",
-                        "targetUrl": "a.test-link | hrefOrOnclick"
+                        "description": "p | text",
+                        "title": "h3 | text",
+                        "url": "a.test-link | hrefOrOnclick",
+                        "urlLabel": "a.test-link | text"
                     },
                     "selector": ".test-case-card"
                 }
@@ -49,7 +49,7 @@
             },
             "props": {
                 "pageTitle": "Interactive Event Extraction & Security Sandbox",
-                "subtitle": "Testing dynamic selectors, inline onclick redirects, and XSS sanitization"
+                "subTitle": "Tests extraction and handling of inline event handlers, string arithmetic, function calls, and data-attributes."
             }
         },
         {

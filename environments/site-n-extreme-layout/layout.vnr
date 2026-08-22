@@ -16,25 +16,16 @@ theme "Extreme Layout Neon" {
   }
 }
 
-class MediaCardBase {
-  bind title: "h3 | text";
-  bind imageUrl: "img | attr:src";
-  bind imageSrcset: "img | attr:srcset";
-}
-
-class MediaCardDetailed extends MediaCardBase {
-  bind rating: "span | text | cleanNumber";
-}
-
-// Reconstruct Section 1 Inline Stress Container
 reconstruct "#section-1" -> UiModernGridPage {
   pageTitle: "Extreme Layout & Shadow DOM Gallery";
-  subtitle: "Stress testing inline CSS overrides, dynamic DOM mutations, and Shadow DOM bounds";
-  columns: 3;
-  sticky: true;
+  sidebarWidth: "280px";
 
-  child galleryItems extends MediaCardDetailed {
-    selector: "#inline-stress-container";
+  child items {
+    selector: "#inline-stress-container, #negative-margin-container";
+    bind title: "self | text";
+    bind imageUrl: "img | attr:src";
+    bind linkUrl: "a | attr:href";
+    bind id: "self | attr:id";
   }
 
   preserve {
@@ -42,7 +33,6 @@ reconstruct "#section-1" -> UiModernGridPage {
   }
 }
 
-// Replace Legacy Header with Modern React Header
 selector "header" -> UiNavHeader {
   action: replace;
   siteName: "Layout Sandbox";
@@ -54,7 +44,6 @@ selector "header" -> UiNavHeader {
   ];
 }
 
-// Hide Element with Negative Margins and Bad Z-Index
 selector "#negative-margin-container" {
   action: hide;
 }

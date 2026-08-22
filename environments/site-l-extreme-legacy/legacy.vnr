@@ -14,24 +14,17 @@ theme "Extreme Legacy Dark" {
   }
 }
 
-class RowBase {
-  bind title: "td | text";
-  bind detailUrl: "a | attr:href";
-}
-
-class AdvancedRow extends RowBase {
-  bind tags: "span | text | split";
-  bind id: "self | attr:id";
-}
-
-// Reconstruct Section 1 Deep Tables
 reconstruct "#section-1-deep-tables" -> UiTableListPage {
   pageTitle: "Modernized Legacy Data Catalog";
-  subtitle: "Extracted from 4-level nested legacy tables";
-  sticky: true;
+  columns: R"([
+    { "key": "title", "header": "Item / Level", "type": "text" },
+    { "key": "detail", "header": "Cell Content", "type": "html" }
+  ])";
 
-  child tableItems extends AdvancedRow {
+  child tableRows {
     selector: "table table tr";
+    bind title: "td:first-child | text";
+    bind detail: "td:last-child | html";
   }
 
   preserve {
@@ -40,7 +33,6 @@ reconstruct "#section-1-deep-tables" -> UiTableListPage {
   }
 }
 
-// Replace Legacy Top Header with Modern React Nav Header
 selector "header" -> UiNavHeader {
   action: replace;
   siteName: "Legacy Portal Sandbox";
@@ -52,7 +44,6 @@ selector "header" -> UiNavHeader {
   ];
 }
 
-// Hide Deprecated Banners & Footer Form
 selector "#section-3-deprecated-tags marquee, #search-form-footer, center > font" {
   action: hide;
 }
