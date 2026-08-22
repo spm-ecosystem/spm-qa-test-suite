@@ -1,0 +1,400 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA Test Suite 03: CSS Inline Stress, Dynamic DOM &amp; Shadow DOM</title>
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text);
+      line-height: 1.5;
+      margin: 0;
+      padding: 2rem;
+    }
+
+    header {
+      max-width: 1200px;
+      margin: 0 auto 2rem auto;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid var(--border);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .back-link:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      margin: 0 0 0.5rem 0;
+      font-size: 1.875rem;
+      font-weight: 700;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    section {
+      background: var(--card-bg);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.25rem;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      background-color: var(--primary);
+      color: #ffffff;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .btn-secondary {
+      background-color: #64748b;
+    }
+    .btn-secondary:hover {
+      background-color: #475569;
+    }
+
+    .mutation-log {
+      margin-top: 1rem;
+      padding: 1rem;
+      background-color: #f1f5f9;
+      border-radius: 0.375rem;
+      min-height: 80px;
+      max-height: 250px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .mutation-item {
+      padding: 0.5rem 0.75rem;
+      background: #ffffff;
+      border-left: 4px solid var(--primary);
+      border-radius: 0.25rem;
+      font-size: 0.875rem;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .pagination {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      margin-top: 1rem;
+    }
+
+    .pagination a, .pagination span {
+      padding: 0.5rem 0.75rem;
+      border: 1px solid var(--border);
+      border-radius: 0.25rem;
+      text-decoration: none;
+      color: var(--text);
+      font-size: 0.875rem;
+    }
+
+    .pagination a.active {
+      background-color: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+    }
+
+    .media-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1rem;
+    }
+
+    .media-card {
+      border: 1px solid var(--border);
+      padding: 1rem;
+      border-radius: 0.375rem;
+      text-align: center;
+      background: #fafafa;
+    }
+
+    .media-card img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 0.25rem;
+    }
+  </style>
+<style id="spm-injected-theme-styles">:root {
+  --spm-accent: #ff0055;
+  --spm-bg-element: #1c202e;
+  --spm-bg-primary: #090a0f;
+  --spm-bg-surface: #12151e;
+  --spm-border-contrast: rgba(255, 0, 85, 0.2);
+  --spm-radius: 12px;
+  --spm-text-muted: #a0a5b5;
+  --spm-text-primary: #ffffff;
+}
+
+.extreme-inline-box { width: 100% !important; margin: 0 !important; float: none !important; }
+:host { display: block; width: 100%; box-sizing: border-box; }</style></head>
+<body>
+
+  <header>
+    <a href="index.html" class="back-link">← Back to Master QA Hub</a>
+    <h1>QA Test Suite 03: CSS Inline Stress, Dynamic DOM &amp; Shadow DOM</h1>
+    <p class="subtitle">Synthetic layout stress testing for inline styles, dynamic mutations, Shadow DOM encapsulation, and media fallbacks.</p>
+  </header>
+
+  <main>
+    <!-- Section 1: Heavy Inline CSS & !important Overrides -->
+    <section id="section-1">
+      <h2>Section 1: Heavy Inline CSS &amp; !important Overrides</h2>
+      <p>This container features 50+ inline CSS style properties with extreme values, negative margins, complex font stacks, and high-priority <code>!important</code> overrides.</p>
+      
+      <!-- Extreme Inline Style Container with 50+ CSS declarations -->
+      <div id="inline-stress-container" style="width: 1200px !important; max-width: 1200px !important; min-width: 300px !important; z-index: 10 !important; position: relative !important; margin-top: 10px !important; margin-right: 0px !important; margin-bottom: 20px !important; margin-left: 0px !important; padding-top: 15px !important; padding-right: 20px !important; padding-bottom: 15px !important; padding-left: 20px !important; background-color: #fef2f2 !important; color: #991b1b !important; border-width: 2px !important; border-style: solid !important; border-color: #fca5a5 !important; border-radius: 8px !important; font-family: 'Comic Sans MS', 'Papyrus', 'Impact', 'Arial Black', 'Courier New', 'Times New Roman', fantasy, cursive, monospace, sans-serif !important; font-size: 15px !important; font-weight: 700 !important; font-style: italic !important; text-transform: uppercase !important; letter-spacing: 1px !important; word-spacing: 2px !important; line-height: 1.6 !important; opacity: 0.98 !important; transform: scale(1.0) !important; filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.1)) !important; flex-grow: 1 !important; flex-shrink: 0 !important; flex-basis: auto !important; overflow-x: hidden !important; overflow-y: visible !important; cursor: pointer !important; user-select: text !important; outline-width: 1px !important; outline-style: dashed !important; outline-color: #ef4444 !important; outline-offset: -2px !important; box-sizing: border-box !important; text-decoration: underline !important; white-space: normal !important; display: block !important; float: none !important; clear: both !important; vertical-align: middle !important; pointer-events: auto !important; transition: all 0.3s ease !important; visibility: visible !important; aspect-ratio: auto !important;">
+        <p style="margin: 0 !important; padding: 5px !important; font-size: 14px !important; text-align: left !important;">
+          [Heavy Inline CSS Container] Applied 50+ inline style properties with <code>!important</code> flags to test engine style calculation and override durability.
+        </p>
+      </div>
+
+      <!-- Secondary Stress Container with Negative Margins and Extreme Stack -->
+      <div id="negative-margin-container" style="margin-top: -5px !important; margin-bottom: 10px !important; z-index: -9999 !important; background-color: #eff6ff !important; border: 1px solid #93c5fd !important; padding: 12px !important; font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif !important; color: #1e40af !important; border-top-left-radius: 4px !important; border-top-right-radius: 4px !important; border-bottom-right-radius: 4px !important; border-bottom-left-radius: 4px !important; box-shadow: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06) !important; text-shadow: 1px 1px 2px #bfdbfe !important;">
+        Negative Margin &amp; Negative Z-Index Container (z-index: -9999).
+      </div>
+    </section>
+
+    <!-- Section 2: Asynchronous DOM Mutations (AJAX Simulation) -->
+    <section id="section-2">
+      <h2>Section 2: Asynchronous DOM Mutations (AJAX Simulation)</h2>
+      <p>Simulate dynamic client-side renders using asynchronous timers (<code>setTimeout</code> 500ms) and frame callbacks (<code>requestAnimationFrame</code>).</p>
+      
+      <div>
+        <button id="btn-timeout-mutation" class="btn">Trigger setTimeout Mutation (500ms)</button>
+        <button id="btn-raf-mutation" class="btn btn-secondary">Trigger requestAnimationFrame Mutation</button>
+        <button id="btn-clear-mutations" class="btn btn-secondary" style="background-color: #94a3b8;">Clear Log</button>
+      </div>
+
+      <div id="mutation-target" class="mutation-log" aria-live="polite">
+        <div class="mutation-item">Static initial content in mutation log container.</div>
+      </div>
+    </section>
+
+    <!-- Section 3: Shadow DOM Subtree -->
+    <section id="section-3">
+      <h2>Section 3: Shadow DOM Subtree</h2>
+      <p>Validates traversal and extraction behavior across open Shadow Root encapsulated boundaries.</p>
+
+      <div id="shadow-host" style="border: 2px dashed #cbd5e1; padding: 1rem; border-radius: 0.5rem; background: #fafafa;">
+        <!-- Shadow DOM will be attached here via JavaScript -->
+        <p style="color: #94a3b8;">Initializing Shadow DOM...</p>
+      </div>
+    </section>
+
+    <!-- Section 4: Media & Pagination -->
+    <section id="section-4">
+      <h2>Section 4: Media &amp; Pagination</h2>
+      <p>Tests handling of <code>srcset</code> responsive image attributes, inline SVG Data URIs, broken image fallbacks with <code>onerror</code> handlers, and pagination controls.</p>
+
+      <div class="media-grid">
+        <!-- Responsive image with srcset -->
+        <div class="media-card">
+          <h3>srcset Image</h3>
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTUwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzI1NjNlYiIvPjx0ZXh0IHg9Ijc1IiB5PSI1NSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIj5TZXQgMzAwdzwvdGV4dD48L3N2Zz4=" srcset="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTUwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzI1NjNlYiIvPjx0ZXh0IHg9Ijc1IiB5PSI1NSIgZm9udC1zaXplPSIxNiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIj5TZXQgMzAwdzwvdGV4dD48L3N2Zz4= 300w, data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMjAwIj48cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjIwMCIgZmlsbD0iIzFkNGVkOCIvPjx0ZXh0IHg9IjE1MCIgeT0iMTA1IiBmb250LXNpemU9IjIwIiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPlNldCA4MDB3PC90ZXh0Pjwvc3ZnPg== 800w" sizes="(max-width: 600px) 300px, 800px" alt="Responsive srcset image test">
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Responsive image standard</p>
+        </div>
+
+        <!-- Base64 SVG Image -->
+        <div class="media-card">
+          <h3>Base64 SVG URI</h3>
+          <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTUwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzEwYjk4MSIvPjxjaXJjbGUgY3g9Ijc1IiBjeT0iNTAiIHI9IjMwIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC4zIi8+PHRleHQgeD0iNzUiIHk9IjU1IiBmb250LXNpemU9IjE0IiBmb250LWZhbWlseT0ic2Fucy1zZXJpZiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0id2hpdGUiPkJhc2U2NCBTVkc8L3RleHQ+PC9zdmc+" alt="Base64 SVG payload">
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Embedded data:image URI</p>
+        </div>
+
+        <!-- Broken image with onerror fallback -->
+        <div class="media-card">
+          <h3>Broken Image Fallback</h3>
+          <img src="invalid-image-path-404.jpg" onerror="this.onerror=null; this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTUwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2VmNDQ0NCIvPjx0ZXh0IHg9Ijc1IiB5PSI1NSIgZm9udC1zaXplPSIxMiIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIj5GYWxsYmFjayBMb2FkZWQ8L3RleHQ+PC9zdmc+'; this.alt='Fallback SVG Loaded';" alt="Broken image triggering onerror">
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Triggers onerror fallback</p>
+        </div>
+      </div>
+
+      <!-- Pagination Navigation Element -->
+      <div style="margin-top: 1.5rem;">
+        <h3>Pagination Control Bar</h3>
+        <nav class="pagination" aria-label="QA Test Pagination">
+          <a href="#prev" data-page="prev" aria-label="Previous Page">« Prev</a>
+          <a href="#page-1" data-page="1" class="active">1</a>
+          <a href="#page-2" data-page="2">2</a>
+          <a href="#page-3" data-page="3">3</a>
+          <span>...</span>
+          <a href="#page-10" data-page="10">10</a>
+          <a href="#next" data-page="next" aria-label="Next Page">Next »</a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Section 2: Asynchronous DOM Mutations (AJAX Simulation)
+    document.addEventListener('DOMContentLoaded', function() {
+      var mutationTarget = document.getElementById('mutation-target');
+      var btnTimeout = document.getElementById('btn-timeout-mutation');
+      var btnRaf = document.getElementById('btn-raf-mutation');
+      var btnClear = document.getElementById('btn-clear-mutations');
+      var counter = 1;
+
+      if (btnTimeout) {
+        btnTimeout.addEventListener('click', function() {
+          setTimeout(function() {
+            var item = document.createElement('div');
+            item.className = 'mutation-item';
+            item.innerHTML = '<strong>[setTimeout 500ms]</strong> Appended element #' + counter + ' at ' + new Date().toLocaleTimeString();
+            counter++;
+            mutationTarget.appendChild(item);
+            mutationTarget.scrollTop = mutationTarget.scrollHeight;
+          }, 500);
+        });
+      }
+
+      if (btnRaf) {
+        btnRaf.addEventListener('click', function() {
+          requestAnimationFrame(function() {
+            var item = document.createElement('div');
+            item.className = 'mutation-item';
+            item.style.borderLeftColor = '#10b981';
+            item.innerHTML = '<strong>[requestAnimationFrame]</strong> Rendered node #' + counter + ' at ' + new Date().toLocaleTimeString();
+            counter++;
+            mutationTarget.appendChild(item);
+            mutationTarget.scrollTop = mutationTarget.scrollHeight;
+          });
+        });
+      }
+
+      if (btnClear) {
+        btnClear.addEventListener('click', function() {
+          mutationTarget.innerHTML = '<div class="mutation-item">Log cleared. Ready for new mutations.</div>';
+        });
+      }
+
+      // Section 3: Shadow DOM Subtree Creation
+      var shadowHost = document.getElementById('shadow-host');
+      if (shadowHost) {
+        // Create an open Shadow Root
+        var shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+
+        // Shadow DOM Encapsulated Content and Styles
+        shadowRoot.innerHTML = `
+          <style>
+            :host {
+              display: block;
+              background-color: #ffffff;
+              padding: 1rem;
+              border-radius: 0.375rem;
+              box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+              font-family: inherit;
+            }
+            .shadow-card {
+              border: 1px solid #cbd5e1;
+              border-left: 4px solid #8b5cf6;
+              padding: 1rem;
+              border-radius: 0.25rem;
+              background-color: #faf5ff;
+            }
+            .shadow-title {
+              margin-top: 0;
+              color: #6b21a8;
+              font-size: 1.1rem;
+              display: flex;
+              align-items: center;
+              gap: 0.5rem;
+            }
+            .shadow-badge {
+              background-color: #8b5cf6;
+              color: white;
+              font-size: 0.75rem;
+              padding: 0.1rem 0.4rem;
+              border-radius: 9999px;
+            }
+            .shadow-btn {
+              background-color: #8b5cf6;
+              color: white;
+              border: none;
+              padding: 0.4rem 0.8rem;
+              border-radius: 0.25rem;
+              cursor: pointer;
+              font-weight: 600;
+              font-size: 0.85rem;
+              margin-top: 0.5rem;
+            }
+            .shadow-btn:hover {
+              background-color: #7c3aed;
+            }
+          </style>
+          <div class="shadow-card">
+            <h3 class="shadow-title">
+              Shadow DOM Component <span class="shadow-badge">Encapsulated</span>
+            </h3>
+            <p>This content resides entirely inside an open <code>#shadow-host</code> root. Styles and DOM nodes are isolated from external global selectors.</p>
+            <button class="shadow-btn" id="shadow-inner-btn">Interact with Shadow DOM</button>
+            <div id="shadow-output" style="margin-top: 0.5rem; font-size: 0.85rem; color: #581c87;"></div>
+          </div>
+        `;
+
+        var shadowBtn = shadowRoot.getElementById('shadow-inner-btn');
+        var shadowOutput = shadowRoot.getElementById('shadow-output');
+        if (shadowBtn && shadowOutput) {
+          shadowBtn.addEventListener('click', function() {
+            shadowOutput.textContent = 'Shadow DOM button clicked! Event dispatched inside shadow root boundary.';
+          });
+        }
+      }
+    });
+  </script>
+
+
+</body></html>
