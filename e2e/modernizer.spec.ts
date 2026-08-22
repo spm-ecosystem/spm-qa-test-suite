@@ -4,7 +4,7 @@ import fs from 'fs';
 import http from 'http';
 import { fileURLToPath } from 'url';
 import { runEnvironmentE2ETest } from './helpers';
-import { ALL_ENVIRONMENT_PRESETS, ARCHWIKI_PRESET, SAFEBOORU_PRESET } from './presets';
+import { ALL_ENVIRONMENT_PRESETS } from './presets';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -33,11 +33,10 @@ test.describe('SPM Extension E2E Modernization Flow', () => {
     console.log('[E2E Server] Local mock web server stopped');
   });
 
-  test('should modernize ArchWiki environment', async () => {
-    await runEnvironmentE2ETest(ARCHWIKI_PRESET);
-  });
-
-  test('should modernize Safebooru.org environment', async () => {
-    await runEnvironmentE2ETest(SAFEBOORU_PRESET);
-  });
+  // Dynamically generate a dedicated E2E test for every registered environment preset
+  for (const preset of ALL_ENVIRONMENT_PRESETS) {
+    test(`[${preset.id}] ${preset.name}`, async () => {
+      await runEnvironmentE2ETest(preset);
+    });
+  }
 });
