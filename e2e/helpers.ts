@@ -1,9 +1,23 @@
-import { Page } from '@playwright/test';
+import { Page, chromium, expect } from '@playwright/test';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export interface EnvironmentPreset {
+  id: string;
+  name: string;
+  route: string;
+  fixtureHtmlPath?: string;
+  manifestPath?: string;
+  manifestObj?: object;
+  customCss?: string;
+  highlightSelector?: string;
+  annotationText?: string;
+  snapshotName: string;
+  assertions?: (page: Page) => Promise<void>;
+}
 
 /**
  * Highlights a DOM element, injects a visual annotation badge containing a comment,
@@ -15,27 +29,22 @@ export async function annotateAndScreenshot(
   comment: string,
   screenshotName: string
 ) {
-  // Inject border highlight and badge comment directly into the page's DOM
   await page.evaluate(
     ({ sel, text }) => {
-      // Find element (handles both standard DOM and shadow DOM checks if needed)
       const el = document.querySelector(sel);
       if (!el) {
         console.warn(`[E2E Highlight] Element not found for selector: ${sel}`);
         return;
       }
 
-      // Draw custom highlight border
       (el as HTMLElement).style.outline = '3px dashed #ff4757';
       (el as HTMLElement).style.outlineOffset = '2px';
       (el as HTMLElement).style.position = 'relative';
 
-      // Create a visual badge overlay
       const badge = document.createElement('div');
       badge.className = 'spm-e2e-annotation';
       badge.textContent = text;
       
-      // Style the annotation badge overlay
       Object.assign(badge.style, {
         position: 'absolute',
         top: '-32px',
@@ -53,23 +62,99 @@ export async function annotateAndScreenshot(
         whiteSpace: 'nowrap',
       });
 
-      // Append badge to the highlighted element
       el.appendChild(badge);
     },
     { sel: selector, text: comment }
   );
 
-  // Define E2E screenshots directory inside spm-qa-test-suite
   const screenshotsDir = path.join(__dirname, '../screenshots');
   if (!fs.existsSync(screenshotsDir)) {
     fs.mkdirSync(screenshotsDir, { recursive: true });
   }
 
   const screenshotPath = path.join(screenshotsDir, `${screenshotName}.png`);
-  
-  // Capture page screenshot
   await page.screenshot({ path: screenshotPath });
   console.log(`[E2E QA] Visual snapshot captured and annotated: ${screenshotPath}`);
   
   return screenshotPath;
+}
+
+/**
+ * Generic, preset-agnostic E2E runner for testing environment modernization.
+ */
+export async function runEnvironmentE2ETest(preset: EnvironmentPreset) {
+  const pathToExtension = process.env.EXTENSION_DIST_PATH || path.resolve(__dirname, '../../extension/dist');
+  
+  const context = await chromium.launchPersistentContext('', {
+    headless: false,
+    args: [
+      `--headless=new`,
+      `--disable-extensions-except=${pathToExtension}`,
+      `--load-extension=${pathToExtension}`,
+    ],
+  });
+
+  try {
+    const page = await context.newPage();
+
+    // 1. Navigate to base server to obtain extension ID
+    await page.goto('http://localhost:8080/');
+    await page.waitForSelector('html[data-spm-extension-id]', { timeout: 10000 });
+    const extensionId = await page.evaluate(() => {
+      return document.documentElement.getAttribute('data-spm-extension-id') || '';
+    });
+
+    if (!extensionId) {
+      throw new Error(`[E2E Runner] Could not detect loaded SPM extension ID for preset '${preset.name}'`);
+    }
+
+    // 2. Load manifest object
+    let manifestData = preset.manifestObj;
+    if (!manifestData && preset.manifestPath) {
+      manifestData = JSON.parse(fs.readFileSync(preset.manifestPath, 'utf8'));
+    }
+
+    if (!manifestData) {
+      throw new Error(`[E2E Runner] No valid manifest provided for preset '${preset.name}'`);
+    }
+
+    // 3. Inject manifest configuration into Chrome local storage
+    const settingsPage = `chrome-extension://${extensionId}/index.html`;
+    await page.goto(settingsPage);
+    await page.evaluate(async ({ manifest, css }) => {
+      const domain = 'localhost';
+      await new Promise<void>((resolve) => {
+        chrome.storage.local.set({
+          spm_global_enabled: true,
+          spm_dev_mode: { [domain]: true },
+          [`dev-draft-manifest:${domain}`]: JSON.stringify(manifest),
+          [`dev-draft-css:${domain}`]: css || ''
+        }, () => resolve());
+      });
+    }, { manifest: manifestData, css: preset.customCss });
+
+    // 4. Navigate to target environment route
+    await page.goto(`http://localhost:8080${preset.route}`);
+    await page.waitForTimeout(2000); // Allow Shadow DOM React hydration
+
+    // 5. Run custom assertions if provided
+    if (preset.assertions) {
+      await preset.assertions(page);
+    }
+
+    // 6. Capture visual snapshot if selector is provided
+    if (preset.highlightSelector) {
+      await annotateAndScreenshot(
+        page,
+        preset.highlightSelector,
+        preset.annotationText || `${preset.name} reconstructed`,
+        preset.snapshotName
+      );
+    }
+
+    console.log(`[E2E Runner] Successfully completed preset test: ${preset.name}`);
+
+  } finally {
+    await context.close();
+  }
 }
