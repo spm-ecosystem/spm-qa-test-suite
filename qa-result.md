@@ -2,7 +2,7 @@
 
 > **Master Plan:** `docs/qa-test-plan.md`  
 > **Status:** Active Sequential Testing Stream  
-> **Completed Environments:** 3 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`)
+> **Completed Environments:** 4 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`, `site-f-wiki`)
 
 ---
 
@@ -54,11 +54,6 @@
    - *Friction:* Moving `#qa-log` into a Shadow DOM slot via `preserve { interactiveConsole: "#qa-log" }` strips external document CSS (background, fonts).
    - *Fix Needed:* Introduce a dedicated `UiTerminalConsole` component in `spm-components`.
 
-### Cataloged Defect Summary (`site-m-extreme-events`):
-- `DEFECT-EV-01` [Engine/Proxy]: Inline `onclick` script calls (`customFetch()`) destroyed during component replacement.
-- `DEFECT-EV-02` [Compiler/Schema]: `spm compile` accepts non-matching child prop names (`child eventFeed` instead of `child cards`).
-- `DEFECT-EV-03` [Component Library]: Missing `UiTerminalConsole` component for live interactive log streams.
-
 ---
 
 ## 3. Environment Test 3: `site-n-extreme-layout`
@@ -85,7 +80,21 @@
    - *Friction:* Rapid client-side DOM updates trigger un-debounced `MutationObserver` callbacks in `modernizer.tsx`.
    - *Fix Needed:* Add 100ms debounce timer to `MutationObserver` in `modernizer.tsx`.
 
-### Cataloged Defect Summary (`site-n-extreme-layout`):
-- `DEFECT-LAY-01` [Preprocessor Bug - FIXED]: `apply.js` inserted host inside container, causing `display: none` to hide host.
-- `DEFECT-LAY-02` [Veneer DSL / Extractor]: Standard CSS selectors cannot query inside `#shadow-host` Shadow DOM roots.
-- `DEFECT-LAY-03` [Engine / Performance]: Rapid DOM mutations (`requestAnimationFrame`) trigger un-debounced MutationObserver callbacks.
+---
+
+## 4. Environment Test 4: `site-f-wiki` (ArchWiki Documentation)
+- **Domain:** `wiki.archlinux.org` (Mocked Snapshot)
+- **Scenario:** MediaWiki navigation header, sidebar navigation panel (`#mw-panel`), top search form (`#searchform`), and dark wiki documentation theme.
+- **Compilation Status:** PASS (`spm compile preset` exit code 0)
+- **E2E Playwright Status:** PASS (`screenshots/01_wiki_modernized.png`)
+
+### Subagent Execution Audit (`spm-veneer-coder`):
+- **Model:** `veneer-coder` (Ollama local runner)
+- **Status:** SUCCESS (Compiled manifest on Retry 2)
+- **Log:** Required 2 retries to fix `UiNavHeader` props mapping syntax for `#mw-navigation`.
+
+### Technical Friction & Edge Case Audit:
+1. **MediaWiki Form Action Target (`#searchform`):**
+   - MediaWiki search forms use `action="/index.php"`. The subagent must extract `form | attr:action` into `searchSubmitUrl` to prevent broken relative search redirects.
+2. **Sidebar Hiding Cleanliness (`#mw-panel`):**
+   - Setting `selector "#mw-panel, #footer, .mw-indicators" { action: hide; }` collapses legacy left margins in MediaWiki layout cleanly.
