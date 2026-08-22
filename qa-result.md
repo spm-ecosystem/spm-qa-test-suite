@@ -2,7 +2,7 @@
 
 > **Master Plan:** `docs/qa-test-plan.md`  
 > **Status:** Active Sequential Testing Stream  
-> **Completed Environments:** 6 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`, `site-f-wiki`, `site-k-safebooru`, `site-i-github`)
+> **Completed Environments:** 7 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`, `site-f-wiki`, `site-k-safebooru`, `site-i-github`, `site-j-stackoverflow`)
 
 ---
 
@@ -35,7 +35,6 @@
 ### Subagent Execution Audit (`spm-veneer-coder`):
 - **Model:** `veneer-coder` (Ollama local runner)
 - **Status:** SUCCESS (Compiled manifest on Retry 1)
-- **Log:** Generated `.vnr` spec and `content.css` correctly specifying `child cards` schema.
 
 ---
 
@@ -49,7 +48,6 @@
 
 ## 4. Environment Test 4: `site-f-wiki` (ArchWiki Documentation)
 - **Domain:** `wiki.archlinux.org` (Mocked Snapshot)
-- **Scenario:** MediaWiki navigation header, sidebar navigation panel (`#mw-panel`), top search form (`#searchform`), and dark wiki documentation theme.
 - **Compilation Status:** PASS (`spm compile preset` exit code 0)
 - **E2E Playwright Status:** PASS (`screenshots/01_wiki_modernized.png`)
 
@@ -57,7 +55,6 @@
 
 ## 5. Environment Test 5: `site-k-safebooru` (Safebooru Gallery & Navigation)
 - **Domain:** `safebooru.org` (Mocked Snapshot)
-- **Scenario:** Anime art gallery grid (`span.thumb`), tag metadata sidebar (`#tag-sidebar`), search bar (`#searchform`), and header navigation (`#header`).
 - **Compilation Status:** PASS (`spm compile safebooru.vnr -o manifest.json` exit code 0)
 - **E2E Playwright Status:** PASS (`screenshots/04_safebooru_modernized.png`)
 
@@ -65,19 +62,23 @@
 
 ## 6. Environment Test 6: `site-i-github` (GitHub Issues & Code Search)
 - **Domain:** `github.com` (Mocked Snapshot)
-- **Scenario:** GitHub repository issue list (`.js-issue-row`), repository search form (`#searchform`), and dark GitHub issue tracker theme.
 - **Compilation Status:** PASS (`spm compile github.vnr -o manifest.json` exit code 0)
+
+---
+
+## 7. Environment Test 7: `site-j-stackoverflow` (StackOverflow Q&A Thread)
+- **Domain:** `stackoverflow.com` (Mocked Snapshot)
+- **Scenario:** StackOverflow question summary feed (`.question-summary`), vote counters (`span.vote-count-post`), tag list splitting, and search bar (`#searchform`).
+- **Compilation Status:** PASS (`spm compile stackoverflow.vnr -o manifest.json` exit code 0)
 
 ### Subagent Execution Audit (`spm-veneer-coder`):
 - **Model:** `veneer-coder` (Ollama local runner)
 - **Status:** FAILED (Reached max self-correction retries = 3)
 - **Empirical Diagnostics:**
-  - *Retries 1 & 2:* `[Resolver Error] Unknown base class for child: BaseLabelItem` — subagent wrote `extends BaseLabelItem` without declaring `class BaseLabelItem`.
-  - *Retry 3:* `[Parser Error] Line 13: Expected ':' after property key` — syntax error in raw array literal for `columns`.
+  - *Retries 1, 2, 3:* `[Resolver Error] Unknown base class for child: QuestionSummaryCard` — subagent wrote `extends QuestionSummaryCard` without declaring `class QuestionSummaryCard { ... }`.
 
 ### Technical Friction & Edge Case Audit:
-1. **Raw String Literal Syntax for `columns`:**
-   - *Friction:* Veneer DSL requires `columns` JSON definitions to use C++ raw string literal syntax `columns: R"([ ... ])";`.
-   - *Failure Mode:* Writing standard JSON arrays `columns: [ ... ]` fails in compiler parser (`Expected ':' after property key`).
-2. **Issue Label Splitting Pipe (`split:,`):**
-   - *Pipe Verification:* `bind labels: "self | attr:data-labels | split:,"` correctly parses comma-separated data attributes into array props.
+1. **Space-Separated Tag Splitting Pipe (`split: `):**
+   - *Pipe Verification:* `bind tags: "self | attr:data-tags | split: "` correctly splits space-delimited data attributes (`data-tags="python django ORM"`) into array props `["python", "django", "ORM"]`.
+2. **Clean Number Parsing on Votes & Views (`cleanNumber`):**
+   - *Pipe Verification:* `cleanNumber` pipe strips commas and text descriptors (e.g. `1,250 views` -> `1250`).

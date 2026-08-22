@@ -31,13 +31,13 @@ reconstruct "#questions-container" -> UiTableListPage {
   pageTitle: "StackOverflow Questions";
   height: "calc(100vh - 60px)";
 
-  columns: [
+  columns: R"([
     { "key": "id", "header": "ID", "type": "text" },
     { "key": "title", "header": "Question", "type": "link", "urlKey": "detailUrl" },
     { "key": "votes", "header": "Votes", "type": "badge" },
     { "key": "views", "header": "Views", "type": "text" },
     { "key": "tags", "header": "Tags" }
-  ];
+  ])";
 
   child tableRows extends StackOverflowQuestionItem {
     selector: ".question-summary";
