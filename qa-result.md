@@ -2,7 +2,7 @@
 
 > **Master Plan:** `docs/qa-test-plan.md`  
 > **Status:** Active Sequential Testing Stream  
-> **Completed Environments:** 2 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`)
+> **Completed Environments:** 3 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`)
 
 ---
 
@@ -58,3 +58,34 @@
 - `DEFECT-EV-01` [Engine/Proxy]: Inline `onclick` script calls (`customFetch()`) destroyed during component replacement.
 - `DEFECT-EV-02` [Compiler/Schema]: `spm compile` accepts non-matching child prop names (`child eventFeed` instead of `child cards`).
 - `DEFECT-EV-03` [Component Library]: Missing `UiTerminalConsole` component for live interactive log streams.
+
+---
+
+## 3. Environment Test 3: `site-n-extreme-layout`
+- **Domain:** `synthetic-layout-portal.internal`
+- **Scenario:** Heavy inline CSS with `!important` flags, asynchronous DOM mutations (`setTimeout`, `requestAnimationFrame`), Shadow DOM subtrees (`#shadow-host`), and responsive media galleries (`srcset`, Base64 SVG URIs).
+- **Compilation Status:** PASS (`spm compile layout.vnr -o manifest.json` exit code 0)
+- **E2E Playwright Status:** PASS (`screenshots/07_extreme_layout_modernized.png`)
+
+### Subagent Execution Audit (`spm-veneer-coder`):
+- **Model:** `veneer-coder` (Ollama local runner)
+- **Status:** FAILED (Reached max self-correction retries = 3)
+- **Empirical Diagnostics:**
+  - *Retries 1, 2, 3:* `[Parser Error] Unexpected token in global scope` — subagent repeatedly placed `customStyles` and un-nested class rules outside of `theme` blocks.
+
+### Technical Friction & Edge Case Audit:
+1. **Host Element Placement Collision (`container.appendChild` vs `insertBefore`):**
+   - *Friction:* `apply.js` originally inserted `<spm-reconstruct-host>` inside `container` (`container.appendChild(host)`).
+   - *Failure Mode:* When `modernizer.tsx` set `container.style.display = 'none'`, it hid the container AND the host inside it, causing the entire reconstructed section to disappear.
+   - *Fix Implemented:* Updated `apply.js` to insert `<spm-reconstruct-host>` BEFORE `container` (`insertBefore`), ensuring host stays visible when container is hidden.
+2. **Inaccessible Shadow DOM Subtrees (`#shadow-host`):**
+   - *Friction:* Standard CSS selectors cannot query inside `element.shadowRoot`. Data inside `#shadow-host` returns 0 elements.
+   - *Fix Needed:* Add a `shadow:` selector modifier in Veneer DSL (e.g. `#shadow-host | shadow | button`).
+3. **Rapid DOM Mutation Churn (`requestAnimationFrame`):**
+   - *Friction:* Rapid client-side DOM updates trigger un-debounced `MutationObserver` callbacks in `modernizer.tsx`.
+   - *Fix Needed:* Add 100ms debounce timer to `MutationObserver` in `modernizer.tsx`.
+
+### Cataloged Defect Summary (`site-n-extreme-layout`):
+- `DEFECT-LAY-01` [Preprocessor Bug - FIXED]: `apply.js` inserted host inside container, causing `display: none` to hide host.
+- `DEFECT-LAY-02` [Veneer DSL / Extractor]: Standard CSS selectors cannot query inside `#shadow-host` Shadow DOM roots.
+- `DEFECT-LAY-03` [Engine / Performance]: Rapid DOM mutations (`requestAnimationFrame`) trigger un-debounced MutationObserver callbacks.
