@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA Test Suite 02: Event Handlers, Dynamic Extraction & XSS Sanitization</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    header {
+      background-color: #1e293b;
+      color: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      margin: 0 0 10px 0;
+      font-size: 1.8rem;
+    }
+    header nav a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    header nav a:hover {
+      text-decoration: underline;
+    }
+    section {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 30px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    section h2 {
+      margin-top: 0;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      color: #0f172a;
+    }
+    .test-case {
+      border: 1px dashed #cbd5e1;
+      padding: 16px;
+      margin-bottom: 16px;
+      border-radius: 6px;
+      background-color: #f8fafc;
+    }
+    .test-case h3 {
+      margin-top: 0;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+      color: #334155;
+    }
+    .test-link {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: #3b82f6;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 500;
+      margin-right: 10px;
+      margin-bottom: 10px;
+    }
+    .test-link:hover {
+      background-color: #2563eb;
+    }
+    .input-field {
+      width: 100%;
+      max-width: 500px;
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    .payload-container {
+      background-color: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      word-break: break-all;
+      margin-top: 8px;
+    }
+    #qa-log-container {
+      background-color: #0f172a;
+      color: #f8fafc;
+      border-radius: 8px;
+      padding: 16px;
+      margin-top: 30px;
+    }
+    #qa-log-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 8px;
+    }
+    #qa-log-header h3 {
+      margin: 0;
+      color: #38bdf8;
+      font-size: 1.1rem;
+    }
+    .clear-btn {
+      background-color: #475569;
+      color: #ffffff;
+      border: none;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+    .clear-btn:hover {
+      background-color: #64748b;
+    }
+    #qa-log {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.85rem;
+      height: 180px;
+      overflow-y: auto;
+      background-color: #020617;
+      border: 1px solid #1e293b;
+      border-radius: 4px;
+      padding: 10px;
+      color: #4ade80;
+    }
+    .log-entry {
+      margin-bottom: 4px;
+      line-height: 1.4;
+    }
+    .log-time {
+      color: #94a3b8;
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>QA Test Suite 02: Event Handlers, Dynamic Extraction &amp; XSS Sanitization</h1>
+    <nav>
+      <a href="index.html">&larr; Back to Index</a>
+    </nav>
+  </header>
+
+  <!-- Section 1: Complex Inline onclick Links -->
+  <section id="section-1-onclick-links">
+    <h2>Section 1: Complex Inline <code>onclick</code> Links</h2>
+    <p>Tests extraction and handling of inline event handlers, string arithmetic within <code>onclick</code> attributes, custom function invocations, and data-attribute redirect triggers.</p>
+
+    <div class="test-case">
+      <h3>Test 1.1: String Math Concatenation Redirect</h3>
+      <p>Link with dynamic string calculation inside inline <code>onclick</code> handler:</p>
+      <a href="#" onclick="window.location.href = '/view?id=' + (100 + 23) + '&ref=qa'; return false;" class="test-link" id="link-string-math">
+        Execute String Math Redirect
+      </a>
+      <div class="payload-container">
+        <code>onclick="window.location.href = '/view?id=' + (100 + 23) + '&amp;ref=qa'; return false;"</code>
+      </div>
+    </div>
+
+    <div class="test-case">
+      <h3>Test 1.2: Function Call Redirect</h3>
+      <p>Link with <code>void(0)</code> expression and custom function invocation:</p>
+      <a href="#" onclick="void(0); customFetch('item-99')" class="test-link" id="link-custom-fetch">
+        Execute Custom Fetch ('item-99')
+      </a>
+      <div class="payload-container">
+        <code>onclick="void(0); customFetch('item-99')"</code>
+      </div>
+    </div>
+
+    <div class="test-case">
+      <h3>Test 1.3: Data Attribute Trigger</h3>
+      <p>Link using <code>data-action="redirect"</code> attribute alongside <code>href="#"</code>:</p>
+      <a href="#" data-action="redirect" data-target="item-456" class="test-link" id="link-data-action">
+        Trigger Data-Action Redirect
+      </a>
+      <div class="payload-container">
+        <code>data-action="redirect" href="#" data-target="item-456"</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Unstable & Dynamic Selectors -->
+  <section id="section-2-dynamic-selectors">
+    <h2>Section 2: Unstable &amp; Dynamic Selectors</h2>
+    <p>Evaluates element identification when CSS class names appear dynamically generated or hashed, paired with complex data attributes.</p>
+
+    <div class="test-case">
+      <h3>Test 2.1: Obfuscated Dynamic Class Names &amp; Special Data Target</h3>
+      <p>Elements with generated CSS class hashes alongside special characters in data attributes:</p>
+      <div class="css-9x2a1b item-wrapper" data-target="item [1] &amp; 'special'" id="dynamic-wrapper-1">
+        <span class="css-8f3a99 label">Dynamic Selector Target Item</span>
+        <button type="button" class="css-9x2a1b btn-action" data-target="item [1] &amp; 'special'" onclick="logEvent('Click on dynamic class item: css-9x2a1b')">
+          Interact with Dynamic Class Element
+        </button>
+      </div>
+      <div class="payload-container">
+        <code>class="css-9x2a1b item-wrapper" data-target="item [1] &amp; 'special'"</code>
+      </div>
+    </div>
+
+    <div class="test-case">
+      <h3>Test 2.2: Dynamic Hash Hierarchy</h3>
+      <p>Nested structure with pseudo-random framework classes (e.g. CSS-in-JS or Tailwind hash output):</p>
+      <div class="sc-bdVaJa sc-bwzfXH hash-box-789">
+        <div class="css-1a2b3c item-wrapper" data-target="item [2] &amp; 'secondary'">
+          <a href="#dynamic" class="css-9x2a1b link-item" data-target="item [1] &amp; 'special'" onclick="logEvent('Click on secondary dynamic selector link')">
+            Deeply Nested Dynamic Class Link
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: XSS Payload & Sanitization Testbed -->
+  <section id="section-3-xss-sanitization">
+    <h2>Section 3: XSS Payload &amp; Sanitization Testbed</h2>
+    <p>Provides synthetic attack vectors including script tag injections, event listener attributes, unclosed tag structures, and HTML entity encodings for testing DOMPurify or custom SPM engine sanitization bounds.</p>
+
+    <div class="test-case">
+      <h3>Test 3.1: Script Tag Injection Vector</h3>
+      <p>Input field and rendered element containing unescaped <code>&lt;script&gt;</code> tag payload:</p>
+      <label for="xss-input-1">Input Field Payload:</label><br>
+      <input type="text" id="xss-input-1" class="input-field" value="<script>alert('xss')</script>" readonly><br>
+      
+      <p>Rendered Output Container:</p>
+      <div id="xss-script-rendered" class="payload-container">
+        <!-- Rendered text representation of script payload -->
+        &lt;script&gt;alert('xss')&lt;/script&gt;
+      </div>
+    </div>
+
+    <div class="test-case">
+      <h3>Test 3.2: Image onerror Event Handler Injection</h3>
+      <p>Broken image element with inline <code>onerror</code> payload attempting execution:</p>
+      <div class="payload-container">
+        <code>&lt;img src="invalid-url.jpg" onerror="console.log('xss-triggered')"&gt;</code>
+      </div>
+      <div id="xss-img-container" style="margin-top: 10px;">
+        <img src="invalid-url.jpg" onerror="console.log('xss-triggered'); logEvent('XSS Triggered: img onerror event executed!');" alt="XSS Test Image">
+      </div>
+    </div>
+
+    <div class="test-case">
+      <h3>Test 3.3: Malformed Tags &amp; Encoded HTML Entities</h3>
+      <p>Malformed tag with unclosed quotes, missing tag closings, and HTML entity encodings:</p>
+      <div id="malformed-tag-container" class="payload-container">
+        <div data-info="unclosed-attr-value>Malformed div wrapper</span>
+        <p class="test-malformed" data-payload="<script>">Malformed text node content &lt;script&gt;alert('xss-entity')&lt;/script&gt;</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive QA Event Log Console -->
+  <section id="qa-log-container">
+    <div id="qa-log-header">
+      <h3>Interactive QA Event Log Console</h3>
+      <button type="button" class="clear-btn" onclick="clearLog()">Clear Log</button>
+    </div>
+    <div id="qa-log">
+      <!-- Log entries populated via JavaScript -->
+    </div>
+  </section>
+
+  <!-- Script logic for interactive QA logging & event handling -->
+  <script>
+    function logEvent(message) {
+      const logBox = document.getElementById('qa-log');
+      if (!logBox) return;
+      const timestamp = new Date().toISOString().split('T')[1].slice(0, 8);
+      const entry = document.createElement('div');
+      entry.className = 'log-entry';
+      entry.innerHTML = `<span class="log-time">[${timestamp}]</span> ${escapeHtml(message)}`;
+      logBox.appendChild(entry);
+      logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    function clearLog() {
+      const logBox = document.getElementById('qa-log');
+      if (logBox) {
+        logBox.innerHTML = '';
+        logEvent('Log console cleared.');
+      }
+    }
+
+    function escapeHtml(str) {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    function customFetch(itemId) {
+      logEvent('customFetch() executed with parameter: ' + itemId);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      logEvent('QA Test Suite 02 initialized successfully.');
+
+      // Setup click listener for data-action="redirect"
+      const dataActionLink = document.querySelector('[data-action="redirect"]');
+      if (dataActionLink) {
+        dataActionLink.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = this.getAttribute('data-target') || 'unknown';
+          logEvent('Data attribute action triggered! Target: ' + target);
+        });
+      }
+
+      // Setup click listener for string math link to log event before preventing navigation
+      const stringMathLink = document.getElementById('link-string-math');
+      if (stringMathLink) {
+        const originalOnClick = stringMathLink.onclick;
+        stringMathLink.onclick = function(e) {
+          logEvent('String math redirect link clicked. Evaluated target ID: ' + (100 + 23));
+          if (typeof originalOnClick === 'function') {
+            return originalOnClick.call(this, e);
+          }
+          return false;
+        };
+      }
+    });
+  </script>
+</body>
+</html>

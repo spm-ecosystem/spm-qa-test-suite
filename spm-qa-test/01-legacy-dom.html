@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QA Test Suite 01: Legacy DOM Structures & Extreme Nesting</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+    }
+    header {
+      background-color: #1e293b;
+      color: #fff;
+      padding: 20px 30px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+    header h1 {
+      margin: 0 0 10px 0;
+      font-size: 1.8rem;
+    }
+    header nav a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    header nav a:hover {
+      text-decoration: underline;
+    }
+    section {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 30px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    section h2 {
+      margin-top: 0;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 8px;
+      color: #0f172a;
+    }
+    .form-container {
+      border: 1px dashed #cbd5e1;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>QA Test Suite 01: Legacy DOM Structures & Extreme Nesting</h1>
+    <nav>
+      <a href="index.html">&larr; Back to Index</a>
+    </nav>
+  </header>
+
+  <!-- Section 1: Deep Table Nesting -->
+  <section id="section-1-deep-tables">
+    <h2>Section 1: Deep Table Nesting</h2>
+    <p>This section contains 3+ levels of nested <code>&lt;table&gt;</code> elements with legacy attributes, missing/malformed closing tags, and inline formatting.</p>
+    
+    <!-- Outer Level 1 Table -->
+    <table border="2" cellpadding="5" bgcolor="#ffdddd" width="100%">
+      <caption>Outer Level 1 Table</caption>
+      <thead>
+        <tr>
+          <th colspan="2">Header Level 1 (Colspan 2)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td rowspan="2">
+            <b>Level 1 Cell 1 (Rowspan 2)</b><br>
+            <i>Inline formatting text</i>
+          </td>
+          <td>
+            <!-- Level 2 Nested Table -->
+            <table border="2" cellpadding="5" bgcolor="#ddeeff" width="100%">
+              <caption>Nested Level 2 Table</caption>
+              <tr>
+                <td colspan="2">
+                  <font color="blue"><b>Level 2 Header Cell</b></font>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <!-- Level 3 Nested Table -->
+                  <table border="2" cellpadding="5" bgcolor="#eeffdd" width="100%">
+                    <caption>Deeply Nested Level 3 Table</caption>
+                    <tr>
+                      <td rowspan="2">
+                        <span>Level 3 Rowspan Cell</span>
+                      </td>
+                      <td>Level 3 Cell A</td>
+                    </tr>
+                    <tr>
+                      <!-- Malformed/missing closing td tag inside nested cell -->
+                      <td>Level 3 Cell B with missing end tag
+                    </tr>
+                    <tr>
+                      <td colspan="2">
+                        <!-- Level 4 Deep Nesting Table -->
+                        <table border="1" cellpadding="3" bgcolor="#ffffff">
+                          <tr>
+                            <td>Level 4 Inner Cell 1</td>
+                            <td>Level 4 Inner Cell 2<td>Level 4 Inner Cell 3 (Missing closing tags)
+                          </tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+                <td>Level 2 Sibling Cell</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Level 1 Cell 2 Row 2 <u>Underlined Text</u> inside cell
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Section 2: Duplicate Identifiers -->
+  <section id="section-2-duplicate-ids">
+    <h2>Section 2: Duplicate Identifiers</h2>
+    <p>This section contains multiple <code>&lt;form&gt;</code> elements containing input controls with duplicate <code>id="user-input"</code> and <code>name="query"</code> attributes.</p>
+    
+    <div class="form-container">
+      <h3>Form A: Main Search Form</h3>
+      <form id="search-form-primary" action="/search" method="GET">
+        <label for="user-input">Search Query (Primary):</label>
+        <input type="text" id="user-input" name="query" value="initial search term" />
+        <button type="submit">Submit Form A</button>
+      </form>
+    </div>
+
+    <div class="form-container">
+      <h3>Form B: Secondary Search Bar</h3>
+      <form id="search-form-secondary" action="/search-v2" method="POST">
+        <label for="user-input">Search Query (Secondary):</label>
+        <input type="text" id="user-input" name="query" value="secondary search term" />
+        <input type="hidden" id="user-input" name="query" value="hidden duplicate query" />
+        <button type="submit">Submit Form B</button>
+      </form>
+    </div>
+
+    <div class="form-container">
+      <h3>Form C: Footer Quick Query</h3>
+      <form id="search-form-footer" action="/footer-search" method="GET">
+        <label for="user-input">Search Query (Footer):</label>
+        <input type="text" id="user-input" name="query" placeholder="Type here..." />
+        <button type="submit">Submit Form C</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Section 3: Deprecated HTML Tags -->
+  <section id="section-3-deprecated-tags">
+    <h2>Section 3: Deprecated HTML Tags</h2>
+    <p>This section includes legacy and deprecated HTML tags wrapping text content and form controls.</p>
+    
+    <center>
+      <font color="red" size="4">
+        <strong>Warning:</strong> This text is centered using &lt;center&gt; and formatted with legacy &lt;font&gt; tags.
+      </font>
+    </center>
+    
+    <br />
+
+    <marquee behavior="scroll" direction="left">
+      <strike>Legacy Marquee Announcement:</strike> Special promo input form below!
+    </marquee>
+
+    <br />
+
+    <nobr>
+      <font color="green" size="3">
+        This is a non-breaking line wrapped in &lt;nobr&gt; containing a form input:
+      </font>
+      <input type="text" id="legacy-nobr-input" name="nobr-control" value="Inside nobr tag" />
+      <strike>Obsolete Strike Through Button</strike>
+    </nobr>
+  </section>
+
+  <!-- Section 4: Custom Elements & Fragmented Nodes -->
+  <section id="section-4-custom-fragmented">
+    <h2>Section 4: Custom Elements & Fragmented Nodes</h2>
+    <p>This section contains custom web components and text nodes fragmented by comment blocks and formatting tags.</p>
+
+    <!-- Custom Web Components -->
+    <custom-card data-card-id="101" class="custom-card-component">
+      <h3>Custom Card Header #101</h3>
+      <p>Custom element content testing custom tag DOM extraction.</p>
+      <legacy-widget id="widget-alpha" data-status="active">
+        <span>Widget Alpha Active State</span>
+      </legacy-widget>
+    </custom-card>
+
+    <br />
+
+    <legacy-widget id="widget-beta" data-status="deprecated">
+      <custom-card data-card-id="102">
+        <p>Nested Custom Card inside Legacy Widget.</p>
+      </custom-card>
+    </legacy-widget>
+
+    <br />
+
+    <!-- Fragmented Text Nodes -->
+    <div id="fragmented-text-container">
+      <h3>Fragmented Text Nodes</h3>
+      <!-- text fragment start -->
+      This is <b>fragmented</b> text <!-- text fragment middle --> node segment <i>split</i> by <!-- text fragment block --> html comments and <span>inline span elements</span> across <!-- text fragment end --> multiple lines.
+    </div>
+  </section>
+
+</body>
+</html>
