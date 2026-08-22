@@ -16,23 +16,33 @@ theme "Extreme Layout Neon" {
   }
 }
 
-reconstruct "#section-1" -> UiModernGridPage {
-  pageTitle: "Extreme Layout & Shadow DOM Gallery";
+class MediaCardBase {
+  bind title: "h3 | text";
+  bind imageUrl: "img | attr:src";
+  bind linkUrl: "a | attr:href";
+  bind id: "self | attr:id";
+}
+
+class PaginationLinkBase {
+  bind label: "self | text";
+  bind url: "self | attr:href";
+}
+
+// Reconstruct Section 4 Media Gallery into UiModernGridPage
+reconstruct "#section-4" -> UiModernGridPage {
+  pageTitle: "Extreme Layout Media & Gallery Feed";
   sidebarWidth: "280px";
 
-  child items {
-    selector: "#inline-stress-container, #negative-margin-container";
-    bind title: "self | text";
-    bind imageUrl: "img | attr:src";
-    bind linkUrl: "a | attr:href";
-    bind id: "self | attr:id";
+  child items extends MediaCardBase {
+    selector: ".media-card";
   }
 
-  preserve {
-    shadowDomHost: "#shadow-host";
+  child pageLinks extends PaginationLinkBase {
+    selector: "nav.pagination a";
   }
 }
 
+// Replace Legacy Header with Modern React Header
 selector "header" -> UiNavHeader {
   action: replace;
   siteName: "Layout Sandbox";
@@ -44,6 +54,7 @@ selector "header" -> UiNavHeader {
   ];
 }
 
+// Hide Element with Negative Margins and Bad Z-Index
 selector "#negative-margin-container" {
   action: hide;
 }

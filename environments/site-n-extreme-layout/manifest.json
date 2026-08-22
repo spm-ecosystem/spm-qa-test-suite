@@ -37,18 +37,23 @@
                         "id": "self | attr:id",
                         "imageUrl": "img | attr:src",
                         "linkUrl": "a | attr:href",
-                        "title": "self | text"
+                        "title": "h3 | text"
                     },
-                    "selector": "#inline-stress-container, #negative-margin-container"
+                    "selector": ".media-card"
+                },
+                {
+                    "name": "pageLinks",
+                    "propsMap": {
+                        "label": "self | text",
+                        "url": "self | attr:href"
+                    },
+                    "selector": "nav.pagination a"
                 }
             ],
-            "containerSelector": "#section-1",
+            "containerSelector": "#section-4",
             "layoutComponent": "UiModernGridPage",
-            "preserve": {
-                "shadowDomHost": "#shadow-host"
-            },
             "props": {
-                "pageTitle": "Extreme Layout & Shadow DOM Gallery",
+                "pageTitle": "Extreme Layout Media & Gallery Feed",
                 "sidebarWidth": "280px"
             }
         }
