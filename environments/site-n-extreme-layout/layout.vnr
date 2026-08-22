@@ -1,0 +1,62 @@
+theme "Extreme Layout Neon" {
+  variables {
+    --spm-bg-primary: "#090a0f";
+    --spm-bg-surface: "#12151e";
+    --spm-bg-element: "#1c202e";
+    --spm-text-primary: "#ffffff";
+    --spm-text-muted: "#a0a5b5";
+    --spm-accent: "#ff0055";
+    --spm-border-contrast: "rgba(255, 0, 85, 0.2)";
+    --spm-radius: "12px";
+  }
+
+  customStyles {
+    ".extreme-inline-box { width: 100% !important; margin: 0 !important; float: none !important; }"
+    ":host { display: block; width: 100%; box-sizing: border-box; }"
+  }
+}
+
+class MediaCardBase {
+  bind title: "h3.card-title | text";
+  bind imageUrl: "img.gallery-img | attr:src";
+  bind imageSrcset: "img.gallery-img | attr:srcset";
+  bind id: "self | attr:data-card-id";
+}
+
+class MediaCardDetailed extends MediaCardBase {
+  bind tags: "span.card-tags | text | split";
+  bind rating: "span.card-rating | text | cleanNumber";
+  bind viewUrl: "a.card-link | attr:href";
+}
+
+reconstruct "#layout-root-container" -> UiModernGridPage {
+  pageTitle: "Extreme Layout & Shadow DOM Gallery";
+  subtitle: "Stress testing inline CSS overrides, dynamic DOM mutations, and Shadow DOM bounds";
+  columns: 3;
+  sticky: true;
+
+  child galleryItems extends MediaCardDetailed {
+    selector: ".gallery-card-item";
+  }
+
+  preserve {
+    shadowDomHost: "#shadow-host";
+    asyncMutationContainer: "#async-mutation-container";
+    paginationControls: "#gallery-pagination";
+  }
+}
+
+selector "#legacy-layout-header" -> UiNavHeader {
+  action: replace;
+  siteName: "Layout Sandbox";
+  sticky: true;
+  primaryLinks: [
+    { "label": "Gallery", "url": "/gallery" },
+    { "label": "Mutations", "url": "/mutations" },
+    { "label": "Shadow DOM", "url": "/shadow" }
+  ];
+}
+
+selector ".extreme-inline-box[style*='z-index: -9999']" {
+  action: hide;
+}

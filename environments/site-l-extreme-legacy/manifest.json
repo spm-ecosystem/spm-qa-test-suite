@@ -1,0 +1,73 @@
+{
+    "components": [
+        {
+            "action": "replace",
+            "name": "UiNavHeader",
+            "props": {
+                "logoUrl": "https://synthetic-legacy-portal.internal/assets/logo.png",
+                "primaryLinks": [
+                    {
+                        "label": "Catalog",
+                        "url": "/catalog"
+                    },
+                    {
+                        "label": "Archive",
+                        "url": "/archive"
+                    },
+                    {
+                        "label": "Help & Docs",
+                        "url": "/docs"
+                    }
+                ],
+                "siteName": "Legacy Portal"
+            },
+            "selector": "#legacy-top-nav"
+        },
+        {
+            "action": "hide",
+            "selector": "marquee, font[size='7'], #duplicate-form-2, center > font"
+        }
+    ],
+    "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "tableItems",
+                    "propsMap": {
+                        "category": "td.cell-cat | text",
+                        "detailUrl": "td.cell-title a | attr:href",
+                        "id": "self | attr:data-item-id",
+                        "price": "td.cell-price | text | cleanNumber",
+                        "tags": "td.cell-tags | text | split:,",
+                        "title": "td.cell-title | text"
+                    },
+                    "selector": "#data-table-body > tr:not(.table-header):not(.table-footer)"
+                }
+            ],
+            "containerSelector": "#legacy-root-table",
+            "layoutComponent": "UiTableListPage",
+            "preserve": {
+                "hiddenMetadata": "form input[name='session_token']",
+                "legacySearchForm": "#duplicate-form-1"
+            },
+            "props": {
+                "pageTitle": "Modernized Legacy Data Catalog",
+                "sticky": true,
+                "subtitle": "Extracted from 4-level nested legacy tables"
+            }
+        }
+    ],
+    "theme": {
+        "cssVariables": {
+            "--spm-accent": "#58a6ff",
+            "--spm-bg-element": "#21262d",
+            "--spm-bg-primary": "#0d1117",
+            "--spm-bg-surface": "#161b22",
+            "--spm-border-contrast": "rgba(240, 246, 252, 0.1)",
+            "--spm-text-muted": "#8b949e",
+            "--spm-text-primary": "#c9d1d9"
+        },
+        "customStyles": "marquee { display: none !important; } font { color: inherit !important; font-family: inherit !important; }",
+        "label": "Extreme Legacy Dark"
+    }
+}

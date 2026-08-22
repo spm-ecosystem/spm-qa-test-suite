@@ -1,0 +1,77 @@
+{
+    "components": [
+        {
+            "action": "replace",
+            "name": "UiNavHeader",
+            "props": {
+                "primaryLinks": [
+                    {
+                        "label": "Gallery",
+                        "url": "/gallery"
+                    },
+                    {
+                        "label": "Mutations",
+                        "url": "/mutations"
+                    },
+                    {
+                        "label": "Shadow DOM",
+                        "url": "/shadow"
+                    }
+                ],
+                "siteName": "Layout Sandbox",
+                "sticky": true
+            },
+            "selector": "#legacy-layout-header"
+        },
+        {
+            "action": "hide",
+            "selector": ".extreme-inline-box[style*='z-index: -9999']"
+        }
+    ],
+    "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "galleryItems",
+                    "propsMap": {
+                        "id": "self | attr:data-card-id",
+                        "imageSrcset": "img.gallery-img | attr:srcset",
+                        "imageUrl": "img.gallery-img | attr:src",
+                        "rating": "span.card-rating | text | cleanNumber",
+                        "tags": "span.card-tags | text | split",
+                        "title": "h3.card-title | text",
+                        "viewUrl": "a.card-link | attr:href"
+                    },
+                    "selector": ".gallery-card-item"
+                }
+            ],
+            "containerSelector": "#layout-root-container",
+            "layoutComponent": "UiModernGridPage",
+            "preserve": {
+                "asyncMutationContainer": "#async-mutation-container",
+                "paginationControls": "#gallery-pagination",
+                "shadowDomHost": "#shadow-host"
+            },
+            "props": {
+                "columns": 3,
+                "pageTitle": "Extreme Layout & Shadow DOM Gallery",
+                "sticky": true,
+                "subtitle": "Stress testing inline CSS overrides, dynamic DOM mutations, and Shadow DOM bounds"
+            }
+        }
+    ],
+    "theme": {
+        "cssVariables": {
+            "--spm-accent": "#ff0055",
+            "--spm-bg-element": "#1c202e",
+            "--spm-bg-primary": "#090a0f",
+            "--spm-bg-surface": "#12151e",
+            "--spm-border-contrast": "rgba(255, 0, 85, 0.2)",
+            "--spm-radius": "12px",
+            "--spm-text-muted": "#a0a5b5",
+            "--spm-text-primary": "#ffffff"
+        },
+        "customStyles": ".extreme-inline-box { width: 100% !important; margin: 0 !important; float: none !important; }\n:host { display: block; width: 100%; box-sizing: border-box; }",
+        "label": "Extreme Layout Neon"
+    }
+}

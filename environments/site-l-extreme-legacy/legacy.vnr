@@ -1,0 +1,62 @@
+theme "Extreme Legacy Dark" {
+  variables {
+    --spm-bg-primary: "#0d1117";
+    --spm-bg-surface: "#161b22";
+    --spm-bg-element: "#21262d";
+    --spm-text-primary: "#c9d1d9";
+    --spm-text-muted: "#8b949e";
+    --spm-accent: "#58a6ff";
+    --spm-border-contrast: "rgba(240, 246, 252, 0.1)";
+  }
+
+  customStyles {
+    "marquee { display: none !important; } font { color: inherit !important; font-family: inherit !important; }"
+  }
+}
+
+// Base blueprint class for table row extraction
+class RowBase {
+  bind title: "td.cell-title | text";
+  bind price: "td.cell-price | text | cleanNumber";
+  bind category: "td.cell-cat | text";
+}
+
+// Inherited class with custom tag pipes
+class AdvancedRow extends RowBase {
+  bind tags: "td.cell-tags | text | split:,";
+  bind detailUrl: "td.cell-title a | attr:href";
+  bind id: "self | attr:data-item-id";
+}
+
+// Main Table Page Reconstruction
+reconstruct "#legacy-root-table" -> UiTableListPage {
+  pageTitle: "Modernized Legacy Data Catalog";
+  subtitle: "Extracted from 4-level nested legacy tables";
+  sticky: true;
+
+  child tableItems extends AdvancedRow {
+    selector: "#data-table-body > tr:not(.table-header):not(.table-footer)";
+  }
+
+  preserve {
+    legacySearchForm: "#duplicate-form-1";
+    hiddenMetadata: "form input[name='session_token']";
+  }
+}
+
+// Secondary Navigation Replacement
+selector "#legacy-top-nav" -> UiNavHeader {
+  action: replace;
+  siteName: "Legacy Portal";
+  logoUrl: "https://synthetic-legacy-portal.internal/assets/logo.png";
+  primaryLinks: [
+    { "label": "Catalog", "url": "/catalog" },
+    { "label": "Archive", "url": "/archive" },
+    { "label": "Help & Docs", "url": "/docs" }
+  ];
+}
+
+// Hide Deprecated & Duplicate Legacy Banners
+selector "marquee, font[size='7'], #duplicate-form-2, center > font" {
+  action: hide;
+}
