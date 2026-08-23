@@ -1,0 +1,12 @@
+reconstruct "#mw-navigation" -> UiNavHeader {
+    pageTitle: "Main Page";
+    logoUrl: "https://example.com/logo.png";
+}
+
+reconstruct "#searchform" -> UiSearchBar {
+    placeholderText: "Search...";
+    submitUrl: "/index.php";
+    queryParamName: "title";
+    actionInputName: "action";
+    targetSelector: "form[action='/index.php']";
+}
