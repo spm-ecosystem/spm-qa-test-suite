@@ -1,130 +1,25 @@
 {
-    "components": [
-        {
-            "action": "hide",
-            "selector": "#mw-panel, #footer, .mw-indicators"
-        }
-    ],
+    "components": [],
     "reconstructs": [
         {
             "children": [],
             "containerSelector": "#mw-navigation",
             "layoutComponent": "UiNavHeader",
             "props": {
-                "logoHref": "/",
-                "logoUrl": "https://wiki.archlinux.org/images/logo.png",
-                "primaryLinks": [
-                    {
-                        "label": "Main Page",
-                        "url": "/"
-                    },
-                    {
-                        "label": "Categories",
-                        "url": "/title/Table_of_contents"
-                    },
-                    {
-                        "label": "Installation Guide",
-                        "url": "/title/Installation_guide"
-                    },
-                    {
-                        "label": "General Recommendations",
-                        "url": "/title/General_recommendations"
-                    },
-                    {
-                        "label": "Frequently Asked Questions",
-                        "url": "/title/FAQ"
-                    },
-                    {
-                        "label": "Café & Résumé",
-                        "url": "/title/Special"
-                    },
-                    {
-                        "label": "日本語ページ",
-                        "url": "/title/Main_page_(日本語)"
-                    },
-                    {
-                        "label": "System Administration",
-                        "url": "/title/System_administration"
-                    },
-                    {
-                        "label": "Networking",
-                        "url": "/title/Network_configuration"
-                    },
-                    {
-                        "label": "Package Management",
-                        "url": "/title/Pacman"
-                    },
-                    {
-                        "label": "Desktop Environments",
-                        "url": "/title/Desktop_environment"
-                    },
-                    {
-                        "label": "Troubleshooting",
-                        "url": "/title/General_troubleshooting"
-                    },
-                    {
-                        "label": "Community Portal",
-                        "url": "/title/ArchWiki:Contributing"
-                    }
-                ],
-                "searchPlaceholder": "Search wiki articles...",
-                "secondaryLinks": [
-                    {
-                        "label": "Login",
-                        "url": "/title/Special:UserLogin"
-                    },
-                    {
-                        "label": "Preferences",
-                        "url": "/title/Special:Preferences"
-                    },
-                    {
-                        "label": "Contributions",
-                        "url": "/title/Special:MyContributions"
-                    },
-                    {
-                        "label": "Watchlist",
-                        "url": "/title/Special:Watchlist"
-                    },
-                    {
-                        "label": "Log out",
-                        "url": "/title/Special:UserLogout"
-                    }
-                ],
-                "siteName": "ArchWiki",
-                "sticky": true
-            }
-        },
-        {
-            "children": [],
-            "containerSelector": "#mw-mf-navigation",
-            "layoutComponent": "UiNavHeader",
-            "mediaQuery": "(max-width: 768px)",
-            "props": {
-                "primaryLinks": [
-                    {
-                        "label": "Home",
-                        "url": "/"
-                    },
-                    {
-                        "label": "Search",
-                        "url": "/title/Special:Search"
-                    }
-                ],
-                "siteName": "ArchWiki Mobile",
-                "sticky": true
+                "logoUrl": "https://example.com/logo.png",
+                "pageTitle": "Main Page"
             }
         },
         {
             "children": [],
             "containerSelector": "#searchform",
             "layoutComponent": "UiSearchBar",
-            "preserve": {
-                "hiddenInputs": "form input[type='hidden']"
-            },
             "props": {
-                "placeholder": "Search ArchWiki...",
-                "queryParamName": "search",
-                "submitUrl": "https://wiki.archlinux.org/index.php"
+                "actionInputName": "action",
+                "placeholderText": "Search...",
+                "queryParamName": "title",
+                "submitUrl": "/index.php",
+                "targetSelector": "form[action='/index.php']"
             }
         }
     ],
