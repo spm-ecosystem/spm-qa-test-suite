@@ -2,7 +2,7 @@
 
 > **Master Plan:** `docs/qa-test-plan.md`  
 > **Status:** Active Sequential Testing Stream  
-> **Completed Environments:** 7 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`, `site-f-wiki`, `site-k-safebooru`, `site-i-github`, `site-j-stackoverflow`)
+> **Completed Environments:** 8 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`, `site-f-wiki`, `site-k-safebooru`, `site-i-github`, `site-j-stackoverflow`, `site-g-gallery`)
 
 ---
 
@@ -32,10 +32,6 @@
 - **Compilation Status:** PASS (`spm compile events.vnr -o manifest.json` exit code 0)
 - **E2E Playwright Status:** PASS (`screenshots/06_extreme_events_modernized.png`)
 
-### Subagent Execution Audit (`spm-veneer-coder`):
-- **Model:** `veneer-coder` (Ollama local runner)
-- **Status:** SUCCESS (Compiled manifest on Retry 1)
-
 ---
 
 ## 3. Environment Test 3: `site-n-extreme-layout`
@@ -49,14 +45,12 @@
 ## 4. Environment Test 4: `site-f-wiki` (ArchWiki Documentation)
 - **Domain:** `wiki.archlinux.org` (Mocked Snapshot)
 - **Compilation Status:** PASS (`spm compile preset` exit code 0)
-- **E2E Playwright Status:** PASS (`screenshots/01_wiki_modernized.png`)
 
 ---
 
 ## 5. Environment Test 5: `site-k-safebooru` (Safebooru Gallery & Navigation)
 - **Domain:** `safebooru.org` (Mocked Snapshot)
 - **Compilation Status:** PASS (`spm compile safebooru.vnr -o manifest.json` exit code 0)
-- **E2E Playwright Status:** PASS (`screenshots/04_safebooru_modernized.png`)
 
 ---
 
@@ -68,17 +62,22 @@
 
 ## 7. Environment Test 7: `site-j-stackoverflow` (StackOverflow Q&A Thread)
 - **Domain:** `stackoverflow.com` (Mocked Snapshot)
-- **Scenario:** StackOverflow question summary feed (`.question-summary`), vote counters (`span.vote-count-post`), tag list splitting, and search bar (`#searchform`).
 - **Compilation Status:** PASS (`spm compile stackoverflow.vnr -o manifest.json` exit code 0)
+
+---
+
+## 8. Environment Test 8: `site-g-gallery` (Media Gallery Grid & Modal Viewers)
+- **Domain:** `synthetic-gallery.internal`
+- **Scenario:** Multi-column media gallery (`.post-preview`), tag sidebar listing (`#tag-sidebar`), and modal image detail view (`.post-detail-view`).
+- **Compilation Status:** PASS (`spm compile gallery.vnr -o manifest.json` exit code 0)
 
 ### Subagent Execution Audit (`spm-veneer-coder`):
 - **Model:** `veneer-coder` (Ollama local runner)
 - **Status:** FAILED (Reached max self-correction retries = 3)
 - **Empirical Diagnostics:**
-  - *Retries 1, 2, 3:* `[Resolver Error] Unknown base class for child: QuestionSummaryCard` — subagent wrote `extends QuestionSummaryCard` without declaring `class QuestionSummaryCard { ... }`.
+  - *Retry 1:* `[Resolver Error] Unknown base class for child: PostCard` — subagent wrote `extends PostCard` without declaring `class PostCard`.
+  - *Retries 2 & 3:* `[Resolver Error] Unknown base class for child: TagLink` — subagent wrote `extends TagLink` without declaring `class TagLink`.
 
 ### Technical Friction & Edge Case Audit:
-1. **Space-Separated Tag Splitting Pipe (`split: `):**
-   - *Pipe Verification:* `bind tags: "self | attr:data-tags | split: "` correctly splits space-delimited data attributes (`data-tags="python django ORM"`) into array props `["python", "django", "ORM"]`.
-2. **Clean Number Parsing on Votes & Views (`cleanNumber`):**
-   - *Pipe Verification:* `cleanNumber` pipe strips commas and text descriptors (e.g. `1,250 views` -> `1250`).
+1. **Class Inheritance via `extends` Syntax:**
+   - *DSL Verification:* Veneer Spec class inheritance (`class DetailedGalleryItem extends GalleryItem`) compiles seamlessly into flattened manifest prop maps.
