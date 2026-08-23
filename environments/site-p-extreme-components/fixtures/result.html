@@ -1,0 +1,53 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <title>QA Test Suite 05: Custom Web Components &amp; Fragmented Text Nodes</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background-color: #0d1117; color: #c9d1d9; }
+    .component-card { border: 1px solid #30363d; padding: 20px; border-radius: 8px; margin-bottom: 20px; background: #161b22; }
+  </style>
+<style id="spm-injected-theme-styles">:root {
+  --spm-accent: #58a6ff;
+  --spm-bg-primary: #0d1117;
+  --spm-text-primary: #c9d1d9;
+}
+
+</style></head>
+<body>
+
+  <header>
+    <h1>QA Test Suite 05: Custom Web Components &amp; Fragmented Text Nodes</h1>
+    <nav><a href="index.html" style="color: #58a6ff;">← Back to Index</a></nav>
+  </header>
+
+  <spm-reconstruct-host layout="UiDashboardPage" selector="#section-1-web-components"></spm-reconstruct-host><section id="section-1-web-components">
+    <h2 style="display: none;">Section 1: Custom Web Components &amp; Fragmented Nodes</h2>
+    
+    <div class="component-card" style="display: none;">
+      <h3>Test 5.1: Custom Tag Attribute Extraction</h3>
+      <custom-card data-card-id="901" data-status="verified">
+        <h3>Custom Card Header #901</h3>
+        <p>Custom element content testing custom tag DOM extraction.</p>
+      </custom-card>
+    </div>
+
+    <div class="component-card" style="display: none;">
+      <h3>Test 5.2: Fragmented Text Nodes across HTML Comments</h3>
+      <div id="fragmented-text-box">
+        <!-- text fragment start -->
+        This is <b>fragmented</b> text <!-- text fragment middle --> node segment <i>split</i> by <!-- text fragment block --> html comments and <span>inline span elements</span> across <!-- text fragment end --> multiple lines.
+      </div>
+    </div>
+
+    <div class="component-card" style="display: none;">
+      <h3>Test 5.3: Nested Web Component Trees</h3>
+      <legacy-widget id="widget-main" data-version="2.0">
+        <custom-card data-card-id="902">
+          <p>Nested Custom Card inside Legacy Widget.</p>
+        </custom-card>
+      </legacy-widget>
+    </div>
+  </section>
+
+
+
+<script>window.__spm_dev_manifest = {"components":[],"reconstructs":[{"children":[{"name":"cards","propsMap":{"description":"p | text","title":"h3 | text","url":"a | attr:href","urlLabel":"a | text"},"selector":".component-card"}],"containerSelector":"#section-1-web-components","layoutComponent":"UiDashboardPage","props":{"height":"100vh","pageTitle":"Section 1: Custom Web Components & Fragmented Nodes","subTitle":"QA Test Suite 05 - Custom Elements & Text Node Extraction"}}],"theme":{"cssVariables":{"--spm-accent":"#58a6ff","--spm-bg-primary":"#0d1117","--spm-text-primary":"#c9d1d9"},"customStyles":"","label":"DarkComponents"}};</script><script src="file:///home/watashi/Projects/extension/dist/src/content/index.iife.js"></script></body></html>

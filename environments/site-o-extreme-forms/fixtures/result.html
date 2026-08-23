@@ -1,0 +1,60 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <title>QA Test Suite 04: Complex Form Control Elements &amp; Input Masking</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background-color: #0f172a; color: #f8fafc; }
+    .form-card { border: 1px solid #334155; padding: 20px; border-radius: 8px; margin-bottom: 20px; background: #1e293b; }
+    .input-field { width: 100%; max-width: 400px; padding: 8px; margin-top: 6px; border-radius: 4px; border: 1px solid #475569; background: #0f172a; color: #fff; }
+    .btn-submit { background: #3b82f6; color: #fff; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; }
+  </style>
+<style id="spm-injected-theme-styles">:root {
+  --spm-accent: #3b82f6;
+  --spm-bg-primary: #0f172a;
+  --spm-bg-secondary: #1e293b;
+  --spm-text-primary: #f8fafc;
+}
+
+</style></head>
+<body>
+
+  <header>
+    <h1>QA Test Suite 04: Complex Form Control Elements &amp; Input Masking</h1>
+    <nav><a href="index.html" style="color: #38bdf8;">← Back to Index</a></nav>
+  </header>
+
+  <spm-reconstruct-host layout="UiDashboardPage" selector="#section-1-form-controls"></spm-reconstruct-host><section id="section-1-form-controls">
+    <h2 style="display: none;">Section 1: Multi-Selects &amp; Checkbox Groups</h2>
+    <div class="form-card" style="display: none;">
+      <h3>Test 4.1: Multi-Select Options</h3>
+      <form id="multi-select-form">
+        <label for="categories">Categories:</label><br>
+        <select id="categories" name="categories" multiple="" class="input-field">
+          <option value="tech" selected="">Technology</option>
+          <option value="science" selected="">Science</option>
+          <option value="art">Art &amp; Design</option>
+        </select>
+      </form>
+    </div>
+
+    <div class="form-card" style="display: none;">
+      <h3>Test 4.2: Checkbox &amp; Radio Groups</h3>
+      <div id="checkbox-group">
+        <label><input type="checkbox" name="skills" value="js" checked=""> JavaScript</label>
+        <label><input type="checkbox" name="skills" value="ts" checked=""> TypeScript</label>
+        <label><input type="checkbox" name="skills" value="py"> Python</label>
+      </div>
+    </div>
+
+    <div class="form-card" style="display: none;">
+      <h3>Test 4.3: Masked &amp; Formatted Inputs</h3>
+      <form id="masked-form" action="/submit-masked" method="POST" data-ajax="true">
+        <label>Phone Number (Masked):</label><br>
+        <input type="text" id="phone-input" class="input-field" data-mask="phone" value="+1 (555) 019-2834" readonly=""><br><br>
+        <button type="submit" class="btn-submit">Submit Form</button>
+      </form>
+    </div>
+  </section>
+
+
+
+<script>window.__spm_dev_manifest = {"components":[],"reconstructs":[{"children":[{"name":"cards","propsMap":{"description":"label | text","title":"h3 | text","url":"form | attr:action","urlLabel":"button | text"},"selector":".form-card"}],"containerSelector":"#section-1-form-controls","layoutComponent":"UiDashboardPage","props":{"pageTitle":"Section 1: Multi-Selects & Checkbox Groups","subTitle":"Form control elements and input masking"},"propsMap":{"categories":"select#categories option[selected] | text","maskedPhone":"input#phone-input | attr:value"}}],"theme":{"cssVariables":{"--spm-accent":"#3b82f6","--spm-bg-primary":"#0f172a","--spm-bg-secondary":"#1e293b","--spm-text-primary":"#f8fafc"},"customStyles":"","label":"Extreme Forms Theme"}};</script><script src="file:///home/watashi/Projects/extension/dist/src/content/index.iife.js"></script></body></html>

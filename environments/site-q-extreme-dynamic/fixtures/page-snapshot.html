@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QA Test Suite 06: Async DOM Mutations & Micro-Flickers</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background-color: #090a0f; color: #ffffff; }
+    .card { border: 1px solid #1c202e; padding: 20px; border-radius: 8px; margin-bottom: 20px; background: #12151e; }
+    .btn { background: #ff0055; color: #fff; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>QA Test Suite 06: Async DOM Mutations & Micro-Flickers</h1>
+    <nav><a href="index.html" style="color: #ff0055;">&larr; Back to Index</a></nav>
+  </header>
+
+  <section id="section-1-dynamic-feed">
+    <h2>Section 1: Async DOM Mutations</h2>
+
+    <div class="card">
+      <h3>Test 6.1: Asynchronous Mutation Feed</h3>
+      <button type="button" class="btn" id="btn-trigger-mutation">Trigger Async Mutation (500ms)</button>
+      <div id="mutation-target-box" style="margin-top: 15px; border: 1px dashed #ff0055; padding: 10px;">
+        Static initial content in mutation target box.
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Test 6.2: Base64 & SVG Data URI Payload</h3>
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTUwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzEwYjk4MSIvPjx0ZXh0IHg9Ijc1IiB5PSI1NSIgZm9udC1zaXplPSIxNCIgZm9udC1mYW1pbHk9InNhbnMtc2VyaWYiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IndoaXRlIj5CYXNlNjQgU1ZHPC90ZXh0Pjwvc3ZnPg==" alt="Base64 SVG URI">
+    </div>
+  </section>
+
+  <script>
+    document.getElementById('btn-trigger-mutation').addEventListener('click', function() {
+      setTimeout(function() {
+        const box = document.getElementById('mutation-target-box');
+        const newEl = document.createElement('div');
+        newEl.textContent = 'Async element inserted via setTimeout at ' + new Date().toISOString();
+        box.appendChild(newEl);
+      }, 500);
+    });
+  </script>
+</body>
+</html>

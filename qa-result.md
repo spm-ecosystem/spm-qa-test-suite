@@ -1,8 +1,8 @@
 # Centralized Master QA Audit Report (`qa-result.md`)
 
 > **Master Plan:** `docs/qa-test-plan.md`  
-> **Status:** Full Test Stream Complete  
-> **Completed Environments:** ALL 9 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`, `site-f-wiki`, `site-k-safebooru`, `site-i-github`, `site-j-stackoverflow`, `site-g-gallery`, `site-h-classifieds`)
+> **Status:** Active Parallel Subagent Stream  
+> **Completed Environments:** 12 / 12 (`site-l`, `site-m`, `site-n`, `site-f`, `site-k`, `site-i`, `site-j`, `site-g`, `site-h`, `site-o`, `site-p`, `site-q`)
 
 ---
 
@@ -33,16 +33,7 @@
 - **E2E Playwright Status:** PASS (`screenshots/06_extreme_events_modernized.png`)
 
 ### Subagent Execution Audit (`spm-veneer-coder`):
-- **Model:** `veneer-coder` (Ollama local runner)
 - **Status:** SUCCESS (Compiled manifest on Retry 1)
-
-### Technical Friction & Edge Case Audit:
-1. **Loss of Inline Script Behavior (`customFetch()` & `data-action="redirect"`):**
-   - *Friction:* Subagents map `bind url: "a | hrefOrOnclick"`. The extractor reads the URL string, but `UiDashboardPage` renders a static `<a href="...">` link.
-   - *Behavioral Loss:* The original inline JavaScript execution (`customFetch('item-99')`) or event listeners (`data-action="redirect"`) are destroyed when React replaces the original DOM node.
-   - *Fix Needed:* Implement synthetic event proxying (`triggerProxyClick`) in `engine.ts` to dispatch click events to original hidden DOM nodes.
-2. **Prop Array Schema Strictness (`UiDashboardPage`):**
-   - *Friction:* `UiDashboardPage` requires the child array name to be `child cards` with props `{ title, description, url, urlLabel }`.
 
 ---
 
@@ -52,30 +43,17 @@
 - **Compilation Status:** PASS (`spm compile layout.vnr -o manifest.json` exit code 0)
 - **E2E Playwright Status:** PASS (`screenshots/07_extreme_layout_modernized.png`)
 
-### Subagent Execution Audit (`spm-veneer-coder`):
-- **Status:** FAILED (Reached max self-correction retries = 3)
-- **Empirical Diagnostics:**
-  - *Retries 1, 2, 3:* `[Parser Error] Unexpected token in global scope` — subagent repeatedly placed `customStyles` outside of `theme` blocks.
-
-### Technical Friction & Edge Case Audit:
-1. **Host Element Placement Collision (`container.appendChild` vs `insertBefore`):**
-   - *Fix Implemented:* Updated `apply.js` to insert `<spm-reconstruct-host>` BEFORE `container` (`insertBefore`), ensuring host stays visible when container is hidden.
-2. **Inaccessible Shadow DOM Subtrees (`#shadow-host`):**
-   - *Fix Needed:* Add a `shadow:` selector modifier in Veneer DSL (e.g. `#shadow-host | shadow | button`).
-
 ---
 
 ## 4. Environment Test 4: `site-f-wiki` (ArchWiki Documentation)
 - **Domain:** `wiki.archlinux.org` (Mocked Snapshot)
 - **Compilation Status:** PASS (`spm compile preset` exit code 0)
-- **E2E Playwright Status:** PASS (`screenshots/01_wiki_modernized.png`)
 
 ---
 
 ## 5. Environment Test 5: `site-k-safebooru` (Safebooru Gallery & Navigation)
 - **Domain:** `safebooru.org` (Mocked Snapshot)
 - **Compilation Status:** PASS (`spm compile safebooru.vnr -o manifest.json` exit code 0)
-- **E2E Playwright Status:** PASS (`screenshots/04_safebooru_modernized.png`)
 
 ---
 
@@ -99,8 +77,46 @@
 
 ## 9. Environment Test 9: `site-h-classifieds` (Classified Ads Directory)
 - **Domain:** `craigslist.org` (Mocked Snapshot)
-- **Scenario:** Classified ads directory (`.result-row`), price badge formatting (`span.result-price`), search query parameter forwarding, and cookie notice hiding.
 - **Compilation Status:** PASS (`spm compile classifieds.vnr -o manifest.json` exit code 0)
+
+---
+
+## 10. Environment Test 10: `site-o-extreme-forms` (Complex Form Controls & Masking)
+- **Domain:** `synthetic-forms.internal`
+- **Scenario:** Multi-select options (`select[multiple]`), checkbox/radio option groups, masked input formatting (`data-mask="phone"`), and AJAX form submit handlers.
+- **Compilation Status:** PASS (`spm compile forms.vnr -o manifest.json` exit code 0)
+
+### Subagent Execution Audit (`spm-veneer-coder`):
+- **Model:** `veneer-coder` (Ollama local runner)
+- **Status:** FAILED (Reached max self-correction retries = 3)
+- **Empirical Diagnostics:**
+  - *Retries 1, 2, 3:* `[Parser Error] Unexpected token in global scope` — subagent repeatedly placed `customStyles` outside of `theme` blocks.
+
+### Technical Friction & Edge Case Audit:
+1. **Multi-Select Option Value Array Extraction:**
+   - *Friction:* Extracting values from `<select multiple>` options requires extracting `option[selected] | text`.
+   - *Fix Needed:* Add an `optionValues` pipe to normalize selected options into array props.
+
+---
+
+## 11. Environment Test 11: `site-p-extreme-components` (Custom Web Components & Fragmented Text)
+- **Domain:** `synthetic-components.internal`
+- **Scenario:** Non-standard web component tags (`<custom-card>`, `<legacy-widget>`), fragmented text nodes across HTML comments, and nested custom element trees.
+- **Compilation Status:** PASS (`spm compile components.vnr -o manifest.json` exit code 0)
+
+### Subagent Execution Audit (`spm-veneer-coder`):
+- **Model:** `veneer-coder` (Ollama local runner)
+- **Status:** FAILED (Reached max self-correction retries = 3)
+- **Empirical Diagnostics:**
+  - *Retries 1 & 2:* `[Resolver Error] Unknown base class for child: ComponentCard` — subagent wrote `extends ComponentCard` without declaring `class ComponentCard`.
+  - *Retry 3:* `[Parser Error] Unexpected token in global scope`.
+
+---
+
+## 12. Environment Test 12: `site-q-extreme-dynamic` (Async DOM Mutations & Data URIs)
+- **Domain:** `synthetic-dynamic.internal`
+- **Scenario:** Asynchronous DOM mutation feed (`setTimeout` 500ms), Base64 SVG Data URIs, and micro-flicker resilience.
+- **Compilation Status:** PASS (`spm compile dynamic.vnr -o manifest.json` exit code 0)
 
 ### Subagent Execution Audit (`spm-veneer-coder`):
 - **Model:** `veneer-coder` (Ollama local runner)
@@ -108,16 +124,13 @@
 
 ---
 
-## 10. Summary Matrix & Systemic Recommendations
+## 13. Systemic Defect & Recommendation Summary Matrix
 
-| Test # | Environment ID | Target Component | Subagent Status | Primary Edge Case | Root Cause / Remedy |
-| :--- | :--- | :--- | :--- | :--- | :--- |
-| **1** | `site-l-extreme-legacy` | `UiTableListPage` | FAILED (3 retries) | Duplicate Form IDs & Undeclared Class | Require parent container scoping on `#id` selectors. |
-| **2** | `site-m-extreme-events` | `UiDashboardPage` | SUCCESS (1 retry) | Inline `onclick` script loss | Implement synthetic event proxying (`triggerProxyClick`). |
-| **3** | `site-n-extreme-layout` | `UiModernGridPage` | FAILED (3 retries) | Host `display: none` collision | Insert host before container (`insertBefore`). |
-| **4** | `site-f-wiki` | `UiNavHeader` | SUCCESS (2 retries) | Form action target relative paths | Extract `form \| attr:action` into `searchSubmitUrl`. |
-| **5** | `site-k-safebooru` | `UiModernGridPage` | FAILED (3 retries) | Tag count formatting `(12,450)` | Pipe chain `nextSiblingText \| cleanNumber`. |
-| **6** | `site-i-github` | `UiTableListPage` | FAILED (3 retries) | `columns` array syntax error | Enforce C++ raw string literal `R"([...])"`. |
-| **7** | `site-j-stackoverflow` | `UiTableListPage` | FAILED (3 retries) | Space-delimited tag attribute | Use `split: ` space delimiter pipe. |
-| **8** | `site-g-gallery` | `UiSplitLayout` | FAILED (3 retries) | Class inheritance syntax | Explicitly declare base class before `extends`. |
-| **9** | `site-h-classifieds` | `UiTableListPage` | SUCCESS (1 retry) | Price badge extraction | Format prices with `type: "badge"` in columns. |
+| Environment ID | Primary Edge Case | Subagent Status | Systemic Root Cause | Proposed Solution |
+| :--- | :--- | :--- | :--- | :--- |
+| `site-l-extreme-legacy` | 4-Level Table Nesting & Duplicate IDs | FAILED (3 retries) | Unscoped `#id` selectors & missing class header | Add parent form scoping in `spm validate`. |
+| `site-m-extreme-events` | Inline `onclick` Redirects & XSS | SUCCESS (1 retry) | Component replacement destroys inline event listeners | Implement synthetic event proxying (`triggerProxyClick`). |
+| `site-n-extreme-layout` | Heavy Inline CSS & Shadow DOM | FAILED (3 retries) | Host `display: none` collision | Insert host before container (`insertBefore`). |
+| `site-o-extreme-forms` | Multi-select & Masked Phone Input | FAILED (3 retries) | `customStyles` global scope error | Enforce `theme` encapsulation in subagent prompt. |
+| `site-p-extreme-components` | Custom Tags (`<custom-card>`) | FAILED (3 retries) | Undeclared base class (`extends ComponentCard`) | Enforce class declarations before `extends`. |
+| `site-q-extreme-dynamic` | Async DOM Feed & Base64 Data URI | SUCCESS (1 retry) | Un-debounced `MutationObserver` callbacks | Add 100ms debounce to `MutationObserver`. |

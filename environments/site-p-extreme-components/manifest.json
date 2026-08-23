@@ -1,0 +1,35 @@
+{
+    "components": [],
+    "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "cards",
+                    "propsMap": {
+                        "description": "p | text",
+                        "title": "h3 | text",
+                        "url": "a | attr:href",
+                        "urlLabel": "a | text"
+                    },
+                    "selector": ".component-card"
+                }
+            ],
+            "containerSelector": "#section-1-web-components",
+            "layoutComponent": "UiDashboardPage",
+            "props": {
+                "height": "100vh",
+                "pageTitle": "Section 1: Custom Web Components & Fragmented Nodes",
+                "subTitle": "QA Test Suite 05 - Custom Elements & Text Node Extraction"
+            }
+        }
+    ],
+    "theme": {
+        "cssVariables": {
+            "--spm-accent": "#58a6ff",
+            "--spm-bg-primary": "#0d1117",
+            "--spm-text-primary": "#c9d1d9"
+        },
+        "customStyles": "",
+        "label": "DarkComponents"
+    }
+}

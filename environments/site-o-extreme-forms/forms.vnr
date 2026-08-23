@@ -1,0 +1,24 @@
+theme "Extreme Forms Theme" {
+  variables {
+    --spm-bg-primary: "#0f172a";
+    --spm-bg-secondary: "#1e293b";
+    --spm-text-primary: "#f8fafc";
+    --spm-accent: "#3b82f6";
+  }
+}
+
+reconstruct "#section-1-form-controls" -> UiDashboardPage {
+  pageTitle: "Section 1: Multi-Selects & Checkbox Groups";
+  subTitle: "Form control elements and input masking";
+
+  bind categories: "select#categories option[selected] | text";
+  bind maskedPhone: "input#phone-input | attr:value";
+
+  child cards {
+    selector: ".form-card";
+    bind title: "h3 | text";
+    bind description: "label | text";
+    bind url: "form | attr:action";
+    bind urlLabel: "button | text";
+  }
+}

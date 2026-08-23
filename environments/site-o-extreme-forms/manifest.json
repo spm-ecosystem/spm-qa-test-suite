@@ -1,0 +1,39 @@
+{
+    "components": [],
+    "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "cards",
+                    "propsMap": {
+                        "description": "label | text",
+                        "title": "h3 | text",
+                        "url": "form | attr:action",
+                        "urlLabel": "button | text"
+                    },
+                    "selector": ".form-card"
+                }
+            ],
+            "containerSelector": "#section-1-form-controls",
+            "layoutComponent": "UiDashboardPage",
+            "props": {
+                "pageTitle": "Section 1: Multi-Selects & Checkbox Groups",
+                "subTitle": "Form control elements and input masking"
+            },
+            "propsMap": {
+                "categories": "select#categories option[selected] | text",
+                "maskedPhone": "input#phone-input | attr:value"
+            }
+        }
+    ],
+    "theme": {
+        "cssVariables": {
+            "--spm-accent": "#3b82f6",
+            "--spm-bg-primary": "#0f172a",
+            "--spm-bg-secondary": "#1e293b",
+            "--spm-text-primary": "#f8fafc"
+        },
+        "customStyles": "",
+        "label": "Extreme Forms Theme"
+    }
+}

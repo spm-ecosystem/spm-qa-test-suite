@@ -1,0 +1,21 @@
+theme "DarkComponents" {
+    variables {
+        --spm-bg-primary: "#0d1117";
+        --spm-text-primary: "#c9d1d9";
+        --spm-accent: "#58a6ff";
+    }
+}
+
+reconstruct "#section-1-web-components" -> UiDashboardPage {
+    pageTitle: "Section 1: Custom Web Components & Fragmented Nodes";
+    subTitle: "QA Test Suite 05 - Custom Elements & Text Node Extraction";
+    height: "100vh";
+
+    child cards {
+        selector: ".component-card";
+        bind title: "h3 | text";
+        bind description: "p | text";
+        bind url: "a | attr:href";
+        bind urlLabel: "a | text";
+    }
+}

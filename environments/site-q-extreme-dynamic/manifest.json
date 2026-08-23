@@ -1,0 +1,27 @@
+{
+    "components": [],
+    "reconstructs": [
+        {
+            "children": [
+                {
+                    "name": "items",
+                    "propsMap": {
+                        "description": ".card > p | text",
+                        "id": "self | attr:id",
+                        "imageUrl": "img | attr:src",
+                        "linkUrl": "a | attr:href",
+                        "title": "h3 | text"
+                    },
+                    "selector": ".card"
+                }
+            ],
+            "containerSelector": "#section-1-dynamic-feed",
+            "layoutComponent": "UiModernGridPage",
+            "props": {
+                "mobileColumns": 2,
+                "pageTitle": "Section 1: Async DOM Mutations",
+                "showSearch": false
+            }
+        }
+    ]
+}

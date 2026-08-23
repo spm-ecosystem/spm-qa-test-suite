@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>QA Test Suite 05: Custom Web Components & Fragmented Text Nodes</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; background-color: #0d1117; color: #c9d1d9; }
+    .component-card { border: 1px solid #30363d; padding: 20px; border-radius: 8px; margin-bottom: 20px; background: #161b22; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>QA Test Suite 05: Custom Web Components & Fragmented Text Nodes</h1>
+    <nav><a href="index.html" style="color: #58a6ff;">&larr; Back to Index</a></nav>
+  </header>
+
+  <section id="section-1-web-components">
+    <h2>Section 1: Custom Web Components & Fragmented Nodes</h2>
+    
+    <div class="component-card">
+      <h3>Test 5.1: Custom Tag Attribute Extraction</h3>
+      <custom-card data-card-id="901" data-status="verified">
+        <h3>Custom Card Header #901</h3>
+        <p>Custom element content testing custom tag DOM extraction.</p>
+      </custom-card>
+    </div>
+
+    <div class="component-card">
+      <h3>Test 5.2: Fragmented Text Nodes across HTML Comments</h3>
+      <div id="fragmented-text-box">
+        <!-- text fragment start -->
+        This is <b>fragmented</b> text <!-- text fragment middle --> node segment <i>split</i> by <!-- text fragment block --> html comments and <span>inline span elements</span> across <!-- text fragment end --> multiple lines.
+      </div>
+    </div>
+
+    <div class="component-card">
+      <h3>Test 5.3: Nested Web Component Trees</h3>
+      <legacy-widget id="widget-main" data-version="2.0">
+        <custom-card data-card-id="902">
+          <p>Nested Custom Card inside Legacy Widget.</p>
+        </custom-card>
+      </legacy-widget>
+    </div>
+  </section>
+
+</body>
+</html>

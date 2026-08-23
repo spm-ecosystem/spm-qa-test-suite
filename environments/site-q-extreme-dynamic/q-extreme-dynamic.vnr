@@ -1,0 +1,17 @@
+reconstruct "#section-1-dynamic-feed" -> UiModernGridPage {
+    pageTitle: "Section 1: Async DOM Mutations";
+    mobileColumns: 2;
+    showSearch: false;
+
+    child items extends CardItem {
+        selector: ".card";
+    }
+}
+
+class CardItem {
+    bind title: "h3 | text";
+    bind description: ".card > p | text";
+    bind imageUrl: "img | attr:src";
+    bind linkUrl: "a | attr:href";
+    bind id: "self | attr:id";
+}
