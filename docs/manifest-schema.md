@@ -83,9 +83,10 @@ Replaces or hides targeted elements individually.
 ### Properties
 *   `name` (string, required): React component name matching an entry in the React registry.
 *   `selector` (string, required): Standard CSS selector targeting the legacy DOM element.
-*   `action` (string, required): Action to perform. Supported:
-    *   `"replace"`: Hides the element and mounts the React component in its place.
-    *   `"hide"`: Sets `display: none !important` on the selector to remove it visually.
+*   `action` (string, required): Action to perform. Supported enum values:
+    *   `"replace"`: Hides the element and mounts the React component in its place. Takes precedence over `hide` if both target the same element.
+    *   `"hide"`: Sets `display: none !important` on the selector to remove it visually. This action is idempotent (hiding a missing element is a no-op).
+    *   `"wrap"`: (Deprecated / Unsupported) Do not use.
 *   `props` (object): Static prop values passed directly to the React component.
 *   `propsMap` (object): Dynamic prop mappings extracted live from the DOM at injection time (see *Prop Mapping Rules* below).
 

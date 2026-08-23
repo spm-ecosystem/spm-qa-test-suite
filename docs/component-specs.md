@@ -233,11 +233,14 @@ reconstruct "#static-index" -> UiHeroLanding {
 | `title` | `string` | **Required** | Title text used for caption and tooltip attributes. |
 | `id` | `string` | **Required** | Unique DOM identifier assigned to card element. |
 | `width` | `string` | `'160px'` | Default width of card container (overridden by `--spm-image-card-width` if defined). |
-| `aspectRatio` | `'square' \| 'video' \| 'portrait' \| 'auto'` | `'square'` | Predefined aspect ratio (`square` = 1/1, `video` = 16/9, `portrait` = 3/4, `auto` = intrinsic). |
+| `aspectRatio` | `'square' \| 'video' \| 'portrait' \| 'wide' \| 'auto'` | `'square'` | Predefined aspect ratio (`square` = 1/1, `video` = 16/9, `portrait` = 3/4, `wide` = 21/9, `auto` = intrinsic). |
 | `imageFit` | `'cover' \| 'contain'` | `'cover'` | CSS `object-fit` property applied to image. |
 | `showTitle` | `boolean` | `true` | Toggles rendering of bottom title caption block. |
 | `className` | `string` | `''` | Custom CSS class name appended to root element. |
 | `style` | `React.CSSProperties` | `{}` | Custom inline style overrides. |
+
+## Broken Image Fallback
+If the source `imageUrl` fails to load or returns a 404, the component automatically catches the `onError` event and renders a standardized placeholder SVG icon.
 
 ## Design Tokens (CSS Variables)
 

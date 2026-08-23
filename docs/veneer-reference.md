@@ -110,6 +110,8 @@ A `selector` block targets an individual legacy element in the DOM to replace it
     *   Must specify a target string representing the CSS selector of the legacy node.
     *   Can map directly to a component using the arrow syntax: `selector "#element" -> UiComponent`.
     *   Must contain an `action` key (either `hide` or `replace`).
+    *   **Idempotent Hide**: Hiding a missing element is a no-op and will not cause errors.
+    *   **Conflict Resolution**: When multiple `selector` blocks target the same element, `replace` takes precedence over `hide`.
 *   **Syntax**:
     ```scss
     selector "#sub-navbar" {
@@ -214,6 +216,30 @@ Defines a nested data array scraped from matching legacy elements inside the pag
     ]
     ```
 
+#### Child Block with Class Inheritance
+A `child` block can inherit structure from a `class` using the `extends` keyword, allowing you to reuse bindings across different child lists.
+
+*   **Scope Inheritance**: The `scope` directive defined in the parent class is inherited by the child. The child can redefine `scope` to override the parent's value.
+*   **Bind Override Precedence**: If a `bind` rule is defined in both the parent class and the child block for the same property, the child's `bind` rule takes precedence and overrides the parent.
+*   **Extra Bind Declarations**: You can seamlessly mix inherited bindings with extra `bind` declarations directly in the child block for context-specific extractions.
+
+```scss
+class LinkBase {
+    scope: "container";
+    bind label: "self | text";
+    bind url: "self | attr:href";
+}
+
+reconstruct "#nav" -> UiNav {
+    child links extends LinkBase {
+        selector: ".nav-item";
+        scope: "document"; // Overrides LinkBase scope
+        bind icon: "i | attr:class"; // Extra binding specific to this child
+        bind url: "a.override | attr:href"; // Overrides LinkBase url binding
+    }
+}
+```
+
 ---
 
 ### `bind`
@@ -245,25 +271,37 @@ Prevents specific interactive elements (like a legacy comment form or complex si
 *   **Rules**:
     *   Maps a React layout slot name (e.g. `sidebarSlot`) to the legacy element CSS selector (e.g. `.sidebar`).
     *   Compiles into the `"preserve"` block of the target manifest reconstruct.
-*   **Syntax**:
+    *   **Fallback Behavior**: If a targeted preserve slot is missing from the DOM, it gracefully resolves to `null` and logs a console warning in development mode.
+
+#### Syntax Variants
+The `preserve` block supports two syntaxes depending on how many slots you need to map:
+
+1. **Scalar Form**: Used when mapping a single unnamed slot or extracting multiple hidden inputs.
+    ```scss
+    reconstruct "#form-view" -> UiFormLayout {
+        preserve: "form | hiddenInputs";
+    }
+    ```
+    *Compiled Output*:
+    ```json
+    "preserve": "form | hiddenInputs"
+    ```
+
+2. **Dictionary Form**: Used when mapping multiple named slots to specific selectors.
     ```scss
     reconstruct "#item-view" -> UiItemDetailsPage {
         preserve {
             sidebarSlot: ".sidebar";
+            commentForm: "#reply-form";
         }
     }
     ```
-*   **Compiled Output**:
+    *Compiled Output*:
     ```json
-    "reconstructs": [
-      {
-        "containerSelector": "#item-view",
-        "layoutComponent": "UiItemDetailsPage",
-        "preserve": {
-          "sidebarSlot": ".sidebar"
-        }
-      }
-    ]
+    "preserve": {
+      "sidebarSlot": ".sidebar",
+      "commentForm": "#reply-form"
+    }
     ```
 
 ---
@@ -271,16 +309,23 @@ Prevents specific interactive elements (like a legacy comment form or complex si
 ### `scope`
 Configures the boundary limits of the CSS selector query.
 
-*   **Role**: Tells the runtime engine whether it should search for elements only within the container element's boundary (`scope: "container"`) or search the entire page (`scope: "document"`).
+*   **Role**: Tells the runtime engine whether it should search for elements only within the container element's boundary (`scope: "container"`), the entire page (`scope: "document"`), or within a specific custom DOM ancestor matching a CSS selector.
 *   **Rules**:
     *   The default scope is `"container"` (meaning selectors inside child nodes only query descendants of the parent reconstruct container).
     *   Setting `scope: "document";` is useful for items like global pagination elements or secondary search bars located outside the main layout container.
+    *   **Custom CSS Selector**: `scope` also accepts any valid CSS selector string (e.g. `scope: "#sidebar";`). When provided, the engine queries elements relative to the first matching ancestor or globally matched element corresponding to that selector, rather than the reconstruct container.
     *   If `"container"` is configured, the compiler omits the key in the compiled output to keep the JSON clean.
 *   **Syntax**:
     ```scss
     child pageLinks {
         scope: "document";
         selector: "#paginator .pagination a";
+    }
+
+    child sidebarWidgets {
+        scope: "#sidebar";
+        selector: ".widget";
+        bind title: "h3 | text";
     }
     ```
 *   **Compiled Output**:
