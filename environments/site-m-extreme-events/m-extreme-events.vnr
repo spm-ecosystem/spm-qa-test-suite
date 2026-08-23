@@ -1,0 +1,24 @@
+class QATestCase {
+    bind title: "h3 | text";
+    bind payload: ".payload-container code | text";
+    bind actionUrl: "a.test-link | attr:hrefOrOnclick";
+}
+
+reconstruct "#section-1-onclick-links" -> UiDashboardPage {
+    pageTitle: "Section 1: Complex Inline onclick Links";
+    
+    child cards extends QATestCase {
+        selector: ".test-case";
+        
+        // Extract action URL from either `onclick` handler or `hrefOrOnclick` attribute
+        bind actionUrl: "a.test-link | attr:hrefOrOnclick";
+    }
+}
+
+reconstruct "#section-3-xss-sanitization" -> UiSearchBar {
+    pageTitle: "Section 3: XSS Payload & Sanitization Testbed";
+    
+    child payloadRows extends QATestCase {
+        selector: ".payload-container";
+    }
+}
