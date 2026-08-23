@@ -21,6 +21,9 @@ This document stores all resolved software defects, completed GitHub issues, and
 | `DEFECT-PORTAL-01` | `spm-portal` | Build / Documentation | Runtime `fetch()` of `.md` files failed offline. Built `sync-docs.js` and eager Vite `import.meta.glob` for 0ms latency build-time bundling. | `spm-portal: 3fba99f` |
 | `DEFECT-EXT-01` | `site-package-manager` | Build / Registry | `npm run build` failed when sibling repo `vscode-theme-manifest-intellisense` was absent. Built `build-registry-safe.js` to allow standalone builds. | `extension: eb9dc4d` |
 | `DEFECT-EXT-02` | `interceptor.iife.ts` & `modernizer.tsx` | Cross-Origin Messaging | `postMessage` with `window.location.origin` inside iframe caused messages to be dropped by top window across origins. Restored `'*'` targetOrigin for iframe toasts. | `extension: eb9dc4d` |
+| `DEFECT-SGG-07` | `UiSplitLayout.tsx` | Component Alias | `UiSplitLayout` expected `src`/`alt` in `imageSlot`, but `DetailedGalleryItem` sent `imageUrl`/`title`. Added fallback aliases `src: imageUrl || src` and `alt: title || alt`. | `spm-components: 506a4a8` |
+| `DEFECT-SIG-02` | `UiTableListPage.tsx` | Component Feature | Array column values (e.g. `["bug", "p0"]`) rendered as unstyled text or `[object Object]`. Supported array values in `UiTableListPage` by rendering `<UiTagBadge>` elements. | `spm-components: 506a4a8` |
+| `DEFECT-SJS-02` | `validate.js` | Validation CLI | `spm validate` checked container selectors but ignored child-level item binding failures. Added item-level binding check to report `FAIL` if child items return `null`. | `spm-cli: 2da1599` |
 
 ---
 
@@ -33,6 +36,9 @@ This document stores all resolved software defects, completed GitHub issues, and
 - **Issue #9 (`spm-qa-test-suite`):** Add lazy loading prop to `UiImageCard` — **Completed**
 - **Issue #11 (`spm-qa-test-suite`):** Rename `qa-orchestration` skill to `qa-doc-audit` — **Completed**
 - **Issue #12 (`spm-qa-test-suite`):** Update Veneer reference documentation for native JSON arrays and objects — **Completed**
+- **Issue #14 (`spm-qa-test-suite`):** `UiSplitLayout` imageSlot key mismatch with DetailedGalleryItem (`DEFECT-SGG-07`) — **Completed**
+- **Issue #16 (`spm-qa-test-suite`):** Add support for array-based columns rendering in `UiTableListPage` (`DEFECT-SIG-02, SJS-07`) — **Completed**
+- **Issue #17 (`spm-qa-test-suite`):** `spm validate` should check child-level item bindings for failure (`DEFECT-SJS-02`) — **Completed**
 - **Issue #18 (`spm-qa-test-suite`):** Fix `cleanNumber` pipe metric abbreviation strip and hyphen parsing bugs — **Completed**
 - **Issue #2 (`spm-cli`):** Add `spm validate` command for manifest-against-HTML validation — **Completed**
 - **Issue #3 (`spm-cli`):** Add `spm apply` command to apply manifest transformations to HTML snapshots — **Completed**

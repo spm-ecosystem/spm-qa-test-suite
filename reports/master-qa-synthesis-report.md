@@ -246,7 +246,4 @@ When launching subsequent QA subagent runs or adding new test environments:
 *   [**Issue #6**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/6): Document child extends and class scope inheritance semantics (`DEFECT-SGG-03`) — **Open**
 *   [**Issue #10**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/10): Define preserve slot fallback and selector conflict resolution (`DEFECT-SHC-05, SHC-06`) — **Open**
 *   [**Issue #13**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/13): Document custom CSS selectors in scope directive (`DEFECT-SHC-07`) — **Open**
-*   [**Issue #14**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/14): `UiSplitLayout` imageSlot key mismatch with DetailedGalleryItem (`DEFECT-SGG-07`) — **Open**
-*   [**Issue #16**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/16): Add support for array-based columns rendering in `UiTableListPage` (`DEFECT-SIG-02, SJS-07`) — **Open**
-*   [**Issue #17**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/17): `spm validate` should check child-level item bindings for failure (`DEFECT-SJS-02`) — **Open**
 *   [**Issue #19**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/19): Fix backtick split syntax compilation constraint (`DEFECT-SJS-05`) — **Open**
