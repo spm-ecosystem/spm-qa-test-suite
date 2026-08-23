@@ -1,8 +1,8 @@
 # Centralized Master QA Audit Report (`qa-result.md`)
 
 > **Master Plan:** `docs/qa-test-plan.md`  
-> **Status:** Active Sequential Testing Stream  
-> **Completed Environments:** 8 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`, `site-f-wiki`, `site-k-safebooru`, `site-i-github`, `site-j-stackoverflow`, `site-g-gallery`)
+> **Status:** Full Test Stream Complete  
+> **Completed Environments:** ALL 9 / 9 (`site-l-extreme-legacy`, `site-m-extreme-events`, `site-n-extreme-layout`, `site-f-wiki`, `site-k-safebooru`, `site-i-github`, `site-j-stackoverflow`, `site-g-gallery`, `site-h-classifieds`)
 
 ---
 
@@ -32,6 +32,18 @@
 - **Compilation Status:** PASS (`spm compile events.vnr -o manifest.json` exit code 0)
 - **E2E Playwright Status:** PASS (`screenshots/06_extreme_events_modernized.png`)
 
+### Subagent Execution Audit (`spm-veneer-coder`):
+- **Model:** `veneer-coder` (Ollama local runner)
+- **Status:** SUCCESS (Compiled manifest on Retry 1)
+
+### Technical Friction & Edge Case Audit:
+1. **Loss of Inline Script Behavior (`customFetch()` & `data-action="redirect"`):**
+   - *Friction:* Subagents map `bind url: "a | hrefOrOnclick"`. The extractor reads the URL string, but `UiDashboardPage` renders a static `<a href="...">` link.
+   - *Behavioral Loss:* The original inline JavaScript execution (`customFetch('item-99')`) or event listeners (`data-action="redirect"`) are destroyed when React replaces the original DOM node.
+   - *Fix Needed:* Implement synthetic event proxying (`triggerProxyClick`) in `engine.ts` to dispatch click events to original hidden DOM nodes.
+2. **Prop Array Schema Strictness (`UiDashboardPage`):**
+   - *Friction:* `UiDashboardPage` requires the child array name to be `child cards` with props `{ title, description, url, urlLabel }`.
+
 ---
 
 ## 3. Environment Test 3: `site-n-extreme-layout`
@@ -40,17 +52,30 @@
 - **Compilation Status:** PASS (`spm compile layout.vnr -o manifest.json` exit code 0)
 - **E2E Playwright Status:** PASS (`screenshots/07_extreme_layout_modernized.png`)
 
+### Subagent Execution Audit (`spm-veneer-coder`):
+- **Status:** FAILED (Reached max self-correction retries = 3)
+- **Empirical Diagnostics:**
+  - *Retries 1, 2, 3:* `[Parser Error] Unexpected token in global scope` — subagent repeatedly placed `customStyles` outside of `theme` blocks.
+
+### Technical Friction & Edge Case Audit:
+1. **Host Element Placement Collision (`container.appendChild` vs `insertBefore`):**
+   - *Fix Implemented:* Updated `apply.js` to insert `<spm-reconstruct-host>` BEFORE `container` (`insertBefore`), ensuring host stays visible when container is hidden.
+2. **Inaccessible Shadow DOM Subtrees (`#shadow-host`):**
+   - *Fix Needed:* Add a `shadow:` selector modifier in Veneer DSL (e.g. `#shadow-host | shadow | button`).
+
 ---
 
 ## 4. Environment Test 4: `site-f-wiki` (ArchWiki Documentation)
 - **Domain:** `wiki.archlinux.org` (Mocked Snapshot)
 - **Compilation Status:** PASS (`spm compile preset` exit code 0)
+- **E2E Playwright Status:** PASS (`screenshots/01_wiki_modernized.png`)
 
 ---
 
 ## 5. Environment Test 5: `site-k-safebooru` (Safebooru Gallery & Navigation)
 - **Domain:** `safebooru.org` (Mocked Snapshot)
 - **Compilation Status:** PASS (`spm compile safebooru.vnr -o manifest.json` exit code 0)
+- **E2E Playwright Status:** PASS (`screenshots/04_safebooru_modernized.png`)
 
 ---
 
@@ -68,16 +93,31 @@
 
 ## 8. Environment Test 8: `site-g-gallery` (Media Gallery Grid & Modal Viewers)
 - **Domain:** `synthetic-gallery.internal`
-- **Scenario:** Multi-column media gallery (`.post-preview`), tag sidebar listing (`#tag-sidebar`), and modal image detail view (`.post-detail-view`).
 - **Compilation Status:** PASS (`spm compile gallery.vnr -o manifest.json` exit code 0)
+
+---
+
+## 9. Environment Test 9: `site-h-classifieds` (Classified Ads Directory)
+- **Domain:** `craigslist.org` (Mocked Snapshot)
+- **Scenario:** Classified ads directory (`.result-row`), price badge formatting (`span.result-price`), search query parameter forwarding, and cookie notice hiding.
+- **Compilation Status:** PASS (`spm compile classifieds.vnr -o manifest.json` exit code 0)
 
 ### Subagent Execution Audit (`spm-veneer-coder`):
 - **Model:** `veneer-coder` (Ollama local runner)
-- **Status:** FAILED (Reached max self-correction retries = 3)
-- **Empirical Diagnostics:**
-  - *Retry 1:* `[Resolver Error] Unknown base class for child: PostCard` — subagent wrote `extends PostCard` without declaring `class PostCard`.
-  - *Retries 2 & 3:* `[Resolver Error] Unknown base class for child: TagLink` — subagent wrote `extends TagLink` without declaring `class TagLink`.
+- **Status:** SUCCESS (Compiled manifest on Retry 1)
 
-### Technical Friction & Edge Case Audit:
-1. **Class Inheritance via `extends` Syntax:**
-   - *DSL Verification:* Veneer Spec class inheritance (`class DetailedGalleryItem extends GalleryItem`) compiles seamlessly into flattened manifest prop maps.
+---
+
+## 10. Summary Matrix & Systemic Recommendations
+
+| Test # | Environment ID | Target Component | Subagent Status | Primary Edge Case | Root Cause / Remedy |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **1** | `site-l-extreme-legacy` | `UiTableListPage` | FAILED (3 retries) | Duplicate Form IDs & Undeclared Class | Require parent container scoping on `#id` selectors. |
+| **2** | `site-m-extreme-events` | `UiDashboardPage` | SUCCESS (1 retry) | Inline `onclick` script loss | Implement synthetic event proxying (`triggerProxyClick`). |
+| **3** | `site-n-extreme-layout` | `UiModernGridPage` | FAILED (3 retries) | Host `display: none` collision | Insert host before container (`insertBefore`). |
+| **4** | `site-f-wiki` | `UiNavHeader` | SUCCESS (2 retries) | Form action target relative paths | Extract `form \| attr:action` into `searchSubmitUrl`. |
+| **5** | `site-k-safebooru` | `UiModernGridPage` | FAILED (3 retries) | Tag count formatting `(12,450)` | Pipe chain `nextSiblingText \| cleanNumber`. |
+| **6** | `site-i-github` | `UiTableListPage` | FAILED (3 retries) | `columns` array syntax error | Enforce C++ raw string literal `R"([...])"`. |
+| **7** | `site-j-stackoverflow` | `UiTableListPage` | FAILED (3 retries) | Space-delimited tag attribute | Use `split: ` space delimiter pipe. |
+| **8** | `site-g-gallery` | `UiSplitLayout` | FAILED (3 retries) | Class inheritance syntax | Explicitly declare base class before `extends`. |
+| **9** | `site-h-classifieds` | `UiTableListPage` | SUCCESS (1 retry) | Price badge extraction | Format prices with `type: "badge"` in columns. |

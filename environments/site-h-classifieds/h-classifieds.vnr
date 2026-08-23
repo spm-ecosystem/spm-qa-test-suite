@@ -1,0 +1,24 @@
+reconstruct "#sortable-results" -> UiTableListPage {
+    pageTitle: "For Sale";
+    columns: R"([
+      { "key": "title", "header": "Title", "width": "200px" },
+      { "key": "price", "header": "Price", "width": "80px", "align": "right" },
+      { "key": "hood", "header": "Location", "width": "150px" },
+      { "key": "date", "header": "Date", "width": "120px", "type": "date" }
+    ])";
+    
+    child tableRows {
+        selector: ".result-row";
+        bind title: "a.result-title | text";
+        bind price: ".result-price | text | cleanNumber";
+        bind hood: ".result-hood | text";
+        bind date: ".result-date | attr:datetime";
+        bind imageUrl: "a.result-image img | attr:src";
+    }
+}
+
+reconstruct "#searchform" -> UiSearchBar {
+    actionUrl: "https://craigslist.org/search/";
+    submitSelector: "button[type='submit']";
+    placeholder: "Search...";
+}
