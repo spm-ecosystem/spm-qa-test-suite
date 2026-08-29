@@ -25,7 +25,9 @@ export const ALL_ENVIRONMENT_PRESETS: EnvironmentPreset[] = [
 
 /**
  * Subset of presets that have a rawDomHtmlPath fixture available.
- * Temporary stub until Task 2.
+ * Used by raw-dom.spec.ts for dirty real-world DOM E2E tests.
  */
-export const RAW_DOM_PRESETS: EnvironmentPreset[] = [];
+export const RAW_DOM_PRESETS: EnvironmentPreset[] = ALL_ENVIRONMENT_PRESETS.filter(
+  p => p.rawDomHtmlPath != null
+);
 

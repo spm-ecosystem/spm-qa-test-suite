@@ -9,6 +9,7 @@ export const ARCHWIKI_PRESET: EnvironmentPreset = {
   name: 'ArchWiki Documentation Modernization',
   route: '/wiki',
   fixtureHtmlPath: path.join(__dirname, 'fixtures/page-snapshot.html'),
+  rawDomHtmlPath: path.join(__dirname, 'fixtures/raw-dom-snapshot.html'),
   manifestObj: {
     targetUrl: 'localhost/*',
     theme: {

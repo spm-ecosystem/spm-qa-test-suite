@@ -12,6 +12,7 @@ export const EXTREME_LEGACY_PRESET: EnvironmentPreset = {
   name: 'Extreme Legacy DOM Modernization',
   route: '/extreme-legacy',
   fixtureHtmlPath: path.join(__dirname, 'fixtures/page-snapshot.html'),
+  rawDomHtmlPath: path.join(__dirname, 'fixtures/raw-dom-snapshot.html'),
   manifestPath,
   manifestObj,
   customCss: 'marquee { display: none !important; }',

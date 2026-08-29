@@ -12,6 +12,7 @@ export const EXTREME_EVENTS_PRESET: EnvironmentPreset = {
   name: 'Extreme Event Handlers & XSS Modernization',
   route: '/extreme-events',
   fixtureHtmlPath: path.join(__dirname, 'fixtures/page-snapshot.html'),
+  rawDomHtmlPath: path.join(__dirname, 'fixtures/raw-dom-snapshot.html'),
   manifestPath,
   manifestObj,
   customCss: '#qa-log { border: 1px solid #00e5ff !important; }',

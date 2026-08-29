@@ -12,6 +12,7 @@ export const EXTREME_LAYOUT_PRESET: EnvironmentPreset = {
   name: 'Extreme Layout & Shadow DOM Modernization',
   route: '/extreme-layout',
   fixtureHtmlPath: path.join(__dirname, 'fixtures/page-snapshot.html'),
+  rawDomHtmlPath: path.join(__dirname, 'fixtures/raw-dom-snapshot.html'),
   manifestPath,
   manifestObj,
   customCss: '#inline-stress-container { width: 100% !important; }',

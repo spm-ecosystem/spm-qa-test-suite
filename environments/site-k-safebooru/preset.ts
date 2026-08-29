@@ -9,6 +9,7 @@ export const SAFEBOORU_PRESET: EnvironmentPreset = {
   name: 'Safebooru.org Gallery & Navigation Modernization',
   route: '/safebooru',
   fixtureHtmlPath: path.join(__dirname, 'page-snapshot.html'),
+  rawDomHtmlPath: path.join(__dirname, 'fixtures/raw-dom-snapshot.html'),
   manifestPath: path.join(__dirname, 'manifest.json'),
   customCss: 'body { background-color: #0f172a !important; color: #f8fafc !important; }',
   highlightSelector: '#grid-container',
