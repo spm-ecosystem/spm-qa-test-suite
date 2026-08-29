@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-layout="split">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ModernStack - Developer Platform</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+  <script type="module" src="/app.js"></script>
+  <style>
+    :root{--color-bg:#0d1117;--color-surface:#161b22;--color-border:#30363d;--color-text:#c9d1d9}
+    *,*::before,*::after{box-sizing:border-box}
+    body{margin:0;background:var(--color-bg);color:var(--color-text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    #app-shell{display:grid;grid-template-areas:"sidebar main";grid-template-columns:240px 1fr;min-height:100vh}
+  </style>
+</head>
+<body>
+  <!-- Custom element (web component) wrapping nav — real modern apps do this -->
+  <app-shell id="app-shell">
+    <nav id="app-sidebar" slot="sidebar" aria-label="Primary navigation"
+         class="sidebar" data-collapsed="false" data-version="2.1">
+      <div class="sidebar__brand">
+        <img src="/logo.svg" alt="ModernStack" class="sidebar__logo" width="32" height="32" />
+        <span class="sidebar__brand-name">ModernStack</span>
+      </div>
+      <ul class="sidebar__nav" role="list">
+        <li class="sidebar__nav-item sidebar__nav-item--active">
+          <a href="/dashboard" class="sidebar__nav-link" aria-current="page"
+             data-nav-key="dashboard">
+            <svg class="sidebar__nav-icon" aria-hidden="true" width="16" height="16"><use href="#icon-dashboard"/></svg>
+            Dashboard
+          </a>
+        </li>
+        <li class="sidebar__nav-item">
+          <a href="/projects" class="sidebar__nav-link" data-nav-key="projects">
+            <svg class="sidebar__nav-icon" aria-hidden="true" width="16" height="16"><use href="#icon-folder"/></svg>
+            Projects
+          </a>
+        </li>
+        <li class="sidebar__nav-item">
+          <a href="/deployments" class="sidebar__nav-link" data-nav-key="deployments">
+            <svg class="sidebar__nav-icon" aria-hidden="true" width="16" height="16"><use href="#icon-deploy"/></svg>
+            Deployments
+          </a>
+        </li>
+        <li class="sidebar__nav-item">
+          <a href="/settings" class="sidebar__nav-link" data-nav-key="settings">
+            <svg class="sidebar__nav-icon" aria-hidden="true" width="16" height="16"><use href="#icon-settings"/></svg>
+            Settings
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <main id="main-content" slot="main" class="main-content" role="main">
+      <header class="page-header" id="page-header">
+        <div class="page-header__inner">
+          <div class="page-header__title-block">
+            <h1 class="page-header__title">Projects</h1>
+            <p class="page-header__subtitle">Manage your repositories and deployments</p>
+          </div>
+          <div class="page-header__actions">
+            <button class="btn btn--primary" type="button" id="new-project-btn"
+                    data-action="open-modal" data-modal="create-project">
+              New Project
+            </button>
+          </div>
+        </div>
+      </header>
+
+      <section class="projects-section" id="projects-list" aria-label="Projects"
+               data-loaded="true" data-count="3">
+        <div class="project-card" id="project-spm-cli" data-project-id="proj_abc123"
+             data-status="active" data-framework="cmake">
+          <div class="project-card__header">
+            <div class="project-card__meta">
+              <img src="/avatars/org/spm-ecosystem.png" alt="spm-ecosystem"
+                   class="project-card__org-avatar" width="20" height="20" />
+              <a href="/spm-ecosystem" class="project-card__org-link">spm-ecosystem</a>
+              <span class="project-card__separator" aria-hidden="true">/</span>
+              <a href="/spm-ecosystem/spm-cli" class="project-card__name-link">spm-cli</a>
+            </div>
+            <span class="project-card__status-badge project-card__status-badge--active"
+                  data-status="active">Active</span>
+          </div>
+          <div class="project-card__body">
+            <p class="project-card__description">C++17 native Veneer Spec compiler and runtime</p>
+            <div class="project-card__stats">
+              <span class="project-stat" data-stat="deployments">
+                <svg aria-hidden="true" width="12" height="12"><use href="#icon-deploy"/></svg>
+                14 deployments
+              </span>
+              <span class="project-stat" data-stat="last-deploy">
+                Last deploy: <time datetime="2024-01-18T12:00:00Z">2 hours ago</time>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" id="project-spm-components" data-project-id="proj_def456"
+             data-status="active" data-framework="react">
+          <div class="project-card__header">
+            <div class="project-card__meta">
+              <img src="/avatars/org/spm-ecosystem.png" alt="spm-ecosystem"
+                   class="project-card__org-avatar" width="20" height="20" />
+              <a href="/spm-ecosystem" class="project-card__org-link">spm-ecosystem</a>
+              <span class="project-card__separator" aria-hidden="true">/</span>
+              <a href="/spm-ecosystem/spm-components" class="project-card__name-link">spm-components</a>
+            </div>
+            <span class="project-card__status-badge project-card__status-badge--active"
+                  data-status="active">Active</span>
+          </div>
+          <div class="project-card__body">
+            <p class="project-card__description">React UI component library for SPM modernization engine</p>
+            <div class="project-card__stats">
+              <span class="project-stat" data-stat="deployments">
+                <svg aria-hidden="true" width="12" height="12"><use href="#icon-deploy"/></svg>
+                8 deployments
+              </span>
+              <span class="project-stat" data-stat="last-deploy">
+                Last deploy: <time datetime="2024-01-17T09:00:00Z">1 day ago</time>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Template element — browser does not render its content -->
+      <template id="project-card-template">
+        <div class="project-card" data-project-id="">
+          <div class="project-card__header"></div>
+          <div class="project-card__body"></div>
+        </div>
+      </template>
+    </main>
+  </app-shell>
+</body>
+</html>

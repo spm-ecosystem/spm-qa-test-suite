@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>EventsNow - Find Events Near You</title>
+  <script>
+    // Inline tracking — blocks parser momentarily on real pages
+    !function(f,b,e,v){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;}(window,document,'script');
+    fbq('init','123456789');
+    fbq('track','PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" />
+  </noscript>
+</head>
+<body>
+  <header id="site-header" class="header sticky-header" data-sticky="true">
+    <div class="header__inner container">
+      <a href="/" class="header__logo" aria-label="EventsNow Home">
+        <img src="/assets/logo.svg" alt="EventsNow" width="120" height="40" />
+      </a>
+      <nav class="header__nav" role="navigation" aria-label="Main navigation">
+        <a href="/events" class="nav-link">Browse</a>
+        <a href="/organizers" class="nav-link">Organizers</a>
+        <a href="/create" class="nav-link nav-link--cta">Create Event</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="events-main" role="main">
+    <div class="events-grid" id="events-container" data-view="grid" data-page="1" data-total="4892">
+      <!-- Event card with inline onclick and javascript: href (legacy tracking) -->
+      <article class="event-card" id="event-88291" data-event-id="88291" data-category="music"
+               onclick="trackClick('88291','music','card_body')">
+        <div class="event-card__image-wrap">
+          <a href="javascript:void(0)" onclick="navigateEvent('/events/88291/rock-festival-sp-2024');return false;"
+             class="event-card__img-link" tabindex="0">
+            <img
+              class="event-card__image lazyload"
+              data-src="/events/88291/cover.jpg"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'%3E%3C/svg%3E"
+              alt="Rock Festival SP 2024"
+              loading="lazy"
+              width="400" height="200"
+            />
+          </a>
+          <span class="event-card__category-badge" data-category="music">Music</span>
+        </div>
+        <div class="event-card__body">
+          <h3 class="event-card__title">
+            <a href="/events/88291/rock-festival-sp-2024" class="event-card__title-link">
+              Rock Festival SP 2024
+            </a>
+          </h3>
+          <div class="event-card__meta">
+            <time class="event-card__date" datetime="2024-03-15T20:00:00-03:00">
+              Sat, Mar 15 · 8:00 PM
+            </time>
+            <span class="event-card__location">Allianz Parque · São Paulo, SP</span>
+          </div>
+          <div class="event-card__price-row">
+            <span class="event-card__price">R$ 280,00</span>
+            <span class="event-card__tickets-left event-card__tickets-left--few">12 left</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="event-card" id="event-88350" data-event-id="88350" data-category="tech"
+               onclick="trackClick('88350','tech','card_body')">
+        <div class="event-card__image-wrap">
+          <a href="/events/88350/campus-party-2024" class="event-card__img-link">
+            <img
+              class="event-card__image lazyload"
+              data-src="/events/88350/cover.jpg"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 200'%3E%3C/svg%3E"
+              alt="Campus Party Brasil 2024"
+              loading="lazy"
+              width="400" height="200"
+            />
+          </a>
+          <span class="event-card__category-badge" data-category="tech">Tech</span>
+        </div>
+        <div class="event-card__body">
+          <h3 class="event-card__title">
+            <a href="/events/88350/campus-party-2024" class="event-card__title-link">
+              Campus Party Brasil 2024
+            </a>
+          </h3>
+          <div class="event-card__meta">
+            <time class="event-card__date" datetime="2024-02-06T09:00:00-03:00">
+              Tue, Feb 6 · 9:00 AM
+            </time>
+            <span class="event-card__location">Expo Center Norte · São Paulo, SP</span>
+          </div>
+          <div class="event-card__price-row">
+            <span class="event-card__price">R$ 120,00</span>
+            <span class="event-card__tickets-left">480 left</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer id="site-footer" class="footer">
+    <div class="footer__inner container">
+      <p class="footer__copy">&copy; 2024 EventsNow. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
