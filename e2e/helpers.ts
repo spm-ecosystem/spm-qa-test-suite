@@ -164,7 +164,7 @@ export async function runEnvironmentE2ETest(preset: EnvironmentPreset) {
  * Raw DOM variant runner — same flow as runEnvironmentE2ETest but navigates
  * to the /route/raw endpoint which serves rawDomHtmlPath fixture.
  */
-export async function runRawDomE2ETest(preset: EnvironmentPreset) {
+export async function runRawDomE2ETest(preset: EnvironmentPreset, port: number = 8081) {
   if (!preset.rawDomHtmlPath) {
     throw new Error(`[Raw DOM Runner] preset '${preset.id}' has no rawDomHtmlPath defined`);
   }
@@ -183,7 +183,7 @@ export async function runRawDomE2ETest(preset: EnvironmentPreset) {
   try {
     const page = await context.newPage();
 
-    await page.goto('http://localhost:8080/');
+    await page.goto(`http://localhost:${port}/`);
     await page.waitForSelector('html[data-spm-extension-id]', { timeout: 10000 });
     const extensionId = await page.evaluate(() =>
       document.documentElement.getAttribute('data-spm-extension-id') || ''
@@ -216,7 +216,7 @@ export async function runRawDomE2ETest(preset: EnvironmentPreset) {
     }, { manifest: manifestData, css: preset.customCss });
 
     // Navigate to the /raw variant route
-    await page.goto(`http://localhost:8080${preset.route}/raw`);
+    await page.goto(`http://localhost:${port}${preset.route}/raw`);
     await page.waitForTimeout(2000);
 
     if (preset.assertions) {
