@@ -22,3 +22,10 @@ export const ALL_ENVIRONMENT_PRESETS: EnvironmentPreset[] = [
   EXTREME_EVENTS_PRESET,
   EXTREME_LAYOUT_PRESET
 ];
+
+/**
+ * Subset of presets that have a rawDomHtmlPath fixture available.
+ * Temporary stub until Task 2.
+ */
+export const RAW_DOM_PRESETS: EnvironmentPreset[] = [];
+
