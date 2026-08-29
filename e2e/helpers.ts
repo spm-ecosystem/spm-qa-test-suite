@@ -144,6 +144,10 @@ export async function runEnvironmentE2ETest(preset: EnvironmentPreset) {
       await preset.assertions(page);
     }
 
+    if (preset.expectedSelector) {
+      await expect(page.locator(preset.expectedSelector).first()).toBeVisible({ timeout: 5000 });
+    }
+
     // 6. Capture visual snapshot if selector is provided
     if (preset.highlightSelector) {
       await annotateAndScreenshot(
@@ -222,6 +226,10 @@ export async function runRawDomE2ETest(preset: EnvironmentPreset, port: number =
 
     if (preset.assertions) {
       await preset.assertions(page);
+    }
+
+    if (preset.expectedSelector) {
+      await expect(page.locator(preset.expectedSelector).first()).toBeVisible({ timeout: 5000 });
     }
 
     if (preset.highlightSelector) {
