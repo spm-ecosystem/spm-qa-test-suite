@@ -15,6 +15,7 @@ export interface EnvironmentPreset {
   manifestObj?: object;
   customCss?: string;
   highlightSelector?: string;
+  expectedSelector?: string;
   annotationText?: string;
   snapshotName: string;
   assertions?: (page: Page) => Promise<void>;
