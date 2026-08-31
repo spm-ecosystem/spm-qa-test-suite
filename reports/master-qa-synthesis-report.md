@@ -235,15 +235,27 @@ When launching subsequent QA subagent runs or adding new test environments:
 
 ---
 
-## 7. Active Ecosystem Issues (Open Work)
+## 7. Active Ecosystem Issues (Open Work & Technical Specs)
 
 > For completed issues and historical defect resolutions, see [Resolved Issues Archive](resolved-issues-archive.md).
 
-### `spm-qa-test-suite` Open Issues
-*   [**Issue #3**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/3): Document selector actions replace and wrap (`DEFECT-SHC-01, SHC-02`) — **Open**
-*   [**Issue #4**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/4): Clarify preserve syntax variants - scalar vs dictionary (`DEFECT-SFW-03, SEC-04`) — **Open**
-*   [**Issue #5**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/5): Add UiImageCard documentation - aspect ratios, vnr example, fallback (`DEFECT-SGG-02, SGG-06`) — **Open**
-*   [**Issue #6**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/6): Document child extends and class scope inheritance semantics (`DEFECT-SGG-03`) — **Open**
-*   [**Issue #10**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/10): Define preserve slot fallback and selector conflict resolution (`DEFECT-SHC-05, SHC-06`) — **Open**
-*   [**Issue #13**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/13): Document custom CSS selectors in scope directive (`DEFECT-SHC-07`) — **Open**
-*   [**Issue #19**](https://github.com/spm-ecosystem/spm-qa-test-suite/issues/19): Fix backtick split syntax compilation constraint (`DEFECT-SJS-05`) — **Open**
+### Catalog of Open Ecosystem Technical Issues
+
+| Issue ID | Target Repo | Title / Spec Summary | Mapped Defects | Dependency / Sub-issue Link | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Issue #3** | `docs` | Document selector actions `replace` and `wrap` | `DEFECT-SHC-01, SHC-02` | Independent | **Open** |
+| **Issue #4** | `docs` | Clarify `preserve` syntax variants - scalar vs dictionary | `DEFECT-SFW-03, SEC-04` | Prerequisite for `Issue #10` | **Open** |
+| **Issue #5** | `docs` | Add `UiImageCard` documentation - aspect ratios, `.vnr` example, fallbacks | `DEFECT-SGG-02, SGG-06` | Related to `Issue #23` | **Open** |
+| **Issue #6** | `docs` | Document `child extends` and `class` scope inheritance semantics | `DEFECT-SGG-03` | Independent | **Open** |
+| **Issue #10** | `docs` / `extension` | Define `preserve` slot fallback and `selector` conflict resolution | `DEFECT-SHC-05, SHC-06` | Depends on `Issue #4`, related to `Issue #25` | **Open** |
+| **Issue #13** | `docs` | Document custom CSS selectors in `scope` directive | `DEFECT-SHC-07` | Independent | **Open** |
+| **Issue #19** | `spm-cli` | Fix backtick `split` syntax compilation constraint | `DEFECT-SJS-05` | Independent | **Open** |
+| [**Issue #20**](../docs/issues/ISSUE-20-UiCommentListPage-thumbnail-responsive.md) | `spm-components` | Conditional Thumbnail & Responsive Layout in `UiCommentListPage` | `DEFECT-SAF-01, SAF-03` | Parent of `Issue #22` | **Open** |
+| [**Issue #21**](../docs/issues/ISSUE-21-UiCommentReply-html-sanitization.md) | `spm-components` | HTML Sanitization & Rich Text Rendering in `UiCommentReply` | `DEFECT-SAF-02` | Related to `Issue #20` | **Open** |
+| [**Issue #22**](../docs/issues/ISSUE-22-UiCommentCard-metadata-fallbacks.md) | `spm-components` | Fallback Metadata Formatting for Deleted Authors and Timestamps | `DEFECT-SAF-04` | Sub-issue of `Issue #20` | **Open** |
+| [**Issue #23**](../docs/issues/ISSUE-23-UiImageViewer-ultrawide-scaling.md) | `spm-components` | Responsive Scaling & Pan-Zoom in `UiImageViewer` for Ultra-Wide Images | `DEFECT-SBC-01` | Related to `Issue #5` | **Open** |
+| [**Issue #24**](../docs/issues/ISSUE-24-UiScrollPanel-tag-overflow-empty-state.md) | `spm-components` | Tag Container Overflow & Empty State Isolation in `UiScrollPanel` | `DEFECT-SBC-02, SBC-04` | Independent | **Open** |
+| [**Issue #25**](../docs/issues/ISSUE-25-infiniteScroll-javascript-void-hydration.md) | `extension` / `spm-cli` | Client-Side Hydrated `javascript:void(0)` Support for `infiniteScroll` | `DEFECT-SEC-02` | Related to `Issue #10` | **Open** |
+| [**Issue #26**](../docs/issues/ISSUE-26-UiNavHeader-sticky-behavior-docs.md) | `docs` | Complete Prop & Behavioral Specification for `UiNavHeader` `sticky` Property | `DEFECT-SFW-02` | Independent | **Open** |
+| [**Issue #27**](../docs/issues/ISSUE-27-spm-cli-targetUrl-validation-warning.md) | `spm-cli` | Compiler Validation Warning for Missing Root `targetUrl` Field | `DEFECT-SIG-04` | Independent | **Open** |
+| [**Issue #28**](../docs/issues/ISSUE-28-UiSearchBar-defaultValue-query-preservation.md) | `spm-websites` | Preserve Search Query State via `defaultValue` Binding on `UiSearchBar` | `DEFECT-SJS-06` | Independent | **Open** |
